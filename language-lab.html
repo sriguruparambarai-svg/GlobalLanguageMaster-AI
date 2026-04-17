@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Language Lab — DigiSmartSchool</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1565c0;--blue2:#1976d2;--blue3:#42a5f5;--bluel:#e3f2fd;
+  --green:#2e7d32;--green2:#43a047;--greenl:#e8f5e9;
+  --orange:#e65100;--orangel:#fff3e0;
+  --purple:#6a1b9a;--purplel:#f3e5f5;
+  --gold:#f57f17;--goldl:#fff8e1;
+  --red:#c62828;--redl:#ffebee;
+  --bg:#f0f4ff;--card:#fff;--text:#1a1a2e;--sub:#5c6080;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0d47a1,#1565c0,#0277bd);padding:18px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 20px rgba(13,71,161,0.4);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.03) 20px,rgba(255,255,255,0.03) 21px);}
+.header-content{position:relative;}
+.header h1{font-family:"Baloo 2",cursive;font-size:1.9rem;color:white;font-weight:800;}
+.header p{color:rgba(255,255,255,0.8);font-size:0.9rem;margin-top:2px;}
+.skills-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.skill-badge{padding:3px 12px;border-radius:14px;font-size:0.75rem;font-weight:800;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.25);}
+.header-icon{margin-left:auto;font-size:3.5rem;position:relative;}
+
+/* NAV TABS */
+.nav-bar{background:white;padding:0 16px;display:flex;gap:0;overflow-x:auto;border-bottom:3px solid var(--bluel);box-shadow:0 2px 8px rgba(0,0,0,0.06);scrollbar-width:none;}
+.nav-bar::-webkit-scrollbar{display:none;}
+.ntab{padding:14px 16px;font-size:0.88rem;font-weight:800;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;color:var(--sub);transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.ntab:hover{color:var(--blue);}
+.ntab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--bluel);}
+
+/* MAIN */
+.main{padding:18px 20px;max-width:960px;margin:0 auto;}
+.panel{display:none;}.panel.active{display:block;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:white;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--bluel);}
+.card-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.card-title{font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;color:var(--blue);}
+.card-desc{font-size:0.82rem;color:var(--sub);margin-top:1px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 20px;font-size:0.95rem;font-weight:800;font-family:"Nunito",sans-serif;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;}
+.btn-blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(21,101,192,0.35);}
+.btn-green{background:linear-gradient(135deg,var(--green),var(--green2));color:white;}
+.btn-green:hover{transform:translateY(-2px);}
+.btn-orange{background:linear-gradient(135deg,var(--orange),#f57c00);color:white;}
+.btn-purple{background:linear-gradient(135deg,var(--purple),#8e24aa);color:white;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#fbc02d);color:white;}
+.btn-red{background:linear-gradient(135deg,var(--red),#e53935);color:white;}
+.btn-light{background:var(--bluel);color:var(--blue);border:2px solid var(--blue3);}
+.btn-sm{padding:8px 14px;font-size:0.85rem;}
+.btn-xs{padding:6px 10px;font-size:0.78rem;}
+.btn:disabled{opacity:0.45;cursor:not-allowed;transform:none!important;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+
+/* AUDIO PLAYER */
+.audio-player{background:linear-gradient(135deg,#0d47a1,#1565c0);border-radius:14px;padding:18px;color:white;margin-bottom:12px;}
+.audio-title{font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:700;margin-bottom:8px;}
+.audio-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.play-btn{width:48px;height:48px;border-radius:50%;background:white;border:none;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;color:var(--blue);transition:all 0.2s;flex-shrink:0;}
+.play-btn:hover{transform:scale(1.1);}
+.play-btn.playing{background:var(--gold);color:white;}
+.audio-progress{flex:1;min-width:100px;}
+.prog-bar{height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gold);width:0%;transition:width 0.3s;}
+.audio-time{font-size:0.8rem;opacity:0.8;margin-top:3px;}
+
+/* PRONUNCIATION */
+.word-display{text-align:center;padding:24px;background:linear-gradient(135deg,var(--bluel),white);border-radius:14px;margin-bottom:14px;}
+.big-word{font-family:"Baloo 2",cursive;font-size:2.8rem;font-weight:800;color:var(--blue);margin-bottom:6px;}
+.phonetic{font-size:1.1rem;color:var(--sub);margin-bottom:4px;}
+.word-meaning{font-size:0.9rem;color:var(--sub);font-style:italic;}
+.mic-ring{position:relative;display:inline-block;margin:16px auto;display:block;width:fit-content;}
+.mic-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue2));border:none;cursor:pointer;font-size:2rem;display:flex;align-items:center;justify-content:center;color:white;transition:all 0.2s;margin:0 auto;}
+.mic-circle:hover{transform:scale(1.06);}
+.mic-circle.recording{background:linear-gradient(135deg,var(--red),#e53935);animation:ripple 1s infinite;}
+@keyframes ripple{0%,100%{box-shadow:0 0 0 0 rgba(198,40,40,0.4)}50%{box-shadow:0 0 0 14px rgba(198,40,40,0)}}
+.pron-feedback{padding:12px 16px;border-radius:10px;font-weight:700;font-size:0.95rem;text-align:center;margin-top:10px;display:none;}
+.pron-feedback.good{background:var(--greenl);color:var(--green);}
+.pron-feedback.ok{background:var(--orangel);color:var(--orange);}
+.pron-feedback.bad{background:var(--redl);color:var(--red);}
+.word-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;}
+
+/* LISTENING */
+.audio-card{border:2px solid var(--bluel);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;}
+.audio-card:hover{border-color:var(--blue3);background:var(--bluel);}
+.audio-card.playing{border-color:var(--blue);background:var(--bluel);}
+.audio-card-top{display:flex;align-items:center;gap:12px;}
+.audio-card-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.audio-card-title{font-weight:800;font-size:0.95rem;}
+.audio-card-meta{font-size:0.78rem;color:var(--sub);margin-top:2px;}
+
+/* SPEAKING */
+.role-card{border:2px solid var(--bluel);border-radius:14px;padding:18px;margin-bottom:10px;}
+.role-title{font-weight:800;font-size:1rem;margin-bottom:8px;color:var(--blue);}
+.role-scenario{background:var(--bluel);border-radius:10px;padding:12px;font-size:0.9rem;color:var(--sub);margin-bottom:12px;line-height:1.6;}
+.speak-result{background:#f8f9ff;border-radius:10px;padding:14px;margin-top:10px;font-size:0.9rem;line-height:1.7;display:none;}
+.speak-result.show{display:block;animation:fadeUp 0.3s ease;}
+.record-status{font-size:0.85rem;color:var(--sub);text-align:center;margin-top:6px;min-height:20px;}
+
+/* GRAMMAR */
+.grammar-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g-topic{border:2px solid var(--bluel);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.2s;}
+.g-topic:hover{border-color:var(--blue3);transform:translateY(-2px);}
+.g-topic-icon{font-size:1.8rem;margin-bottom:6px;}
+.g-topic-name{font-weight:800;font-size:0.95rem;}
+.g-topic-desc{font-size:0.78rem;color:var(--sub);margin-top:2px;}
+.exercise-box{background:#f8f9ff;border-radius:12px;padding:16px;margin-top:12px;display:none;}
+.exercise-box.show{display:block;animation:fadeUp 0.3s ease;}
+.ex-question{font-size:1rem;font-weight:700;margin-bottom:10px;}
+.ex-options{display:flex;flex-direction:column;gap:6px;}
+.ex-opt{padding:10px 14px;border:2px solid #dde;border-radius:9px;cursor:pointer;font-size:0.9rem;transition:all 0.2s;}
+.ex-opt:hover{border-color:var(--blue3);background:var(--bluel);}
+.ex-opt.correct{background:var(--greenl);border-color:var(--green2);color:var(--green);}
+.ex-opt.wrong{background:var(--redl);border-color:#e53935;color:var(--red);}
+
+/* VOCABULARY */
+.vocab-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.vtab{padding:8px 16px;border-radius:20px;font-size:0.85rem;font-weight:700;cursor:pointer;border:2px solid var(--bluel);background:white;transition:all 0.2s;}
+.vtab.active{background:var(--blue);color:white;border-color:var(--blue);}
+.vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.vcard{border:2px solid var(--bluel);border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.vcard:hover{border-color:var(--blue3);transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.vcard-emoji{font-size:2rem;margin-bottom:6px;}
+.vcard-word{font-weight:800;font-size:1rem;color:var(--text);}
+.vcard-meaning{font-size:0.78rem;color:var(--sub);margin-top:2px;}
+.vcard-type{font-size:0.72rem;background:var(--bluel);color:var(--blue);padding:2px 8px;border-radius:8px;display:inline-block;margin-top:4px;font-weight:700;}
+
+/* READING */
+.passage-box{background:#f8f9ff;border-radius:14px;padding:20px;font-size:1rem;line-height:2;margin-bottom:14px;border-left:4px solid var(--blue);}
+.passage-box.reading{border-left-color:var(--gold);}
+.passage-word{cursor:pointer;border-bottom:1px dashed var(--blue3);transition:background 0.15s;}
+.passage-word:hover{background:var(--bluel);border-radius:3px;}
+.word-tooltip{position:fixed;background:#1a1a2e;color:white;padding:6px 12px;border-radius:8px;font-size:0.82rem;pointer-events:none;z-index:100;display:none;font-weight:700;}
+.comp-box{margin-top:14px;}
+.comp-q{background:var(--bluel);border-radius:12px;padding:14px;margin-bottom:10px;}
+.comp-q-text{font-weight:800;margin-bottom:8px;}
+.comp-opts{display:flex;flex-direction:column;gap:5px;}
+.comp-opt{padding:9px 13px;border:2px solid rgba(21,101,192,0.2);border-radius:8px;cursor:pointer;font-size:0.88rem;transition:all 0.2s;background:white;}
+.comp-opt:hover{border-color:var(--blue);background:white;}
+.comp-opt.correct{background:var(--greenl);border-color:var(--green);color:var(--green);font-weight:700;}
+.comp-opt.wrong{background:var(--redl);border-color:var(--red);color:var(--red);}
+
+/* WRITING */
+.writing-types{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.wtype{border:2px solid var(--bluel);border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;}
+.wtype:hover,.wtype.active{border-color:var(--blue);background:var(--bluel);}
+.wtype-icon{font-size:1.5rem;margin-bottom:4px;}
+.wtype-name{font-weight:800;font-size:0.9rem;}
+.prompt-box{background:linear-gradient(135deg,var(--bluel),white);border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid var(--blue2);}
+.prompt-label{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:5px;}
+.prompt-text{font-size:0.95rem;font-weight:700;line-height:1.6;color:var(--text);}
+.writing-area{width:100%;min-height:130px;padding:14px;font-size:0.95rem;border:2px solid #dde;border-radius:12px;font-family:"Nunito",sans-serif;resize:vertical;outline:none;line-height:1.7;}
+.writing-area:focus{border-color:var(--blue2);}
+.feedback-box{background:#f8f9ff;border-radius:12px;padding:16px;margin-top:12px;font-size:0.9rem;line-height:1.8;display:none;}
+.feedback-box.show{display:block;animation:fadeUp 0.3s ease;}
+.score-chip{display:inline-block;background:linear-gradient(135deg,var(--gold),#fbc02d);color:white;font-weight:800;padding:4px 14px;border-radius:14px;font-size:0.88rem;margin-bottom:8px;}
+
+/* COMMUNICATION */
+.comm-card{border:2px solid var(--bluel);border-radius:14px;padding:18px;margin-bottom:10px;}
+.comm-title{font-weight:800;font-size:1rem;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.comm-tips{list-style:none;padding:0;}
+.comm-tips li{padding:6px 0;font-size:0.9rem;border-bottom:1px solid #f0f4ff;display:flex;align-items:flex-start;gap:8px;}
+.comm-tips li:last-child{border:none;}
+.tip-icon{flex-shrink:0;font-size:1rem;}
+.practice-dialogue{background:var(--bluel);border-radius:12px;padding:14px;margin:10px 0;font-size:0.88rem;line-height:1.8;}
+.dialogue-line{margin-bottom:6px;}
+.dialogue-line span{font-weight:800;}
+
+/* SPINNER */
+.spin-wrap{display:none;text-align:center;padding:20px;color:var(--sub);}
+.spin-wrap.on{display:block;}
+.spinner{width:32px;height:32px;border:4px solid var(--bluel);border-top:4px solid var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PROGRESS BAR */
+.skill-progress{margin-bottom:20px;}
+.skill-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.skill-bar-card{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.skill-bar-label{font-size:0.75rem;font-weight:800;color:var(--sub);margin-bottom:6px;}
+.skill-bar-track{height:6px;background:#eee;border-radius:3px;overflow:hidden;}
+.skill-bar-fill{height:100%;border-radius:3px;transition:width 0.8s ease;}
+.skill-bar-score{font-family:"Baloo 2",cursive;font-size:1.3rem;font-weight:800;margin-top:4px;}
+
+@media(max-width:600px){
+  .grammar-grid,.writing-types{grid-template-columns:1fr;}
+  .vocab-grid{grid-template-columns:repeat(2,1fr);}
+  .skill-bars{grid-template-columns:repeat(2,1fr);}
+  .main{padding:12px 14px;}
+  .header h1{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="word-tooltip" id="tooltip"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <h1>🔤 English Language Lab</h1>
+    <p>Interactive Practice for Classes 4–8 · Powered by AI</p>
+    <div class="skills-row">
+      <span class="skill-badge">👂 Listening</span>
+      <span class="skill-badge">🗣️ Speaking</span>
+      <span class="skill-badge">📖 Reading</span>
+      <span class="skill-badge">✍️ Writing</span>
+    </div>
+  </div>
+  <div class="header-icon">📚</div>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <div class="ntab active" onclick="showPanel('pronunciation',this)">🗣️ Pronunciation</div>
+  <div class="ntab" onclick="showPanel('listening',this)">👂 Listening</div>
+  <div class="ntab" onclick="showPanel('speaking',this)">🎤 Speaking</div>
+  <div class="ntab" onclick="showPanel('grammar',this)">📝 Grammar</div>
+  <div class="ntab" onclick="showPanel('vocabulary',this)">📖 Vocabulary</div>
+  <div class="ntab" onclick="showPanel('reading',this)">📚 Reading</div>
+  <div class="ntab" onclick="showPanel('writing',this)">✍️ Writing</div>
+  <div class="ntab" onclick="showPanel('communication',this)">💬 Communication</div>
+</div>
+
+<div class="main">
+
+<!-- SKILL PROGRESS -->
+<div class="skill-progress">
+  <div class="skill-bars">
+    <div class="skill-bar-card"><div class="skill-bar-label">LISTENING</div><div class="skill-bar-track"><div class="skill-bar-fill" id="p-listen" style="width:0%;background:linear-gradient(90deg,#1565c0,#42a5f5)"></div></div><div class="skill-bar-score" style="color:#1565c0;" id="s-listen">0%</div></div>
+    <div class="skill-bar-card"><div class="skill-bar-label">SPEAKING</div><div class="skill-bar-track"><div class="skill-bar-fill" id="p-speak" style="width:0%;background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><div class="skill-bar-score" style="color:#2e7d32;" id="s-speak">0%</div></div>
+    <div class="skill-bar-card"><div class="skill-bar-label">READING</div><div class="skill-bar-track"><div class="skill-bar-fill" id="p-read" style="width:0%;background:linear-gradient(90deg,#e65100,#ffa726)"></div></div><div class="skill-bar-score" style="color:#e65100;" id="s-read">0%</div></div>
+    <div class="skill-bar-card"><div class="skill-bar-label">WRITING</div><div class="skill-bar-track"><div class="skill-bar-fill" id="p-write" style="width:0%;background:linear-gradient(90deg,#6a1b9a,#ab47bc)"></div></div><div class="skill-bar-score" style="color:#6a1b9a;" id="s-write">0%</div></div>
+  </div>
+</div>
+
+<!-- A. PRONUNCIATION -->
+<div id="panel-pronunciation" class="panel active">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">🗣️</div><div><div class="card-title">Pronunciation Practice</div><div class="card-desc">Listen to correct pronunciation and repeat — improve your accent!</div></div></div>
+    <div class="word-display">
+      <div class="big-word" id="pron-word">Beautiful</div>
+      <div class="phonetic" id="pron-phonetic">/ˈbjuːtɪfʊl/</div>
+      <div class="word-meaning" id="pron-meaning">adjective — very pleasing to the senses</div>
+    </div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <button class="btn btn-blue btn-sm" onclick="hearPron()">🔊 Listen First</button>
+      <button class="btn btn-light btn-sm" onclick="hearPronSlow()">🐢 Listen Slow</button>
+    </div>
+    <div class="mic-ring">
+      <button class="mic-circle" id="pron-mic" onclick="togglePronMic()">🎤</button>
+      <div class="record-status" id="pron-status">Tap mic and say the word clearly</div>
+    </div>
+    <div class="pron-feedback" id="pron-feedback"></div>
+    <div class="word-nav">
+      <button class="btn btn-light btn-sm" onclick="prevPron()">◀ Prev</button>
+      <span style="font-weight:700;color:var(--sub);" id="pron-counter">1 / 20</span>
+      <button class="btn btn-blue btn-sm" onclick="nextPron()">Next ▶</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#e65100,#ffa726);">💡</div><div><div class="card-title">Pronunciation Tips</div><div class="card-desc">Common pronunciation rules for English</div></div></div>
+    <div style="font-size:0.92rem;line-height:1.9;">
+      <p>🔸 <strong>Silent letters:</strong> knife (k is silent), write (w is silent), hour (h is silent)</p>
+      <p>🔸 <strong>-tion ending:</strong> Always sounds like "shun" — nation, station, education</p>
+      <p>🔸 <strong>-ed ending:</strong> walked = walkt, played = playd, wanted = wantid</p>
+      <p>🔸 <strong>Stress:</strong> PHOtograph (noun) vs phoTOgraphy (verb/adj)</p>
+      <p>🔸 <strong>Vowel sounds:</strong> "a" in cat vs cake vs ball — all different!</p>
+    </div>
+  </div>
+</div>
+
+<!-- B. LISTENING -->
+<div id="panel-listening" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#0277bd,#29b6f6);">👂</div><div><div class="card-title">Listening Practice</div><div class="card-desc">Listen to conversations, stories and dialogues to improve comprehension</div></div></div>
+    <div id="listening-list"></div>
+  </div>
+  <div class="card" id="listen-content-card" style="display:none;">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#0277bd,#29b6f6);">📻</div><div><div class="card-title" id="listen-content-title">Conversation</div><div class="card-desc">Listen carefully and answer the questions below</div></div></div>
+    <div class="audio-player">
+      <div class="audio-title" id="listen-audio-title">Loading...</div>
+      <div class="audio-controls">
+        <button class="play-btn" id="listen-play-btn" onclick="toggleListenPlay()">▶</button>
+        <div class="audio-progress">
+          <div class="prog-bar"><div class="prog-fill" id="listen-prog"></div></div>
+          <div class="audio-time" id="listen-time">0:00</div>
+        </div>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="stopListening()">⏹ Stop</button>
+      </div>
+    </div>
+    <div id="listen-transcript" style="background:#f8f9ff;border-radius:12px;padding:16px;font-size:0.9rem;line-height:1.8;margin-bottom:14px;display:none;"></div>
+    <button class="btn btn-light btn-sm" onclick="document.getElementById('listen-transcript').style.display=document.getElementById('listen-transcript').style.display==='none'?'block':'none'">👁️ Show/Hide Text</button>
+    <div class="spin-wrap" id="listen-spin"><div class="spinner"></div>Generating audio content...</div>
+    <div class="comp-box" id="listen-comp" style="display:none;"></div>
+    <div class="btn-row">
+      <button class="btn btn-blue btn-sm" id="listen-comp-btn" onclick="showListenComp()">❓ Answer Questions</button>
+      <button class="btn btn-light btn-sm" onclick="backToListenList()">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- C. SPEAKING -->
+<div id="panel-speaking" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#2e7d32,#66bb6a);">🎤</div><div><div class="card-title">Speaking Practice</div><div class="card-desc">Record your voice and get AI feedback on your spoken English</div></div></div>
+    <div id="speaking-topics">
+      <p style="font-size:0.9rem;color:var(--sub);margin-bottom:14px;">Choose a speaking activity:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="speak-grid"></div>
+    </div>
+    <div id="speaking-practice" style="display:none;">
+      <div class="role-card">
+        <div class="role-title" id="speak-title">Topic</div>
+        <div class="role-scenario" id="speak-prompt"></div>
+        <div style="text-align:center;">
+          <button class="mic-circle" id="speak-mic" onclick="toggleSpeakMic()" style="width:72px;height:72px;">🎤</button>
+          <div class="record-status" id="speak-status">Tap to start recording — speak clearly!</div>
+        </div>
+        <div id="speak-transcript" style="background:#f0f4ff;border-radius:10px;padding:12px;margin-top:10px;font-size:0.9rem;display:none;"></div>
+        <div class="speak-result" id="speak-result"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green btn-sm" id="speak-check-btn" onclick="checkSpeaking()" disabled>🤖 AI Feedback</button>
+        <button class="btn btn-light btn-sm" onclick="document.getElementById('speaking-topics').style.display='block';document.getElementById('speaking-practice').style.display='none'">← Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- D. GRAMMAR -->
+<div id="panel-grammar" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#e65100,#ffa726);">📝</div><div><div class="card-title">Grammar Practice</div><div class="card-desc">Learn grammar rules with exercises and AI explanations</div></div></div>
+    <div class="grammar-grid" id="grammar-grid"></div>
+  </div>
+  <div class="card" id="grammar-practice-card" style="display:none;">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#e65100,#ffa726);">✏️</div><div><div class="card-title" id="grammar-topic-title">Grammar Topic</div><div class="card-desc" id="grammar-topic-desc"></div></div></div>
+    <div id="grammar-lesson" style="font-size:0.9rem;line-height:1.8;margin-bottom:14px;"></div>
+    <div id="grammar-exercises"></div>
+    <div class="spin-wrap" id="grammar-spin"><div class="spinner"></div>Generating exercises...</div>
+    <div class="btn-row">
+      <button class="btn btn-orange btn-sm" onclick="loadGrammarExercises()">🔄 New Exercises</button>
+      <button class="btn btn-light btn-sm" onclick="document.getElementById('grammar-practice-card').style.display='none'">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- E. VOCABULARY -->
+<div id="panel-vocabulary" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#6a1b9a,#ab47bc);">📖</div><div><div class="card-title">Vocabulary Builder</div><div class="card-desc">Learn new words — daily use, synonyms, antonyms, picture vocabulary</div></div></div>
+    <div class="vocab-tabs">
+      <div class="vtab active" onclick="loadVocab('daily',this)">Daily Words</div>
+      <div class="vtab" onclick="loadVocab('synonyms',this)">Synonyms</div>
+      <div class="vtab" onclick="loadVocab('antonyms',this)">Antonyms</div>
+      <div class="vtab" onclick="loadVocab('academic',this)">Academic</div>
+      <div class="vtab" onclick="loadVocab('idioms',this)">Idioms</div>
+    </div>
+    <div class="vocab-grid" id="vocab-grid"></div>
+    <div class="spin-wrap" id="vocab-spin"><div class="spinner"></div>Loading vocabulary...</div>
+    <div class="btn-row">
+      <button class="btn btn-purple btn-sm" onclick="refreshVocab()">🔄 More Words</button>
+    </div>
+  </div>
+</div>
+
+<!-- F. READING -->
+<div id="panel-reading" class="panel">
+  <div class="card" id="reading-select-card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#00695c,#26a69a);">📚</div><div><div class="card-title">Reading Practice</div><div class="card-desc">Read passages and improve comprehension — click any word to hear it!</div></div></div>
+    <p style="font-size:0.9rem;color:var(--sub);margin-bottom:14px;">Choose a reading type:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="reading-types"></div>
+  </div>
+  <div id="reading-content-card" style="display:none;">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div class="card-title" style="color:var(--blue);" id="reading-title">📖 Story</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-blue btn-xs" onclick="readPassage()">🔊 Read Aloud</button>
+          <button class="btn btn-xs btn-light" onclick="stopReading()">⏹</button>
+          <button class="btn btn-xs btn-light" onclick="backToReadingList()">← Back</button>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--sub);margin-bottom:10px;">💡 Click on any word to hear its pronunciation!</p>
+      <div class="passage-box" id="reading-passage"></div>
+      <div class="spin-wrap" id="reading-spin"><div class="spinner"></div>Loading passage...</div>
+      <div class="comp-box" id="reading-comp" style="display:none;"></div>
+      <div class="btn-row">
+        <button class="btn btn-blue btn-sm" onclick="showReadingComp()">❓ Comprehension Questions</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- G. WRITING -->
+<div id="panel-writing" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#6a1b9a,#ab47bc);">✍️</div><div><div class="card-title">Writing Practice</div><div class="card-desc">Practice different types of writing — AI checks grammar, vocabulary and style</div></div></div>
+    <div class="writing-types" id="writing-types"></div>
+    <div class="prompt-box">
+      <div class="prompt-label">✏️ Writing Topic</div>
+      <div class="prompt-text" id="writing-prompt">Select a writing type above to get a topic!</div>
+    </div>
+    <div style="font-size:0.8rem;color:var(--sub);margin-bottom:6px;" id="writing-hint"></div>
+    <textarea class="writing-area" id="writing-text" placeholder="Start writing here..."></textarea>
+    <div class="btn-row">
+      <button class="btn btn-purple" onclick="checkWriting()">🤖 AI Check & Score</button>
+      <button class="btn btn-light btn-sm" onclick="newWritingPrompt()">🔄 New Topic</button>
+    </div>
+    <div class="spin-wrap" id="writing-spin"><div class="spinner"></div>AI is checking your writing...</div>
+    <div class="feedback-box" id="writing-feedback"></div>
+  </div>
+</div>
+
+<!-- H. COMMUNICATION -->
+<div id="panel-communication" class="panel">
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">💬</div><div><div class="card-title">Communication Skills</div><div class="card-desc">Learn to speak confidently — interviews, public speaking, polite conversation</div></div></div>
+
+    <div class="comm-card">
+      <div class="comm-title">🤝 Polite Conversation</div>
+      <ul class="comm-tips">
+        <li><span class="tip-icon">✅</span><span>Always say <strong>Please, Thank you, Excuse me, Sorry</strong></span></li>
+        <li><span class="tip-icon">✅</span><span>Make eye contact when speaking</span></li>
+        <li><span class="tip-icon">✅</span><span>Listen without interrupting</span></li>
+        <li><span class="tip-icon">✅</span><span>Use "Could you please...?" instead of "Give me..."</span></li>
+        <li><span class="tip-icon">✅</span><span>Greet people properly: "Good morning", "How are you?"</span></li>
+      </ul>
+      <div class="practice-dialogue">
+        <div class="dialogue-line"><span>Student A:</span> Good morning! Could you please tell me where the library is?</div>
+        <div class="dialogue-line"><span>Student B:</span> Good morning! Of course, it's on the second floor, near the stairs.</div>
+        <div class="dialogue-line"><span>Student A:</span> Thank you very much! That's very helpful.</div>
+        <div class="dialogue-line"><span>Student B:</span> You're welcome. Have a nice day!</div>
+      </div>
+    </div>
+
+    <div class="comm-card">
+      <div class="comm-title">🎤 Interview Skills</div>
+      <ul class="comm-tips">
+        <li><span class="tip-icon">🔹</span><span>Introduce yourself clearly: <em>"Good morning. My name is... I am studying in class..."</em></span></li>
+        <li><span class="tip-icon">🔹</span><span>Speak slowly and clearly — don't rush</span></li>
+        <li><span class="tip-icon">🔹</span><span>Answer in complete sentences, not just yes/no</span></li>
+        <li><span class="tip-icon">🔹</span><span>If you don't understand, say: <em>"Could you please repeat the question?"</em></span></li>
+        <li><span class="tip-icon">🔹</span><span>End with: <em>"Thank you for this opportunity"</em></span></li>
+      </ul>
+    </div>
+
+    <div class="comm-card">
+      <div class="comm-title">🏆 Public Speaking Tips</div>
+      <ul class="comm-tips">
+        <li><span class="tip-icon">⭐</span><span>Start with a strong opening — a question, story or fact</span></li>
+        <li><span class="tip-icon">⭐</span><span>Speak to the audience, not to the board</span></li>
+        <li><span class="tip-icon">⭐</span><span>Use pauses for effect — silence is powerful</span></li>
+        <li><span class="tip-icon">⭐</span><span>Vary your voice — loud for important points, soft for stories</span></li>
+        <li><span class="tip-icon">⭐</span><span>End with a clear conclusion: <em>"In conclusion..."</em></span></li>
+      </ul>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#e3f2fd,#fff);border:none;margin-bottom:0;">
+      <div class="card-title" style="margin-bottom:12px;">🎯 Practice with AI Coach</div>
+      <p style="font-size:0.9rem;color:var(--sub);margin-bottom:10px;">Choose a topic and speak — AI will evaluate your communication skills!</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="btn btn-blue btn-sm" onclick="startCommPractice('Introduce yourself to the class')">👋 Self Introduction</button>
+        <button class="btn btn-blue btn-sm" onclick="startCommPractice('Talk about your favourite subject and why you like it')">📚 Favourite Subject</button>
+        <button class="btn btn-blue btn-sm" onclick="startCommPractice('Describe your school and what you like most about it')">🏫 My School</button>
+        <button class="btn btn-blue btn-sm" onclick="startCommPractice('Give a short speech about importance of education')">🎤 Short Speech</button>
+      </div>
+      <div class="role-card" id="comm-practice-box" style="display:none;">
+        <div class="role-scenario" id="comm-prompt"></div>
+        <div style="text-align:center;margin:10px 0;">
+          <button class="mic-circle" id="comm-mic" onclick="toggleCommMic()" style="width:68px;height:68px;background:linear-gradient(135deg,#1565c0,#42a5f5);">🎤</button>
+          <div class="record-status" id="comm-status">Tap to record your speech</div>
+        </div>
+        <div id="comm-transcript" style="background:#f0f4ff;border-radius:10px;padding:10px;margin-top:8px;font-size:0.88rem;display:none;"></div>
+        <div class="speak-result" id="comm-result"></div>
+        <div class="spin-wrap" id="comm-spin"><div class="spinner"></div>Evaluating your communication...</div>
+        <button class="btn btn-blue btn-sm" id="comm-check-btn" onclick="checkCommSpeaking()" disabled style="margin-top:10px;">🤖 Evaluate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+var API='/api/ai';
+var scores={listen:0,speak:0,read:0,write:0};
+
+// ── DATA ──
+var PRON_WORDS=[
+  {word:'Beautiful',ph:'/ˈbjuːtɪfʊl/',meaning:'Very pleasing; lovely'},
+  {word:'Comfortable',ph:'/ˈkʌmftəbl/',meaning:'Giving physical ease'},
+  {word:'Pronunciation',ph:'/prəˌnʌnsiˈeɪʃn/',meaning:'The way a word is spoken'},
+  {word:'Vocabulary',ph:'/vəˈkæbjʊlri/',meaning:'Collection of words'},
+  {word:'Enthusiasm',ph:'/ɪnˈθjuːziæzəm/',meaning:'Great eagerness'},
+  {word:'Determination',ph:'/dɪˌtɜːmɪˈneɪʃn/',meaning:'Firm decision to do something'},
+  {word:'Communication',ph:'/kəˌmjuːnɪˈkeɪʃn/',meaning:'Sharing information'},
+  {word:'Extraordinary',ph:'/ɪkˈstrɔːdnri/',meaning:'Very unusual or remarkable'},
+  {word:'Opportunity',ph:'/ˌɒpəˈtjuːnɪti/',meaning:'A favourable time or chance'},
+  {word:'Achievement',ph:'/əˈtʃiːvmənt/',meaning:'A thing done successfully'},
+  {word:'Responsibility',ph:'/rɪˌspɒnsɪˈbɪlɪti/',meaning:'Being accountable for something'},
+  {word:'Environment',ph:'/ɪnˈvaɪrənmənt/',meaning:'The natural world around us'},
+  {word:'Competition',ph:'/ˌkɒmpɪˈtɪʃn/',meaning:'A contest between people'},
+  {word:'Imagination',ph:'/ɪˌmædʒɪˈneɪʃn/',meaning:'Ability to form new ideas'},
+  {word:'Independent',ph:'/ˌɪndɪˈpɛndənt/',meaning:'Free from outside control'},
+  {word:'Knowledge',ph:'/ˈnɒlɪdʒ/',meaning:'Facts and information acquired'},
+  {word:'Parliament',ph:'/ˈpɑːlɪmənt/',meaning:'Legislative body of a country'},
+  {word:'Strength',ph:'/strɛŋkθ/',meaning:'Physical or mental power'},
+  {word:'Wednesday',ph:'/ˈwɛnzdeɪ/',meaning:'The fourth day of the week'},
+  {word:'February',ph:'/ˈfɛbrʊəri/',meaning:'The second month of the year'}
+];
+
+var LISTEN_TOPICS=[
+  {icon:'💬',title:'Daily Conversation',meta:'2 students talking about school • Easy',type:'conversation'},
+  {icon:'📖',title:'Short Story: The Honest Boy',meta:'Moral story with dialogue • Medium',type:'story'},
+  {icon:'🎙️',title:'Interview Practice',meta:'Student job interview simulation • Medium',type:'interview'},
+  {icon:'🌍',title:'News Report',meta:'School event news bulletin • Hard',type:'news'},
+  {icon:'🛒',title:'Shopping Dialogue',meta:'At the market conversation • Easy',type:'shopping'},
+  {icon:'📞',title:'Phone Conversation',meta:'Calling a friend • Easy',type:'phone'}
+];
+
+var SPEAK_TOPICS=[
+  {icon:'👋',title:'Introduce Yourself',prompt:'Introduce yourself to your class. Say your name, class, school, family, hobbies and your future dream. Speak for at least 1 minute.'},
+  {icon:'📚',title:'Role Play: Teacher & Student',prompt:'You are a student asking your teacher about homework. Be polite and respectful. Ask about the due date, format and any doubts you have.'},
+  {icon:'🛍️',title:'Role Play: At the Shop',prompt:'You want to buy a birthday gift for your friend with ₹200. Talk to the shopkeeper. Ask about options, price and bargain politely.'},
+  {icon:'🗺️',title:'Describe a Place',prompt:'Describe your hometown or a place you visited. Talk about what you can see, smell, hear there. Make it interesting!'},
+  {icon:'🌟',title:'Storytelling',prompt:'Tell the story of a person you admire — it can be a family member, teacher, or famous person. Why do you admire them?'},
+  {icon:'🎤',title:'Group Discussion',prompt:'Discuss: "Mobile phones should not be allowed in schools." Give your opinion with 3 reasons. Speak for 1-2 minutes.'}
+];
+
+var GRAMMAR_TOPICS=[
+  {icon:'⏰',name:'Tenses',desc:'Past, Present & Future',color:'#e65100'},
+  {icon:'📌',name:'Articles',desc:'A, An, The — when to use',color:'#1565c0'},
+  {icon:'🔗',name:'Conjunctions',desc:'And, But, Or, Because...',color:'#2e7d32'},
+  {icon:'📍',name:'Prepositions',desc:'In, On, At, Under, Behind...',color:'#6a1b9a'},
+  {icon:'🔤',name:'Parts of Speech',desc:'Noun, Verb, Adjective...',color:'#c62828'},
+  {icon:'✅',name:'Sentence Correction',desc:'Find and fix errors',color:'#00695c'}
+];
+
+var WRITING_TYPES=[
+  {icon:'📄',name:'Paragraph Writing',hint:'Write 5-8 sentences on a topic. Include a topic sentence, 3 supporting sentences and a conclusion.'},
+  {icon:'📮',name:'Letter Writing',hint:'Write a formal or informal letter. Include: Date, Address, Greeting, Body, Closing, Signature.'},
+  {icon:'📝',name:'Essay Writing',hint:'Write an essay with Introduction, Body (2-3 paragraphs) and Conclusion. Give examples and reasons.'},
+  {icon:'📋',name:'Fill in the Blanks',hint:'Complete sentences with the correct word. Focus on grammar and vocabulary.'}
+];
+
+var READING_TYPES=[
+  {icon:'📖',title:'Story Reading',desc:'Short moral story with comprehension questions'},
+  {icon:'📰',title:'News Article',desc:'Simple newspaper article for Class 6-8'},
+  {icon:'🔬',title:'Science Passage',desc:'Educational passage about nature or science'},
+  {icon:'🏛️',title:'Historical Passage',desc:'About Indian history or famous people'}
+];
+
+var pronIdx=0;
+var currentVocabType='daily';
+var currentGrammarTopic=null;
+var currentWritingType=null;
+var currentListenTopic=null;
+var currentReadingPassage='';
+var speakTranscript='';
+var commTranscript='';
+var isRecording=false;
+var recognition=null;
+var listenUtterance=null;
+var readUtterance=null;
+var listenInterval=null;
+var listenSeconds=0;
+
+// ── PANELS ──
+function showPanel(name,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.ntab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('panel-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+// ── SCORE UPDATE ──
+function addScore(type,pts){
+  scores[type]=Math.min(100,scores[type]+pts);
+  document.getElementById('p-'+type).style.width=scores[type]+'%';
+  document.getElementById('s-'+type).textContent=scores[type]+'%';
+}
+
+// ── A. PRONUNCIATION ──
+function showPronWord(){
+  var w=PRON_WORDS[pronIdx];
+  document.getElementById('pron-word').textContent=w.word;
+  document.getElementById('pron-phonetic').textContent=w.ph;
+  document.getElementById('pron-meaning').textContent=w.meaning;
+  document.getElementById('pron-counter').textContent=(pronIdx+1)+' / '+PRON_WORDS.length;
+  document.getElementById('pron-feedback').style.display='none';
+  document.getElementById('pron-status').textContent='Tap mic and say the word clearly';
+}
+
+function hearPron(){
+  var w=PRON_WORDS[pronIdx].word;
+  speak(w,'en-GB',0.8);
+}
+
+function hearPronSlow(){
+  var w=PRON_WORDS[pronIdx].word;
+  speak(w,'en-GB',0.5);
+}
+
+function prevPron(){if(pronIdx>0){pronIdx--;showPronWord();}}
+function nextPron(){if(pronIdx<PRON_WORDS.length-1){pronIdx++;showPronWord();}}
+
+function togglePronMic(){
+  if(isRecording){stopRec();return;}
+  startRec('pron-mic','pron-status',function(text,conf){
+    var target=PRON_WORDS[pronIdx].word.toLowerCase();
+    var spoken=text.toLowerCase().trim();
+    var fb=document.getElementById('pron-feedback');
+    fb.style.display='block';
+    if(spoken===target||target.includes(spoken)||spoken.includes(target.substring(0,4))){
+      fb.className='pron-feedback good';
+      fb.textContent='✅ Excellent pronunciation! You said "'+text+'" perfectly!';
+      addScore('speak',5);
+    } else if(conf>0.6){
+      fb.className='pron-feedback ok';
+      fb.textContent='👍 Good try! You said "'+text+'". Listen again and try once more!';
+      addScore('speak',2);
+    } else {
+      fb.className='pron-feedback bad';
+      fb.textContent='❌ You said "'+text+'". Click 🔊 to listen first, then try again!';
+    }
+  });
+}
+
+// ── B. LISTENING ──
+function initListening(){
+  var list=document.getElementById('listening-list');
+  list.innerHTML='';
+  LISTEN_TOPICS.forEach(function(t,i){
+    var div=document.createElement('div');
+    div.className='audio-card';
+    div.innerHTML='<div class="audio-card-top"><div class="audio-card-icon">'+t.icon+'</div>'+
+      '<div><div class="audio-card-title">'+t.title+'</div><div class="audio-card-meta">'+t.meta+'</div></div>'+
+      '<button class="btn btn-blue btn-xs" style="margin-left:auto;">▶ Start</button></div>';
+    div.onclick=function(){openListenTopic(i);};
+    list.appendChild(div);
+  });
+}
+
+async function openListenTopic(i){
+  currentListenTopic=LISTEN_TOPICS[i];
+  document.getElementById('listening-list').style.display='none';
+  document.getElementById('listen-content-card').style.display='block';
+  document.getElementById('listen-content-title').textContent=currentListenTopic.title;
+  document.getElementById('listen-audio-title').textContent='Generating: '+currentListenTopic.title+'...';
+  document.getElementById('listen-transcript').style.display='none';
+  document.getElementById('listen-comp').style.display='none';
+  document.getElementById('listen-spin').classList.add('on');
+
+  var prompt='Write a short English '+currentListenTopic.type+' script (150-200 words) suitable for Class 4-8 students in India.\n'+
+    'Title: "'+currentListenTopic.title+'"\n'+
+    'Make it natural, conversational and educational.\n'+
+    'Label speakers as: [Person A], [Person B] etc.\n'+
+    'After the script write 3 comprehension questions in JSON: {"questions":[{"q":"","opts":["","","",""],"ans":0},...]}';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    var text=d.content[0].text;
+    var jsonMatch=text.match(/\{[\s\S]*"questions"[\s\S]*\}/);
+    var script=jsonMatch?text.substring(0,jsonMatch.index).trim():text;
+    document.getElementById('listen-spin').classList.remove('on');
+    document.getElementById('listen-audio-title').textContent=currentListenTopic.title;
+    document.getElementById('listen-transcript').textContent=script;
+    document.getElementById('listen-transcript').style.display='block';
+    currentListenTopic.script=script;
+    currentListenTopic.questionsRaw=jsonMatch?jsonMatch[0]:'';
+    addScore('listen',5);
+  }catch(e){
+    document.getElementById('listen-spin').classList.remove('on');
+    document.getElementById('listen-transcript').textContent='Error: '+e.message;
+    document.getElementById('listen-transcript').style.display='block';
+  }
+}
+
+function toggleListenPlay(){
+  var btn=document.getElementById('listen-play-btn');
+  var text=document.getElementById('listen-transcript').textContent;
+  if(listenUtterance&&speechSynthesis.speaking){
+    speechSynthesis.cancel();
+    btn.textContent='▶';btn.classList.remove('playing');
+    clearInterval(listenInterval);
+    return;
+  }
+  if(!text||text.length<5)return;
+  listenUtterance=new SpeechSynthesisUtterance(text.replace(/\[Person [AB]\]/g,'').replace(/\[.*?\]/g,''));
+  listenUtterance.lang='en-IN';listenUtterance.rate=0.9;
+  btn.textContent='⏸';btn.classList.add('playing');
+  listenSeconds=0;
+  listenInterval=setInterval(function(){
+    listenSeconds++;
+    document.getElementById('listen-time').textContent=Math.floor(listenSeconds/60)+':'+(listenSeconds%60<10?'0':'')+listenSeconds%60;
+    var dur=listenUtterance.text?listenUtterance.text.length/10:60;
+    document.getElementById('listen-prog').style.width=Math.min(100,(listenSeconds/dur*100))+'%';
+  },1000);
+  listenUtterance.onend=function(){btn.textContent='▶';btn.classList.remove('playing');clearInterval(listenInterval);};
+  speechSynthesis.speak(listenUtterance);
+}
+
+function stopListening(){speechSynthesis.cancel();document.getElementById('listen-play-btn').textContent='▶';document.getElementById('listen-play-btn').classList.remove('playing');clearInterval(listenInterval);}
+
+async function showListenComp(){
+  if(!currentListenTopic||!currentListenTopic.questionsRaw)return;
+  var comp=document.getElementById('listen-comp');
+  comp.style.display='block';
+  try{
+    var qs=JSON.parse(currentListenTopic.questionsRaw).questions;
+    var html='<div style="font-weight:800;margin-bottom:10px;">Answer these questions:</div>';
+    qs.forEach(function(q,qi){
+      html+='<div class="comp-q"><div class="comp-q-text">'+(qi+1)+'. '+q.q+'</div><div class="comp-opts">';
+      q.opts.forEach(function(o,oi){
+        html+='<div class="comp-opt" onclick="checkCompAns(this,'+oi+','+q.ans+')">'+['A','B','C','D'][oi]+'. '+o+'</div>';
+      });
+      html+='</div></div>';
+    });
+    comp.innerHTML=html;
+  }catch(e){comp.innerHTML='<p>Could not load questions.</p>';}
+}
+
+function checkCompAns(el,chosen,correct){
+  var opts=el.parentElement.querySelectorAll('.comp-opt');
+  opts.forEach(function(o){o.style.pointerEvents='none';});
+  el.classList.add(chosen===correct?'correct':'wrong');
+  if(chosen!==correct)opts[correct].classList.add('correct');
+  if(chosen===correct)addScore('listen',5);
+}
+
+function backToListenList(){
+  stopListening();
+  document.getElementById('listening-list').style.display='block';
+  document.getElementById('listen-content-card').style.display='none';
+}
+
+// ── C. SPEAKING ──
+function initSpeaking(){
+  var grid=document.getElementById('speak-grid');
+  grid.innerHTML='';
+  SPEAK_TOPICS.forEach(function(t,i){
+    var div=document.createElement('div');
+    div.className='role-card';
+    div.style.cursor='pointer';
+    div.innerHTML='<div class="role-title">'+t.icon+' '+t.title+'</div>'+
+      '<div class="role-scenario" style="font-size:0.82rem;">'+t.prompt.substring(0,80)+'...</div>';
+    div.onclick=function(){openSpeakTopic(i);};
+    grid.appendChild(div);
+  });
+}
+
+function openSpeakTopic(i){
+  var t=SPEAK_TOPICS[i];
+  document.getElementById('speaking-topics').style.display='none';
+  document.getElementById('speaking-practice').style.display='block';
+  document.getElementById('speak-title').textContent=t.icon+' '+t.title;
+  document.getElementById('speak-prompt').textContent=t.prompt;
+  document.getElementById('speak-transcript').style.display='none';
+  document.getElementById('speak-result').classList.remove('show');
+  document.getElementById('speak-check-btn').disabled=true;
+  speakTranscript='';
+}
+
+function toggleSpeakMic(){
+  if(isRecording){stopRec();return;}
+  startRec('speak-mic','speak-status',function(text){
+    speakTranscript=text;
+    document.getElementById('speak-transcript').textContent='"'+text+'"';
+    document.getElementById('speak-transcript').style.display='block';
+    document.getElementById('speak-check-btn').disabled=false;
+  });
+}
+
+async function checkSpeaking(){
+  if(!speakTranscript)return;
+  var prompt=document.getElementById('speak-prompt').textContent;
+  document.getElementById('speak-check-btn').disabled=true;
+  var aiPrompt='You are an English teacher evaluating a Class 4-8 student from Tamil Nadu.\nTask: "'+prompt+'"\nStudent said: "'+speakTranscript+'"\n\nGive brief, encouraging feedback:\n1. Score out of 10\n2. What was good (1-2 points)\n3. What to improve (1-2 points)\n4. One better sentence they could use\nBe warm and encouraging!';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:300,messages:[{role:'user',content:aiPrompt}]});
+    var res=document.getElementById('speak-result');
+    res.innerHTML=d.content[0].text.replace(/\n/g,'<br/>');
+    res.classList.add('show');
+    addScore('speak',10);
+  }catch(e){
+    document.getElementById('speak-result').innerHTML='Error: '+e.message;
+    document.getElementById('speak-result').classList.add('show');
+  }
+  document.getElementById('speak-check-btn').disabled=false;
+}
+
+// ── D. GRAMMAR ──
+function initGrammar(){
+  var grid=document.getElementById('grammar-grid');
+  grid.innerHTML='';
+  GRAMMAR_TOPICS.forEach(function(t,i){
+    var div=document.createElement('div');
+    div.className='g-topic';
+    div.innerHTML='<div class="g-topic-icon">'+t.icon+'</div><div class="g-topic-name">'+t.name+'</div><div class="g-topic-desc">'+t.desc+'</div>';
+    div.onclick=function(){openGrammarTopic(i);};
+    grid.appendChild(div);
+  });
+}
+
+var grammarExIdx=0, grammarExData=[];
+
+async function openGrammarTopic(i){
+  currentGrammarTopic=GRAMMAR_TOPICS[i];
+  document.getElementById('grammar-practice-card').style.display='block';
+  document.getElementById('grammar-topic-title').textContent=currentGrammarTopic.icon+' '+currentGrammarTopic.name;
+  document.getElementById('grammar-topic-desc').textContent=currentGrammarTopic.desc;
+  document.getElementById('grammar-practice-card').scrollIntoView({behavior:'smooth'});
+  loadGrammarLesson();
+  loadGrammarExercises();
+}
+
+async function loadGrammarLesson(){
+  var lesson=document.getElementById('grammar-lesson');
+  lesson.innerHTML='Loading...';
+  var prompt='Explain "'+currentGrammarTopic.name+'" grammar rule simply for Class 4-8 students in India.\nGive: 1 rule statement, 3 examples from Indian daily life context.\nKeep it under 100 words. Use simple English.';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:200,messages:[{role:'user',content:prompt}]});
+    lesson.innerHTML=d.content[0].text.replace(/\n/g,'<br/>');
+  }catch(e){lesson.innerHTML='Error loading lesson.';}
+}
+
+async function loadGrammarExercises(){
+  var ex=document.getElementById('grammar-exercises');
+  ex.innerHTML='';
+  document.getElementById('grammar-spin').classList.add('on');
+  var prompt='Create 5 MCQ grammar exercises on "'+currentGrammarTopic.name+'" for Class 4-8 Indian students.\nReturn ONLY JSON: [{"q":"Choose the correct option:","blank":"She ___ to school every day.","opts":["go","goes","going","gone"],"ans":1,"ex":"She goes to school every day."},...]\nMake sentences relevant to Indian school life.';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    grammarExData=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    grammarExIdx=0;
+    document.getElementById('grammar-spin').classList.remove('on');
+    showGrammarEx();
+  }catch(e){
+    document.getElementById('grammar-spin').classList.remove('on');
+    ex.innerHTML='<p style="color:red;">Error: '+e.message+'</p>';
+  }
+}
+
+function showGrammarEx(){
+  if(!grammarExData.length)return;
+  var q=grammarExData[grammarExIdx];
+  var ex=document.getElementById('grammar-exercises');
+  var html='<div style="font-size:0.8rem;color:var(--sub);margin-bottom:8px;">Question '+(grammarExIdx+1)+' of '+grammarExData.length+'</div>'+
+    '<div class="ex-question">'+q.q+'<br/><strong>'+q.blank+'</strong></div>'+
+    '<div class="ex-options">';
+  q.opts.forEach(function(o,i){
+    html+='<div class="ex-opt" onclick="checkGrammarEx(this,'+i+','+q.ans+',\''+grammarExIdx+'\')">'+['A','B','C','D'][i]+'. '+o+'</div>';
+  });
+  html+='</div>';
+  ex.innerHTML=html;
+}
+
+function checkGrammarEx(el,chosen,correct,idx){
+  var opts=el.parentElement.querySelectorAll('.ex-opt');
+  opts.forEach(function(o){o.style.pointerEvents='none';});
+  el.classList.add(chosen===correct?'correct':'wrong');
+  if(chosen!==correct)opts[correct].classList.add('correct');
+  if(chosen===correct)addScore('speak',3);
+  setTimeout(function(){
+    grammarExIdx++;
+    if(grammarExIdx<grammarExData.length)showGrammarEx();
+    else document.getElementById('grammar-exercises').innerHTML='<div style="text-align:center;padding:16px;font-weight:800;color:var(--green);">✅ All exercises done! Great job!</div>';
+  },1500);
+}
+
+// ── E. VOCABULARY ──
+async function loadVocab(type,tabEl){
+  if(type)currentVocabType=type;
+  document.querySelectorAll('.vtab').forEach(function(t){t.classList.remove('active');});
+  if(tabEl)tabEl.classList.add('active');
+  var grid=document.getElementById('vocab-grid');
+  var spin=document.getElementById('vocab-spin');
+  grid.innerHTML='';spin.classList.add('on');
+  var prompts={
+    daily:'Generate 9 useful daily-use English words for Class 4-8 students with their meaning, example sentence and emoji. Focus on words used in everyday Indian life.',
+    synonyms:'Generate 9 sets of English synonyms for Class 4-8 students. Show the main word and 2-3 synonyms. Include emoji and example.',
+    antonyms:'Generate 9 English word pairs with antonyms for Class 4-8 students. Show word and its opposite. Include emoji.',
+    academic:'Generate 9 important academic vocabulary words for Class 4-8 Indian students to use in their essays and answers. Include meaning and example.',
+    idioms:'Generate 9 common English idioms/phrases for Class 4-8 students. Include meaning and example sentence. Use an emoji.'
+  };
+  var prompt=prompts[currentVocabType]+'\nReturn ONLY JSON: [{"word":"","emoji":"","meaning":"","example":"","type":"'+currentVocabType+'"},...]\nKeep examples related to Indian school/family life.';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:700,messages:[{role:'user',content:prompt}]});
+    var words=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    spin.classList.remove('on');
+    words.forEach(function(w){
+      var card=document.createElement('div');
+      card.className='vcard';
+      card.innerHTML='<div class="vcard-emoji">'+w.emoji+'</div>'+
+        '<div class="vcard-word">'+w.word+'</div>'+
+        '<div class="vcard-meaning">'+w.meaning+'</div>'+
+        '<div class="vcard-type">'+w.type+'</div>'+
+        '<div style="font-size:0.75rem;color:#999;margin-top:4px;font-style:italic;">'+w.example+'</div>';
+      card.onclick=function(){speak(w.word,'en-IN',0.8);addScore('listen',2);};
+      grid.appendChild(card);
+    });
+  }catch(e){spin.classList.remove('on');grid.innerHTML='<p style="color:red;grid-column:1/-1;">Error: '+e.message+'</p>';}
+}
+
+function refreshVocab(){loadVocab(currentVocabType,null);}
+
+// ── F. READING ──
+function initReading(){
+  var types=document.getElementById('reading-types');
+  types.innerHTML='';
+  READING_TYPES.forEach(function(t,i){
+    var div=document.createElement('div');
+    div.className='g-topic';
+    div.innerHTML='<div class="g-topic-icon">'+t.icon+'</div><div class="g-topic-name">'+t.title+'</div><div class="g-topic-desc">'+t.desc+'</div>';
+    div.onclick=function(){openReadingType(i);};
+    types.appendChild(div);
+  });
+}
+
+async function openReadingType(i){
+  var type=READING_TYPES[i];
+  document.getElementById('reading-select-card').style.display='none';
+  document.getElementById('reading-content-card').style.display='block';
+  document.getElementById('reading-title').textContent=type.icon+' '+type.title;
+  document.getElementById('reading-passage').innerHTML='Loading passage...';
+  document.getElementById('reading-comp').style.display='none';
+  document.getElementById('reading-spin').classList.add('on');
+
+  var prompt='Write a '+type.title.toLowerCase()+' passage (120-150 words) for Class 4-8 students in India.\nMake it educational and interesting.\nAfter the passage, write 3 comprehension questions as JSON: {"questions":[{"q":"","opts":["","","",""],"ans":0},...]}';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]});
+    var text=d.content[0].text;
+    var jsonMatch=text.match(/\{[\s\S]*"questions"[\s\S]*\}/);
+    var passage=jsonMatch?text.substring(0,jsonMatch.index).trim():text;
+    currentReadingPassage=passage;
+    currentReadingType={title:type.title,questionsRaw:jsonMatch?jsonMatch[0]:''};
+    document.getElementById('reading-spin').classList.remove('on');
+    // Make words clickable
+    var words=passage.split(/(\s+)/);
+    var html=words.map(function(w){
+      if(w.trim().length>2&&/^[a-zA-Z]+$/.test(w.trim())){
+        return '<span class="passage-word" onclick="hearPassageWord(\''+w.trim()+'\')" onmouseover="showTip(event,\''+w.trim()+'\')" onmouseout="hideTip()">'+w+'</span>';
+      }
+      return w;
+    }).join('');
+    document.getElementById('reading-passage').innerHTML=html;
+    addScore('read',5);
+  }catch(e){
+    document.getElementById('reading-spin').classList.remove('on');
+    document.getElementById('reading-passage').textContent='Error: '+e.message;
+  }
+}
+
+function hearPassageWord(w){speak(w,'en-IN',0.7);}
+function showTip(e,w){var t=document.getElementById('tooltip');t.textContent='🔊 '+w;t.style.display='block';t.style.left=(e.pageX+10)+'px';t.style.top=(e.pageY-30)+'px';}
+function hideTip(){document.getElementById('tooltip').style.display='none';}
+function backToReadingList(){stopReading();document.getElementById('reading-select-card').style.display='block';document.getElementById('reading-content-card').style.display='none';}
+
+function readPassage(){
+  speechSynthesis.cancel();
+  readUtterance=new SpeechSynthesisUtterance(currentReadingPassage);
+  readUtterance.lang='en-IN';readUtterance.rate=0.85;
+  speechSynthesis.speak(readUtterance);
+}
+function stopReading(){speechSynthesis.cancel();}
+
+function showReadingComp(){
+  if(!currentReadingType||!currentReadingType.questionsRaw)return;
+  var comp=document.getElementById('reading-comp');
+  comp.style.display='block';
+  try{
+    var qs=JSON.parse(currentReadingType.questionsRaw).questions;
+    var html='<div style="font-weight:800;margin-bottom:10px;font-family:Baloo 2,cursive;color:var(--blue);">📝 Answer these questions:</div>';
+    qs.forEach(function(q,qi){
+      html+='<div class="comp-q"><div class="comp-q-text">'+(qi+1)+'. '+q.q+'</div><div class="comp-opts">';
+      q.opts.forEach(function(o,oi){html+='<div class="comp-opt" onclick="checkCompAns(this,'+oi+','+q.ans+')">'+['A','B','C','D'][oi]+'. '+o+'</div>';});
+      html+='</div></div>';
+    });
+    comp.innerHTML=html;
+    addScore('read',5);
+  }catch(e){comp.innerHTML='<p>Could not load questions.</p>';}
+}
+
+// ── G. WRITING ──
+function initWriting(){
+  var types=document.getElementById('writing-types');
+  types.innerHTML='';
+  WRITING_TYPES.forEach(function(t,i){
+    var div=document.createElement('div');
+    div.className='wtype';
+    div.innerHTML='<div class="wtype-icon">'+t.icon+'</div><div class="wtype-name">'+t.name+'</div>';
+    div.onclick=function(){selectWritingType(i,div);};
+    types.appendChild(div);
+  });
+}
+
+var writingPrompts={
+  0:['Write a paragraph about your favourite festival in India.','Write about the importance of trees and plants.','Write about your daily routine.','Write about your best friend.'],
+  1:['Write a letter to your friend about your summer holidays.','Write a letter to your principal requesting a holiday.','Write a letter to your teacher thanking them.','Write a letter to your parent about a school trip.'],
+  2:['Write an essay on "My Country India".','Write an essay on "Importance of Education".','Write an essay on "Environmental Pollution".','Write an essay on "My Favourite Sport".'],
+  3:['He ___ to school every day. (go/goes/going)','She has ___ her homework. (do/does/done)','They ___ playing cricket. (is/are/am)','I ___ a student of Class 7. (am/is/are)']
+};
+
+function selectWritingType(i,el){
+  document.querySelectorAll('.wtype').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  currentWritingType=i;
+  newWritingPrompt();
+  document.getElementById('writing-hint').textContent='💡 '+WRITING_TYPES[i].hint;
+}
+
+function newWritingPrompt(){
+  if(currentWritingType===null)return;
+  var prompts=writingPrompts[currentWritingType];
+  document.getElementById('writing-prompt').textContent=prompts[Math.floor(Math.random()*prompts.length)];
+  document.getElementById('writing-text').value='';
+  document.getElementById('writing-feedback').classList.remove('show');
+}
+
+async function checkWriting(){
+  var text=document.getElementById('writing-text').value.trim();
+  var prompt=document.getElementById('writing-prompt').textContent;
+  if(text.length<20){alert('Please write at least 3 sentences!');return;}
+  document.getElementById('writing-spin').classList.add('on');
+  document.getElementById('writing-feedback').classList.remove('show');
+  var type=currentWritingType!==null?WRITING_TYPES[currentWritingType].name:'Writing';
+  var aiPrompt='You are an English teacher checking a Class 4-8 student\'s '+type+' from Tamil Nadu.\nPrompt: "'+prompt+'"\nStudent wrote:\n'+text+'\n\nGive encouraging feedback:\n1. Score out of 10\n2. Grammar corrections (if any)\n3. Good vocabulary used\n4. One improvement suggestion\n5. Write one model sentence\nBe warm and supportive!';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:400,messages:[{role:'user',content:aiPrompt}]});
+    document.getElementById('writing-spin').classList.remove('on');
+    var fb=document.getElementById('writing-feedback');
+    var scoreMatch=d.content[0].text.match(/(\d+)\s*[\/out of]*\s*10/i);
+    fb.innerHTML=(scoreMatch?'<span class="score-chip">Score: '+scoreMatch[1]+'/10 ⭐</span><br/>':'')+d.content[0].text.replace(/\n/g,'<br/>');
+    fb.classList.add('show');
+    addScore('write',10);
+  }catch(e){
+    document.getElementById('writing-spin').classList.remove('on');
+    document.getElementById('writing-feedback').innerHTML='Error: '+e.message;
+    document.getElementById('writing-feedback').classList.add('show');
+  }
+}
+
+// ── H. COMMUNICATION ──
+function startCommPractice(prompt){
+  document.getElementById('comm-practice-box').style.display='block';
+  document.getElementById('comm-prompt').textContent=prompt;
+  document.getElementById('comm-transcript').style.display='none';
+  document.getElementById('comm-result').classList.remove('show');
+  document.getElementById('comm-check-btn').disabled=true;
+  commTranscript='';
+  document.getElementById('comm-practice-box').scrollIntoView({behavior:'smooth'});
+}
+
+function toggleCommMic(){
+  if(isRecording){stopRec();return;}
+  startRec('comm-mic','comm-status',function(text){
+    commTranscript=text;
+    document.getElementById('comm-transcript').textContent='"'+text+'"';
+    document.getElementById('comm-transcript').style.display='block';
+    document.getElementById('comm-check-btn').disabled=false;
+  });
+}
+
+async function checkCommSpeaking(){
+  if(!commTranscript)return;
+  var prompt=document.getElementById('comm-prompt').textContent;
+  document.getElementById('comm-spin').classList.add('on');
+  document.getElementById('comm-check-btn').disabled=true;
+  var aiPrompt='Evaluate a Class 4-8 Indian student\'s spoken English for this communication task: "'+prompt+'"\nStudent said: "'+commTranscript+'"\n\nEvaluate:\n1. Clarity & Confidence (out of 5)\n2. Grammar & Vocabulary (out of 5)\n3. Communication Effectiveness (out of 5)\n4. Total Score: X/15\n5. One tip to improve\nBe encouraging and specific!';
+  try{
+    var d=await callAPI({model:'claude-sonnet-4-5',max_tokens:350,messages:[{role:'user',content:aiPrompt}]});
+    document.getElementById('comm-spin').classList.remove('on');
+    var res=document.getElementById('comm-result');
+    res.innerHTML=d.content[0].text.replace(/\n/g,'<br/>');
+    res.classList.add('show');
+    addScore('speak',8);
+  }catch(e){
+    document.getElementById('comm-spin').classList.remove('on');
+    document.getElementById('comm-result').innerHTML='Error: '+e.message;
+    document.getElementById('comm-result').classList.add('show');
+  }
+  document.getElementById('comm-check-btn').disabled=false;
+}
+
+// ── SPEECH HELPERS ──
+function speak(text,lang,rate){
+  speechSynthesis.cancel();
+  var utt=new SpeechSynthesisUtterance(text);
+  utt.lang=lang||'en-IN';utt.rate=rate||0.9;
+  speechSynthesis.speak(utt);
+}
+
+function startRec(micId,statusId,onResult){
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    alert('Speech recognition not supported. Please use Chrome browser.');return;
+  }
+  var SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SpeechRec();
+  recognition.lang='en-IN';recognition.interimResults=false;recognition.maxAlternatives=1;
+  isRecording=true;
+  var micEl=document.getElementById(micId);
+  var statusEl=document.getElementById(statusId);
+  if(micEl){micEl.classList.add('recording');micEl.textContent='⏹';}
+  if(statusEl)statusEl.textContent='🔴 Recording... Speak now!';
+  recognition.onresult=function(e){
+    var text=e.results[0][0].transcript;
+    var conf=e.results[0][0].confidence;
+    stopRec();
+    if(statusEl)statusEl.textContent='✅ Recorded: "'+text.substring(0,40)+'"';
+    onResult(text,conf);
+  };
+  recognition.onerror=function(e){
+    stopRec();
+    if(statusEl)statusEl.textContent='❌ Error: '+e.error+'. Try again!';
+  };
+  recognition.onend=function(){
+    if(isRecording)stopRec();
+  };
+  recognition.start();
+}
+
+function stopRec(){
+  isRecording=false;
+  if(recognition)recognition.stop();
+  ['pron-mic','speak-mic','comm-mic'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.classList.remove('recording');el.textContent='🎤';}
+  });
+}
+
+// ── API ──
+async function callAPI(payload){
+  var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({payload:payload})});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  var d=await r.json();
+  if(d.error)throw new Error(d.error.message);
+  return d;
+}
+
+// ── INIT ──
+showPronWord();
+initListening();
+initSpeaking();
+initGrammar();
+initReading();
+initWriting();
+loadVocab('daily',document.querySelector('.vtab'));
+</script>
+</body>
+</html>
