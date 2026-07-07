@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Super Admin — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--teal:#0E7C7B;--teal-dark:#095C5B;--mango:#FFB627;--mango-dark:#E89B00;
+  --leaf:#57A639;--cream:#FFF9EF;--ink:#27323A;--sub:#5F7078;--coral:#FF6B57;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;color:var(--ink);}
+.topbar{background:var(--ink);color:#fff;display:flex;align-items:center;gap:12px;padding:14px 20px;}
+.topbar h1{font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px;}
+.card{background:#fff;border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 6px 0 #EADFC8;}
+h2{font-family:"Baloo 2",cursive;font-size:1.15rem;color:var(--teal);margin-bottom:14px;}
+label{display:block;font-weight:800;font-size:0.8rem;margin:10px 0 4px;}
+input{width:100%;border:3px solid #EADFC8;border-radius:12px;padding:11px 14px;font-size:1rem;
+  font-family:"Nunito",sans-serif;font-weight:700;outline:none;}
+input:focus{border-color:var(--teal);}
+.row{display:flex;gap:12px;flex-wrap:wrap;}
+.row > div{flex:1;min-width:160px;}
+.btn{border:none;border-radius:999px;padding:11px 22px;font-family:"Baloo 2",cursive;
+  font-size:1rem;font-weight:800;cursor:pointer;color:#fff;}
+.btn.teal{background:var(--teal);box-shadow:0 4px 0 var(--teal-dark);}
+.btn.mango{background:var(--mango);color:var(--ink);box-shadow:0 4px 0 var(--mango-dark);}
+.btn:active{transform:translateY(2px);}
+.msg{font-weight:800;min-height:22px;margin-top:10px;font-size:0.9rem;}
+.chk{display:flex;align-items:center;gap:8px;font-weight:800;margin-top:12px;}
+.chk input{width:auto;transform:scale(1.4);}
+table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+th,td{padding:10px 8px;border-bottom:2px solid #F3EBD9;text-align:left;font-weight:700;}
+th{font-weight:800;color:var(--sub);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;}
+.pillbtn{border:none;border-radius:999px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:0.8rem;font-family:"Nunito",sans-serif;}
+.on{background:#E9F5E1;color:var(--leaf);}
+.off{background:#F1F1F1;color:#9AA3A8;}
+.danger{background:#FFE9E5;color:var(--coral);}
+</style>
+</head>
+<body>
+<div class="topbar"><span>🛡️</span><h1>Global Language Master — Super Admin</h1></div>
+<div class="wrap">
+
+  <div class="card" id="lock-card">
+    <h2>🔑 Admin Login</h2>
+    <label>Admin Password</label>
+    <input id="adminkey" type="password" placeholder="Your admin key" onkeydown="if(event.key==='Enter')unlock()"/>
+    <br/><br/>
+    <button class="btn teal" onclick="unlock()">Unlock ➜</button>
+    <div class="msg" id="lock-msg"></div>
+  </div>
+
+  <div id="panel" style="display:none;">
+    <div class="card">
+      <h2>➕ Add a School</h2>
+      <div class="row">
+        <div><label>School Code</label><input id="n-code" placeholder="e.g. SUN2026"/></div>
+        <div><label>School Name</label><input id="n-name" placeholder="e.g. Sunshine Matric School"/></div>
+        <div><label>Password</label><input id="n-pass" placeholder="Login password for the school"/></div>
+      </div>
+      <div class="row">
+        <div class="chk"><input type="checkbox" id="n-eng" checked/> English Journey</div>
+        <div class="chk"><input type="checkbox" id="n-hin"/> Hindi Journey</div>
+      </div>
+      <br/>
+      <button class="btn mango" onclick="addSchool()">Add School</button>
+      <div class="msg" id="add-msg"></div>
+    </div>
+
+    <div class="card">
+      <h2>🏫 Schools <button class="btn teal" style="float:right;padding:7px 16px;font-size:0.85rem;" onclick="loadSchools()">↻ Refresh</button></h2>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Code</th><th>Name</th><th>English</th><th>Hindi</th><th>Active</th><th>New Password</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="msg" id="list-msg"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+var KEY='';
+
+async function api(payload){
+  payload.admin_key=KEY;
+  var r=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  return r.json();
+}
+
+async function unlock(){
+  var m=document.getElementById('lock-msg');
+  KEY=document.getElementById('adminkey').value.trim();
+  if(!KEY){ m.style.color='var(--coral)'; m.textContent='Enter the admin password.'; return; }
+  m.style.color='var(--sub)'; m.textContent='Checking…';
+  try{
+    var d=await api({action:'admin_login'});
+    if(d.ok){
+      document.getElementById('lock-card').style.display='none';
+      document.getElementById('panel').style.display='block';
+      loadSchools();
+    }else{
+      m.style.color='var(--coral)'; m.textContent=d.error||'Wrong password';
+    }
+  }catch(e){ m.style.color='var(--coral)'; m.textContent='Server error: '+e.message; }
+}
+
+async function addSchool(){
+  var m=document.getElementById('add-msg');
+  m.style.color='var(--sub)'; m.textContent='Adding…';
+  try{
+    var d=await api({action:'add_school',
+      code:document.getElementById('n-code').value,
+      name:document.getElementById('n-name').value,
+      password:document.getElementById('n-pass').value,
+      has_english:document.getElementById('n-eng').checked,
+      has_hindi:document.getElementById('n-hin').checked});
+    if(d.ok){
+      m.style.color='var(--leaf)'; m.textContent='✅ School added!';
+      document.getElementById('n-code').value='';
+      document.getElementById('n-name').value='';
+      document.getElementById('n-pass').value='';
+      loadSchools();
+    }else{ m.style.color='var(--coral)'; m.textContent=d.error||'Could not add'; }
+  }catch(e){ m.style.color='var(--coral)'; m.textContent='Error: '+e.message; }
+}
+
+async function loadSchools(){
+  var tb=document.getElementById('rows');
+  tb.innerHTML='<tr><td colspan="7">Loading…</td></tr>';
+  try{
+    var d=await api({action:'list_schools'});
+    if(!d.ok){ tb.innerHTML='<tr><td colspan="7">'+(d.error||'Error')+'</td></tr>'; return; }
+    if(!d.schools.length){ tb.innerHTML='<tr><td colspan="7">No schools yet — add your first one above.</td></tr>'; return; }
+    tb.innerHTML=d.schools.map(function(s){
+      var c=encodeURIComponent(s.school_code);
+      return '<tr>'+
+        '<td><b>'+s.school_code+'</b></td>'+
+        '<td>'+s.name+'</td>'+
+        '<td><button class="pillbtn '+(s.has_english?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_english\','+(!s.has_english)+')">'+(s.has_english?'✅ On':'✖ Off')+'</button></td>'+
+        '<td><button class="pillbtn '+(s.has_hindi?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_hindi\','+(!s.has_hindi)+')">'+(s.has_hindi?'✅ On':'✖ Off')+'</button></td>'+
+        '<td><button class="pillbtn '+(s.active?'on':'off')+'" onclick="toggle(\''+c+'\',\'active\','+(!s.active)+')">'+(s.active?'✅ Active':'⏸ Paused')+'</button></td>'+
+        '<td><button class="pillbtn off" onclick="resetPass(\''+c+'\')">🔑 Set</button></td>'+
+        '<td><button class="pillbtn danger" onclick="removeSchool(\''+c+'\')">🗑</button></td>'+
+      '</tr>';
+    }).join('');
+  }catch(e){ tb.innerHTML='<tr><td colspan="7">Error: '+e.message+'</td></tr>'; }
+}
+
+async function toggle(code, field, value){
+  var payload={action:'update_school',code:decodeURIComponent(code)};
+  payload[field]=value;
+  var d=await api(payload);
+  var m=document.getElementById('list-msg');
+  if(d.ok){ m.style.color='var(--leaf)'; m.textContent='✅ Updated'; loadSchools(); }
+  else{ m.style.color='var(--coral)'; m.textContent=d.error||'Update failed'; }
+}
+
+async function resetPass(code){
+  var np=prompt('New password for '+decodeURIComponent(code)+':');
+  if(!np) return;
+  var d=await api({action:'update_school',code:decodeURIComponent(code),password:np});
+  var m=document.getElementById('list-msg');
+  if(d.ok){ m.style.color='var(--leaf)'; m.textContent='✅ Password changed'; }
+  else{ m.style.color='var(--coral)'; m.textContent=d.error||'Failed'; }
+}
+
+async function removeSchool(code){
+  if(!confirm('Delete school '+decodeURIComponent(code)+'? This cannot be undone.')) return;
+  var d=await api({action:'delete_school',code:decodeURIComponent(code)});
+  var m=document.getElementById('list-msg');
+  if(d.ok){ m.style.color='var(--leaf)'; m.textContent='✅ Deleted'; loadSchools(); }
+  else{ m.style.color='var(--coral)'; m.textContent=d.error||'Failed'; }
+}
+</script>
+</body>
+</html>

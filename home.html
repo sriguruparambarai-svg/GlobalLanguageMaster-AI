@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Languages — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--teal:#0E7C7B;--teal-dark:#095C5B;--mango:#FFB627;--mango-dark:#E89B00;
+  --leaf:#57A639;--cream:#FFF9EF;--ink:#27323A;--sub:#5F7078;--coral:#FF6B57;--lotus:#E85D9A;--lotus-dark:#C13E77;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;color:var(--ink);}
+.topbar{background:var(--teal);color:#fff;display:flex;align-items:center;gap:12px;padding:14px 20px;
+  box-shadow:0 4px 18px rgba(14,124,123,0.35);}
+.topbar .peacock{font-size:2rem;}
+.topbar h1{font-family:"Baloo 2",cursive;font-size:1.2rem;font-weight:800;line-height:1.1;}
+.topbar small{display:block;font-weight:700;font-size:0.72rem;opacity:0.85;}
+.logout{margin-left:auto;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);
+  color:#fff;border-radius:999px;padding:7px 16px;font-weight:800;font-size:0.85rem;cursor:pointer;}
+.wrap{max-width:760px;margin:0 auto;padding:34px 20px;}
+.hello{font-family:"Baloo 2",cursive;font-size:1.7rem;font-weight:800;color:var(--teal);text-align:center;}
+.sub{text-align:center;font-weight:700;color:var(--sub);margin:6px 0 30px;}
+.cards{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;}
+.lang-card{background:#fff;border-radius:26px;padding:34px 30px;width:300px;text-align:center;
+  cursor:pointer;border:none;font-family:"Nunito",sans-serif;transition:transform 0.12s;}
+.lang-card:hover{transform:translateY(-6px);}
+.lang-card .big{font-size:4.5rem;}
+.lang-card h2{font-family:"Baloo 2",cursive;font-size:1.5rem;font-weight:800;margin-top:8px;}
+.lang-card p{font-weight:700;color:var(--sub);font-size:0.9rem;margin-top:4px;}
+.lang-card .go{display:inline-block;margin-top:18px;color:#fff;border-radius:999px;padding:11px 30px;
+  font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;}
+.eng{box-shadow:0 10px 0 var(--teal-dark);}
+.eng h2{color:var(--teal);}
+.eng .go{background:var(--teal);box-shadow:0 4px 0 var(--teal-dark);}
+.hin{box-shadow:0 10px 0 var(--lotus-dark);}
+.hin h2{color:var(--lotus);}
+.hin .go{background:var(--lotus);box-shadow:0 4px 0 var(--lotus-dark);}
+.none{max-width:420px;margin:20px auto 0;background:#fff;border-radius:20px;padding:26px;text-align:center;
+  font-weight:700;color:var(--sub);box-shadow:0 6px 0 #EADFC8;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="peacock">🦚</span>
+  <h1>Global Language Master<small id="school-name">…</small></h1>
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="wrap">
+  <div class="hello" id="hello">Welcome!</div>
+  <div class="sub">Choose a language and start the journey 🚀</div>
+  <div class="cards" id="cards"></div>
+</div>
+
+<script>
+'use strict';
+var SCHOOL=null;
+try{ SCHOOL=JSON.parse(localStorage.getItem('glm_school')||'null'); }catch(e){}
+if(!SCHOOL || !SCHOOL.code){ location.href='index.html'; }
+
+function logout(){
+  try{ localStorage.removeItem('glm_school'); }catch(e){}
+  location.href='index.html';
+}
+
+if(SCHOOL){
+  document.getElementById('school-name').textContent=SCHOOL.name;
+  document.getElementById('hello').textContent='Welcome, '+SCHOOL.name+'!';
+  var cards=document.getElementById('cards');
+  var html='';
+  if(SCHOOL.has_english){
+    html+='<button class="lang-card eng" onclick="location.href=\'english.html\'">'+
+      '<div class="big">🦚</div><h2>English Journey</h2>'+
+      '<p>From first words to free talk with an AI teacher</p>'+
+      '<span class="go">Start English ➜</span></button>';
+  }
+  if(SCHOOL.has_hindi){
+    html+='<button class="lang-card hin" onclick="location.href=\'hindi.html\'">'+
+      '<div class="big">🪷</div><h2>Hindi Journey</h2>'+
+      '<p>हिंदी — spoken Hindi step by step</p>'+
+      '<span class="go">Start Hindi ➜</span></button>';
+  }
+  if(!html){
+    html='';
+    document.querySelector('.wrap').insertAdjacentHTML('beforeend',
+      '<div class="none">No language is switched on for your school yet.<br/>Please contact DigiSmartSchool.</div>');
+  }
+  cards.innerHTML=html;
+}
+</script>
+</body>
+</html>
