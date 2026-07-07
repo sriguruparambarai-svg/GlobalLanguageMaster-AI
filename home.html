@@ -41,6 +41,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .fre{box-shadow:0 10px 0 #1E4480;}
 .fre h2{color:#2A5CAA;}
 .fre .go{background:#2A5CAA;box-shadow:0 4px 0 #1E4480;}
+.trd{box-shadow:0 10px 0 #5C2E78;}
+.trd h2{color:#7B3FA0;}
+.trd .go{background:#7B3FA0;box-shadow:0 4px 0 #5C2E78;}
 .none{max-width:420px;margin:20px auto 0;background:#fff;border-radius:20px;padding:26px;text-align:center;
   font-weight:700;color:var(--sub);box-shadow:0 6px 0 #EADFC8;}
 </style>
@@ -97,6 +100,12 @@ if(SCHOOL){
       '<div class="big">\uD83D\uDDFC</div><h2>French Journey</h2>'+
       '<p>Fran\u00E7ais \u2014 spoken French step by step</p>'+
       '<span class="go">Start French \u279C</span></button>';
+  }
+  if(SCHOOL.has_tamil){
+    html+='<button class="lang-card trd" onclick="location.href=\'tamil-reading.html\'">'+
+      '<div class="big">\uD83D\uDCD6</div><h2>Tamil Reading</h2>'+
+      '<p>\u0BAA\u0B9F\u0BBF\u0B95\u0BCD\u0B95\u0B95\u0BCD \u0B95\u0BB1\u0BCD\u0BAA\u0BCB\u0BAE\u0BCD \u2014 alphabets to sentences</p>'+
+      '<span class="go">Start Reading \u279C</span></button>';
   }
   if(!html){
     html='';
