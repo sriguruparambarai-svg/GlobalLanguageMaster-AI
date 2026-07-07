@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hindi Reading — पढ़ना सीखें — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --sun:#F26B21; --sun-dark:#C24E12; --sun-soft:#FDE9DC;
+  --grape:#C2185B; --grape-dark:#8E1246;
+  --mango:#FFB627; --mango-dark:#E89B00; --mango-soft:#FFF3D6;
+  --leaf:#57A639; --leaf-soft:#E9F5E1;
+  --teal:#0E7C7B; --teal-dark:#095C5B;
+  --coral:#FF6B57;
+  --cream:#FFF9EF; --ink:#27323A; --sub:#5F7078;
+  --locked:#C9D2D6;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);color:var(--ink);}
+
+.topbar{position:sticky;top:0;z-index:50;background:var(--grape);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:12px 18px;
+  box-shadow:0 4px 18px rgba(194,24,91,0.35);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .icon{font-size:2rem;}
+.brand h1{font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;line-height:1.1;}
+.brand small{display:block;font-weight:600;font-size:0.7rem;opacity:0.85;}
+.top-stats{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.28);
+  border-radius:999px;padding:6px 14px;font-weight:800;font-size:0.9rem;display:flex;gap:6px;align-items:center;}
+.mode-toggle{cursor:pointer;user-select:none;background:var(--mango);color:var(--ink);border:none;}
+.mode-toggle:hover{background:var(--mango-dark);color:#fff;}
+.home-link{color:#fff;text-decoration:none;font-weight:800;font-size:0.85rem;
+  border-bottom:2px dashed rgba(255,255,255,0.5);padding-bottom:1px;}
+.home-link:hover{border-bottom-style:solid;}
+
+.journey-wrap{max-width:560px;margin:0 auto;padding:26px 16px 90px;position:relative;}
+.stage-banner{background:var(--grape);color:#fff;border-radius:18px;padding:14px 20px;
+  margin:34px 0 10px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 6px 0 var(--grape-dark);}
+.stage-banner.locked{background:var(--locked);box-shadow:0 6px 0 #AEB9BE;color:#5F7078;}
+.stage-banner .st-emoji{font-size:1.9rem;}
+.stage-banner .st-name{font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;}
+.stage-banner .st-sub{font-size:0.78rem;font-weight:700;opacity:0.9;}
+
+.path-block{position:relative;}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.path-svg path{fill:none;stroke:var(--mango);stroke-width:7;stroke-linecap:round;stroke-dasharray:1 18;}
+.node-row{position:relative;height:112px;display:flex;align-items:center;}
+.node{position:relative;width:84px;height:84px;border-radius:50%;border:none;cursor:pointer;
+  font-size:1.8rem;display:flex;align-items:center;justify-content:center;
+  background:var(--leaf);box-shadow:0 7px 0 #3E7A28;transition:transform 0.12s;font-family:"Baloo 2",cursive;font-weight:800;color:#fff;}
+.node:active{transform:translateY(4px);box-shadow:0 3px 0 #3E7A28;}
+.node .node-label{position:absolute;top:100%;margin-top:12px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-weight:800;font-size:0.78rem;color:var(--ink);
+  background:#fff;border-radius:999px;padding:3px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);font-family:"Nunito",sans-serif;}
+.node .stars{position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:0.85rem;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.node.current{background:var(--mango);box-shadow:0 7px 0 var(--mango-dark);animation:pulse 1.6s infinite;}
+.node.current:active{box-shadow:0 3px 0 var(--mango-dark);}
+.node.locked{background:var(--locked);box-shadow:0 7px 0 #AEB9BE;cursor:not-allowed;filter:grayscale(0.4);}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+.mascot{position:absolute;font-size:2.2rem;top:-46px;left:50%;transform:translateX(-50%);
+  animation:bob 1.4s ease-in-out infinite;pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+
+.lesson-modal{position:fixed;inset:0;background:var(--cream);z-index:100;display:none;
+  flex-direction:column;overflow-y:auto;}
+.lesson-modal.open{display:flex;}
+.lesson-top{display:flex;align-items:center;gap:14px;padding:14px 18px;}
+.close-btn{background:none;border:none;font-size:1.7rem;cursor:pointer;color:var(--sub);font-weight:800;}
+.progress-track{flex:1;height:16px;background:#EADFC8;border-radius:999px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:var(--leaf);border-radius:999px;transition:width 0.35s;}
+.lesson-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 20px 30px;text-align:center;}
+
+.big-card{background:#fff;border-radius:26px;padding:30px 26px;max-width:490px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.giant-letter{font-family:"Baloo 2",cursive;font-size:6.5rem;font-weight:800;color:var(--grape);line-height:1.1;}
+.blend-line{font-family:"Baloo 2",cursive;font-size:2.4rem;font-weight:800;color:var(--sun);margin-top:6px;line-height:1.35;}
+.anchor{font-size:1.35rem;font-weight:800;color:var(--teal);margin-top:8px;}
+.big-emoji{font-size:4rem;line-height:1;margin-top:4px;}
+.big-meaning{font-size:1rem;font-weight:700;color:var(--sub);margin-top:4px;}
+.hear-btn{margin-top:16px;background:var(--teal);color:#fff;border:none;border-radius:999px;
+  padding:13px 28px;font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 var(--teal-dark);}
+.hear-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--teal-dark);}
+.say-btn{margin-top:12px;background:var(--coral);color:#fff;border:none;border-radius:999px;
+  padding:13px 28px;font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 #C74936;display:inline-block;}
+.say-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #C74936;}
+.say-feedback{margin-top:12px;font-weight:800;font-size:1rem;min-height:26px;}
+.repeat-banner{margin-top:16px;background:var(--mango-soft);border:3px dashed var(--mango);
+  border-radius:18px;padding:14px 20px;font-family:"Baloo 2",cursive;font-size:1.15rem;
+  font-weight:800;color:var(--mango-dark);animation:pulse 1.2s infinite;}
+.next-btn{margin-top:24px;background:var(--leaf);color:#fff;border:none;border-radius:999px;
+  padding:15px 44px;font-family:"Baloo 2",cursive;font-size:1.2rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 0 #3E7A28;}
+.next-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #3E7A28;}
+
+.quiz-question{font-family:"Baloo 2",cursive;font-size:1.3rem;font-weight:800;color:var(--ink);margin-bottom:18px;max-width:560px;line-height:1.45;}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:680px;}
+.opt-btn{background:#fff;border:4px solid #EADFC8;border-radius:22px;cursor:pointer;
+  width:150px;padding:18px 10px;font-family:"Nunito",sans-serif;transition:transform 0.1s;}
+.opt-btn.wide{width:280px;padding:16px;}
+.opt-btn:hover{transform:translateY(-4px);border-color:var(--mango);}
+.opt-btn .o-letter{font-family:"Baloo 2",cursive;font-size:3rem;font-weight:800;color:var(--grape);}
+.opt-btn .o-emoji{font-size:2.8rem;}
+.opt-btn .o-word{font-weight:800;font-size:1.15rem;margin-top:6px;color:var(--sun);}
+.opt-btn .o-small{font-weight:700;font-size:0.8rem;color:var(--sub);margin-top:2px;}
+.opt-btn.right{border-color:var(--leaf);background:var(--leaf-soft);}
+.opt-btn.wrong{border-color:var(--coral);background:#FFE9E5;animation:shake 0.4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+/* sentence karaoke */
+.sentence-box{background:#fff;border-radius:26px;padding:30px 26px;max-width:520px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.sentence-line{font-family:"Baloo 2",cursive;font-size:2rem;font-weight:800;line-height:1.6;color:var(--ink);}
+.sentence-line .w{padding:2px 6px;border-radius:10px;transition:background 0.15s,color 0.15s;display:inline-block;}
+.sentence-line .w.lit{background:var(--mango);color:#fff;}
+.sent-emoji{font-size:3.6rem;margin-bottom:6px;}
+.sent-mean{font-size:0.95rem;font-weight:700;color:var(--sub);margin-top:8px;}
+
+.result-stars{font-size:4rem;letter-spacing:8px;margin:10px 0;}
+.result-title{font-family:"Baloo 2",cursive;font-size:1.85rem;font-weight:800;color:var(--grape);}
+.result-sub{font-weight:700;color:var(--sub);margin-top:6px;font-size:1.05rem;}
+.confetti-piece{position:fixed;top:-30px;font-size:1.6rem;z-index:200;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0.6;}}
+
+@media (max-width:600px){
+  .brand h1{font-size:0.9rem;}
+  .pill{padding:5px 10px;font-size:0.8rem;}
+  .opt-btn{width:120px;}
+  .opt-btn.wide{width:100%;}
+  .giant-letter{font-size:4.8rem;}
+  .blend-line{font-size:1.8rem;}
+  .sentence-line{font-size:1.5rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  .node.current,.mascot,.repeat-banner{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="icon">📕</span>
+    <h1>Hindi Reading — पढ़ना सीखें<small id="tb-school">Global Language Master</small></h1>
+  </div>
+  <div class="top-stats">
+    <div class="pill" title="Days practiced in a row">🔥 <span id="streak-count">0</span></div>
+    <div class="pill" title="Reading stars earned">⭐ <span id="star-count">0</span></div>
+    <button class="pill mode-toggle" id="mode-btn" onclick="toggleMode()" title="Class mode (projector) or My mode (headset)">🏫 Class Mode</button>
+    <a class="home-link" href="home.html">🏠 Home</a>
+  </div>
+</div>
+
+<div class="journey-wrap" id="journey"></div>
+
+<div class="lesson-modal" id="lesson-modal">
+  <div class="lesson-top">
+    <button class="close-btn" onclick="closeLesson()" title="Close lesson">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+</div>
+
+<script>
+'use strict';
+
+/* ── school login guard ── */
+var SCHOOL=null;
+try{ SCHOOL=JSON.parse(localStorage.getItem('glm_school')||'null'); }catch(e){}
+if(!SCHOOL || !SCHOOL.code){ location.href='index.html'; }
+else if(!SCHOOL.has_hindi){ location.href='home.html'; }
+
+/* ════════════════ READING CONTENT ════════════════
+   Item fields: h = what is shown big, spk = what the voice says,
+   anchor = helper word, m = meaning, e = picture, node = circle face */
+var STAGES=[
+
+  /* ───── LEVEL 1 · स्वर (vowels) ───── */
+  { id:'h1', emoji:'🔤', name:'Level 1 · स्वर (Vowels)', sub:'अ से औ तक', type:'letters',
+    lessons:[
+      {id:'h1l1', node:'अ', label:'अ आ इ ई', items:[
+        {h:'अ', spk:'अ. अनार.', anchor:'अ — अनार (anaar)', m:'a — pomegranate', e:'🍎'},
+        {h:'आ', spk:'आ. आम.', anchor:'आ — आम (aam)', m:'aa — mango', e:'🥭'},
+        {h:'इ', spk:'इ. इडली.', anchor:'इ — इडली (idli)', m:'i — idli', e:'🥟'},
+        {h:'ई', spk:'ई. ईंट.', anchor:'ई — ईंट (eent)', m:'ee — brick', e:'🧱'}
+      ]},
+      {id:'h1l2', node:'उ', label:'उ ऊ ए ऐ', items:[
+        {h:'उ', spk:'उ. उल्लू.', anchor:'उ — उल्लू (ulloo)', m:'u — owl', e:'🦉'},
+        {h:'ऊ', spk:'ऊ. ऊन.', anchor:'ऊ — ऊन (oon)', m:'oo — wool', e:'🧶'},
+        {h:'ए', spk:'ए. एक.', anchor:'ए — एक (ek)', m:'e — one', e:'1️⃣'},
+        {h:'ऐ', spk:'ऐ. ऐनक.', anchor:'ऐ — ऐनक (ainak)', m:'ai — spectacles', e:'👓'}
+      ]},
+      {id:'h1l3', node:'ओ', label:'ओ औ अं अः', items:[
+        {h:'ओ', spk:'ओ. ओस.', anchor:'ओ — ओस (os)', m:'o — dew', e:'💧'},
+        {h:'औ', spk:'औ. औरत.', anchor:'औ — औरत (aurat)', m:'au — woman', e:'👩'},
+        {h:'अं', spk:'अं. अंगूर.', anchor:'अं — अंगूर (angoor)', m:'an — grapes', e:'🍇'},
+        {h:'अः', spk:'अः. नमः.', anchor:'अः — नमः (namah)', m:'ah — as in namah', e:'🙏'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 2 · व्यंजन (consonants) ───── */
+  { id:'h2', emoji:'🅰️', name:'Level 2 · व्यंजन (Consonants)', sub:'क से ह तक', type:'letters',
+    lessons:[
+      {id:'h2l1', node:'क', label:'क ख ग घ च', items:[
+        {h:'क', spk:'क. कमल.', anchor:'क — कमल (kamal)', m:'ka — lotus', e:'🪷'},
+        {h:'ख', spk:'ख. खरगोश.', anchor:'ख — खरगोश (khargosh)', m:'kha — rabbit', e:'🐰'},
+        {h:'ग', spk:'ग. गमला.', anchor:'ग — गमला (gamla)', m:'ga — flower pot', e:'🪴'},
+        {h:'घ', spk:'घ. घर.', anchor:'घ — घर (ghar)', m:'gha — house', e:'🏠'},
+        {h:'च', spk:'च. चम्मच.', anchor:'च — चम्मच (chammach)', m:'cha — spoon', e:'🥄'}
+      ]},
+      {id:'h2l2', node:'छ', label:'छ ज झ ट ठ', items:[
+        {h:'छ', spk:'छ. छाता.', anchor:'छ — छाता (chhaata)', m:'chha — umbrella', e:'☂️'},
+        {h:'ज', spk:'ज. जल.', anchor:'ज — जल (jal)', m:'ja — water', e:'💧'},
+        {h:'झ', spk:'झ. झंडा.', anchor:'झ — झंडा (jhanda)', m:'jha — flag', e:'🚩'},
+        {h:'ट', spk:'ट. टमाटर.', anchor:'ट — टमाटर (tamaatar)', m:'ta — tomato', e:'🍅'},
+        {h:'ठ', spk:'ठ. ठेला.', anchor:'ठ — ठेला (thela)', m:'tha — cart', e:'🛒'}
+      ]},
+      {id:'h2l3', node:'ड', label:'ड ढ त थ द ध', items:[
+        {h:'ड', spk:'ड. डमरू.', anchor:'ड — डमरू (damru)', m:'da — damru drum', e:'🥁'},
+        {h:'ढ', spk:'ढ. ढोल.', anchor:'ढ — ढोल (dhol)', m:'dha — dhol drum', e:'🪘'},
+        {h:'त', spk:'त. तरबूज.', anchor:'त — तरबूज (tarbooj)', m:'ta — watermelon', e:'🍉'},
+        {h:'थ', spk:'थ. थाली.', anchor:'थ — थाली (thaali)', m:'tha — plate', e:'🍽️'},
+        {h:'द', spk:'द. दीपक.', anchor:'द — दीपक (deepak)', m:'da — lamp', e:'🪔'},
+        {h:'ध', spk:'ध. धनुष.', anchor:'ध — धनुष (dhanush)', m:'dha — bow', e:'🏹'}
+      ]},
+      {id:'h2l4', node:'न', label:'न प फ ब भ म', items:[
+        {h:'न', spk:'न. नल.', anchor:'न — नल (nal)', m:'na — tap', e:'🚰'},
+        {h:'प', spk:'प. पतंग.', anchor:'प — पतंग (patang)', m:'pa — kite', e:'🪁'},
+        {h:'फ', spk:'फ. फल.', anchor:'फ — फल (phal)', m:'pha — fruit', e:'🍎'},
+        {h:'ब', spk:'ब. बकरी.', anchor:'ब — बकरी (bakri)', m:'ba — goat', e:'🐐'},
+        {h:'भ', spk:'भ. भालू.', anchor:'भ — भालू (bhaalu)', m:'bha — bear', e:'🐻'},
+        {h:'म', spk:'म. मछली.', anchor:'म — मछली (machhli)', m:'ma — fish', e:'🐟'}
+      ]},
+      {id:'h2l5', node:'य', label:'य र ल व स ह', items:[
+        {h:'य', spk:'य. योग.', anchor:'य — योग (yog)', m:'ya — yoga', e:'🧘'},
+        {h:'र', spk:'र. रस्सी.', anchor:'र — रस्सी (rassi)', m:'ra — rope', e:'🪢'},
+        {h:'ल', spk:'ल. लट्टू.', anchor:'ल — लट्टू (lattoo)', m:'la — spinning top', e:'🪀'},
+        {h:'व', spk:'व. वन.', anchor:'व — वन (van)', m:'va — forest', e:'🌳'},
+        {h:'स', spk:'स. सूरज.', anchor:'स — सूरज (sooraj)', m:'sa — sun', e:'☀️'},
+        {h:'ह', spk:'ह. हाथी.', anchor:'ह — हाथी (haathi)', m:'ha — elephant', e:'🐘'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 3 · मात्राएँ (the marks) ───── */
+  { id:'h3', emoji:'✍️', name:'Level 3 · मात्राएँ (The Marks)', sub:'का कि की कु कू — reading ka secret!', type:'letters',
+    lessons:[
+      {id:'h3l1', node:'का', label:'ा की मात्रा', items:[
+        {h:'क → का', spk:'क. का.', anchor:'का — काला (kaala)', m:'ka → kaa (black)', e:'⚫'},
+        {h:'प → पा', spk:'प. पा.', anchor:'पा — पानी (paani)', m:'pa → paa (water)', e:'💧'},
+        {h:'म → मा', spk:'म. मा.', anchor:'मा — माता (maata)', m:'ma → maa (mother)', e:'👩'},
+        {h:'न → ना', spk:'न. ना.', anchor:'ना — नाना (naana)', m:'na → naa (grandpa)', e:'👴'},
+        {h:'ल → ला', spk:'ल. ला.', anchor:'ला — लाल (laal)', m:'la → laa (red)', e:'🔴'}
+      ]},
+      {id:'h3l2', node:'कि', label:'ि ी की मात्रा', items:[
+        {h:'क → कि', spk:'क. कि.', anchor:'कि — किताब (kitaab)', m:'ka → ki (book)', e:'📖'},
+        {h:'क → की', spk:'क. की.', anchor:'की — कील (keel)', m:'ka → kee (nail)', e:'📌'},
+        {h:'प → पी', spk:'प. पी.', anchor:'पी — पीला (peela)', m:'pa → pee (yellow)', e:'🟡'},
+        {h:'द → दी', spk:'द. दी.', anchor:'दी — दीपक (deepak)', m:'da → dee (lamp)', e:'🪔'},
+        {h:'न → नी', spk:'न. नी.', anchor:'नी — नीला (neela)', m:'na → nee (blue)', e:'🔵'}
+      ]},
+      {id:'h3l3', node:'कु', label:'ु ू की मात्रा', items:[
+        {h:'क → कु', spk:'क. कु.', anchor:'कु — कुत्ता (kutta)', m:'ka → ku (dog)', e:'🐶'},
+        {h:'स → सु', spk:'स. सु.', anchor:'सु — सुबह (subah)', m:'sa → su (morning)', e:'🌅'},
+        {h:'फ → फू', spk:'फ. फू.', anchor:'फू — फूल (phool)', m:'pha → phoo (flower)', e:'🌸'},
+        {h:'झ → झू', spk:'झ. झू.', anchor:'झू — झूला (jhoola)', m:'jha → jhoo (swing)', e:'🎠'},
+        {h:'द → दू', spk:'द. दू.', anchor:'दू — दूध (doodh)', m:'da → doo (milk)', e:'🥛'}
+      ]},
+      {id:'h3l4', node:'मो', label:'े ै ो ौ की मात्रा', items:[
+        {h:'म → मे', spk:'म. मे.', anchor:'मे — मेला (mela)', m:'ma → me (fair)', e:'🎡'},
+        {h:'ब → बै', spk:'ब. बै.', anchor:'बै — बैल (bail)', m:'ba → bai (bull)', e:'🐂'},
+        {h:'म → मो', spk:'म. मो.', anchor:'मो — मोर (mor)', m:'ma → mo (peacock!)', e:'🦚'},
+        {h:'क → को', spk:'क. को.', anchor:'को — कोट (kot)', m:'ka → ko (coat)', e:'🧥'},
+        {h:'क → कौ', spk:'क. कौ.', anchor:'कौ — कौआ (kauaa)', m:'ka → kau (crow)', e:'🐦‍⬛'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 4 · दो अक्षर के शब्द (blend 2-letter) ───── */
+  { id:'h4', emoji:'🧩', name:'Level 4 · शब्द जोड़ो! (Blend 2-Letter Words)', sub:'अक्षर + अक्षर = शब्द!', type:'blend',
+    lessons:[
+      {id:'h4l1', node:'घर', label:'बिना मात्रा', items:[
+        {h:'घर', spk:'घ. र. घर!', anchor:'घ + र → घर', m:'ghar — house', e:'🏠'},
+        {h:'जल', spk:'ज. ल. जल!', anchor:'ज + ल → जल', m:'jal — water', e:'💧'},
+        {h:'फल', spk:'फ. ल. फल!', anchor:'फ + ल → फल', m:'phal — fruit', e:'🍎'},
+        {h:'नल', spk:'न. ल. नल!', anchor:'न + ल → नल', m:'nal — tap', e:'🚰'},
+        {h:'बस', spk:'ब. स. बस!', anchor:'ब + स → बस', m:'bas — bus', e:'🚌'}
+      ]},
+      {id:'h4l2', node:'आम', label:'मात्रा वाले शब्द', items:[
+        {h:'आम', spk:'आ. म. आम!', anchor:'आ + म → आम', m:'aam — mango', e:'🥭'},
+        {h:'दूध', spk:'दू. ध. दूध!', anchor:'दू + ध → दूध', m:'doodh — milk', e:'🥛'},
+        {h:'पानी', spk:'पा. नी. पानी!', anchor:'पा + नी → पानी', m:'paani — water', e:'💧'},
+        {h:'मोर', spk:'मो. र. मोर!', anchor:'मो + र → मोर', m:'mor — peacock', e:'🦚'},
+        {h:'नाक', spk:'ना. क. नाक!', anchor:'ना + क → नाक', m:'naak — nose', e:'👃'}
+      ]},
+      {id:'h4l3', node:'गाय', label:'और शब्द', items:[
+        {h:'हाथ', spk:'हा. थ. हाथ!', anchor:'हा + थ → हाथ', m:'haath — hand', e:'✋'},
+        {h:'पैर', spk:'पै. र. पैर!', anchor:'पै + र → पैर', m:'pair — leg', e:'🦵'},
+        {h:'रोटी', spk:'रो. टी. रोटी!', anchor:'रो + टी → रोटी', m:'roti — bread', e:'🫓'},
+        {h:'चाय', spk:'चा. य. चाय!', anchor:'चा + य → चाय', m:'chaay — tea', e:'☕'},
+        {h:'गाय', spk:'गा. य. गाय!', anchor:'गा + य → गाय', m:'gaay — cow', e:'🐮'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 5 · तीन अक्षर के शब्द ───── */
+  { id:'h5', emoji:'🏗️', name:'Level 5 · तीन अक्षर के शब्द (3-Letter Words)', sub:'और बड़े शब्द!', type:'blend',
+    lessons:[
+      {id:'h5l1', node:'कमल', label:'कमल महल नगर', items:[
+        {h:'कमल', spk:'क. म. ल. कमल!', anchor:'क + म + ल → कमल', m:'kamal — lotus', e:'🪷'},
+        {h:'महल', spk:'म. ह. ल. महल!', anchor:'म + ह + ल → महल', m:'mahal — palace', e:'🏰'},
+        {h:'नगर', spk:'न. ग. र. नगर!', anchor:'न + ग + र → नगर', m:'nagar — city', e:'🏙️'},
+        {h:'गरम', spk:'ग. र. म. गरम!', anchor:'ग + र + म → गरम', m:'garam — hot', e:'🔥'},
+        {h:'बतख', spk:'ब. त. ख. बतख!', anchor:'ब + त + ख → बतख', m:'batakh — duck', e:'🦆'}
+      ]},
+      {id:'h5l2', node:'बादल', label:'बादल सूरज किताब', items:[
+        {h:'बादल', spk:'बा. द. ल. बादल!', anchor:'बा + द + ल → बादल', m:'baadal — cloud', e:'☁️'},
+        {h:'सूरज', spk:'सू. र. ज. सूरज!', anchor:'सू + र + ज → सूरज', m:'sooraj — sun', e:'☀️'},
+        {h:'किताब', spk:'कि. ता. ब. किताब!', anchor:'कि + ता + ब → किताब', m:'kitaab — book', e:'📖'},
+        {h:'मकान', spk:'म. का. न. मकान!', anchor:'म + का + न → मकान', m:'makaan — house', e:'🏠'},
+        {h:'पतंग', spk:'प. तं. ग. पतंग!', anchor:'प + तं + ग → पतंग', m:'patang — kite', e:'🪁'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 6 · बड़े शब्द ───── */
+  { id:'h6', emoji:'💪', name:'Level 6 · बड़े शब्द (Big Words)', sub:'अब तुम पढ़ सकते हो!', type:'blend',
+    lessons:[
+      {id:'h6l1', node:'आसमान', label:'बड़े शब्द', items:[
+        {h:'आसमान', spk:'आ. स. मा. न. आसमान!', anchor:'आ + स + मा + न → आसमान', m:'aasmaan — sky', e:'🌌'},
+        {h:'तरबूज', spk:'त. र. बू. ज. तरबूज!', anchor:'त + र + बू + ज → तरबूज', m:'tarbooj — watermelon', e:'🍉'},
+        {h:'खरगोश', spk:'ख. र. गो. श. खरगोश!', anchor:'ख + र + गो + श → खरगोश', m:'khargosh — rabbit', e:'🐰'},
+        {h:'पाठशाला', spk:'पा. ठ. शा. ला. पाठशाला!', anchor:'पा + ठ + शा + ला → पाठशाला', m:'paathshaala — school', e:'🏫'},
+        {h:'अनानास', spk:'अ. ना. ना. स. अनानास!', anchor:'अ + ना + ना + स → अनानास', m:'anaanaas — pineapple', e:'🍍'}
+      ]},
+      {id:'h6l2', node:'तितली', label:'और बड़े शब्द', items:[
+        {h:'तितली', spk:'ति. त. ली. तितली!', anchor:'ति + त + ली → तितली', m:'titli — butterfly', e:'🦋'},
+        {h:'मछली', spk:'म. छ. ली. मछली!', anchor:'म + छ + ली → मछली', m:'machhli — fish', e:'🐟'},
+        {h:'बकरी', spk:'ब. क. री. बकरी!', anchor:'ब + क + री → बकरी', m:'bakri — goat', e:'🐐'},
+        {h:'गिलहरी', spk:'गि. ल. ह. री. गिलहरी!', anchor:'गि + ल + ह + री → गिलहरी', m:'gilahri — squirrel', e:'🐿️'},
+        {h:'सितारा', spk:'सि. ता. रा. सितारा!', anchor:'सि + ता + रा → सितारा', m:'sitaara — star', e:'⭐'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 7 · वाक्य पढ़ो! ───── */
+  { id:'h7', emoji:'📖', name:'Level 7 · वाक्य पढ़ो! (Read Sentences)', sub:'अब तुम reader हो!', type:'read',
+    lessons:[
+      {id:'h7l1', node:'📖', label:'छोटे वाक्य', items:[
+        {h:'यह घर है।', m:'yah ghar hai — This is a house.', e:'🏠'},
+        {h:'जल ठंडा है।', m:'jal thanda hai — The water is cold.', e:'💧'},
+        {h:'मोर नाच रहा है।', m:'mor naach raha hai — The peacock is dancing.', e:'🦚'},
+        {h:'फल मीठा है।', m:'phal meetha hai — The fruit is sweet.', e:'🍎'},
+        {h:'सूरज ऊपर है।', m:'sooraj oopar hai — The sun is up.', e:'☀️'}
+      ]},
+      {id:'h7l2', node:'📚', label:'बड़े वाक्य', items:[
+        {h:'बादल पानी देते हैं।', m:'Clouds give water.', e:'☁️'},
+        {h:'तितली फूल पर है।', m:'The butterfly is on the flower.', e:'🦋'},
+        {h:'माता खाना बनाती हैं।', m:'Mother cooks food.', e:'🍳'},
+        {h:'बकरी घास खाती है।', m:'The goat eats grass.', e:'🐐'},
+        {h:'मैं हिंदी पढ़ सकता हूँ!', m:'I can read Hindi!', e:'📕'}
+      ]}
+    ]
+  }
+];
+
+/* ════════════════ PROGRESS ════════════════ */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('glmhr_progress')||'{}'); }catch(e){ return {}; }
+}
+function saveProgress(p){ try{ localStorage.setItem('glmhr_progress',JSON.stringify(p)); }catch(e){} }
+function totalStars(){
+  var p=loadProgress(),t=0,k;
+  for(k in p){ if(p[k] && p[k].stars) t+=p[k].stars; }
+  return t;
+}
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function yesterdayStr(){
+  var y=new Date(); y.setDate(y.getDate()-1);
+  return y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+}
+function bumpStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  var today=todayStr();
+  if(s.last!==today){
+    s.count = (s.last===yesterdayStr()) ? (s.count||0)+1 : 1;
+    s.last=today;
+    try{ localStorage.setItem('glm_streak',JSON.stringify(s)); }catch(e){}
+  }
+  return s.count||0;
+}
+function currentStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  if(!s.last) return 0;
+  return (s.last===todayStr()||s.last===yesterdayStr()) ? (s.count||0) : 0;
+}
+
+/* ════════════════ MODE ════════════════ */
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+var mode = localStorage.getItem('glm_mode') || (SR ? 'my' : 'class');
+function toggleMode(){
+  mode = (mode==='class') ? 'my' : 'class';
+  if(mode==='my' && !SR){
+    alert('This computer/browser cannot listen to speech.\nClass Mode will be used — everyone reads aloud together!');
+    mode='class';
+  }
+  try{ localStorage.setItem('glm_mode',mode); }catch(e){}
+  renderModeBtn();
+}
+function renderModeBtn(){
+  var b=document.getElementById('mode-btn');
+  b.textContent = (mode==='class') ? '🏫 Class Mode' : '🎧 My Mode';
+}
+
+/* ════════════════ HINDI VOICE ════════════════ */
+var hiVoice=null;
+function pickVoice(){
+  var vs=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  var i;
+  hiVoice=null;
+  for(i=0;i<vs.length;i++){ if(/hi[-_]IN/i.test(vs[i].lang)){ hiVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/^hi/i.test(vs[i].lang)){ hiVoice=vs[i]; return; } }
+}
+if(window.speechSynthesis){
+  pickVoice();
+  window.speechSynthesis.onvoiceschanged=pickVoice;
+}
+function sayTa(text, cb, slow){
+  if(!window.speechSynthesis){ if(cb)cb(); return; }
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  if(hiVoice){ u.voice=hiVoice; u.lang='hi-IN'; }
+  u.rate=slow?0.62:0.78; u.pitch=1.05;
+  if(cb) u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+
+/* ════════════════ UNLOCK RULES ════════════════ */
+function stageComplete(si){
+  var p=loadProgress();
+  return STAGES[si].lessons.every(function(l){ return p[l.id] && p[l.id].stars>0; });
+}
+function stageUnlocked(si){
+  if(si===0) return true;
+  return stageComplete(si-1);
+}
+function lessonUnlocked(si, li){
+  if(!stageUnlocked(si)) return false;
+  if(li===0) return true;
+  var prev=STAGES[si].lessons[li-1];
+  var p=loadProgress();
+  return !!(p[prev.id] && p[prev.id].stars>0);
+}
+
+/* ════════════════ PATH RENDERING ════════════════ */
+function renderJourney(){
+  var wrap=document.getElementById('journey');
+  wrap.innerHTML='';
+  var p=loadProgress();
+  var mascotPlaced=false;
+
+  STAGES.forEach(function(stage, si){
+    var unlockedStage=stageUnlocked(si);
+    var banner=document.createElement('div');
+    banner.className='stage-banner'+(unlockedStage?'':' locked');
+    var subText = unlockedStage ? stage.sub : 'Finish the level above to open this';
+    banner.innerHTML='<span class="st-emoji">'+stage.emoji+'</span>'+
+      '<div><div class="st-name">'+stage.name+'</div><div class="st-sub">'+subText+'</div></div>';
+    wrap.appendChild(banner);
+
+    var block=document.createElement('div');
+    block.className='path-block';
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','path-svg');
+    var pathEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+    svg.appendChild(pathEl);
+    block.appendChild(svg);
+
+    var pts=[];
+    stage.lessons.forEach(function(lesson, li){
+      var row=document.createElement('div');
+      row.className='node-row';
+      var xPercent = 50 + 32*Math.sin(li*1.1);
+      var node=document.createElement('button');
+      var unlocked=lessonUnlocked(si,li);
+      var done=!!(p[lesson.id] && p[lesson.id].stars>0);
+      var cls='node';
+      if(!unlocked) cls+=' locked';
+      else if(done) cls+=' done';
+      else cls+=' current';
+      node.className=cls;
+      node.style.position='absolute';
+      node.style.left='calc('+xPercent+'% - 42px)';
+      node.innerHTML=(unlocked?lesson.node:'🔒')+
+        '<span class="node-label">'+lesson.label+'</span>'+
+        (done?'<span class="stars">'+'⭐'.repeat(p[lesson.id].stars)+'</span>':'');
+      if(unlocked){
+        node.onclick=(function(s,l){return function(){openLesson(s,l);};})(si,li);
+      }else{
+        node.onclick=function(){ sayTa('पहले पिछला पाठ पूरा करो!'); };
+      }
+      if(cls.indexOf('current')>=0 && !mascotPlaced){
+        var m=document.createElement('span');
+        m.className='mascot'; m.textContent='📕';
+        node.appendChild(m);
+        mascotPlaced=true;
+      }
+      row.appendChild(node);
+      block.appendChild(row);
+      pts.push({x:xPercent, y:li*112+56});
+    });
+
+    wrap.appendChild(block);
+
+    var w=block.clientWidth||520;
+    var h=stage.lessons.length*112;
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    var d='';
+    pts.forEach(function(pt,i){
+      var px=pt.x/100*w, py=pt.y;
+      if(i===0){ d+='M '+px+' '+py; }
+      else{
+        var prev=pts[i-1];
+        var prx=prev.x/100*w, pry=prev.y;
+        var midY=(pry+py)/2;
+        d+=' C '+prx+' '+midY+', '+px+' '+midY+', '+px+' '+py;
+      }
+    });
+    pathEl.setAttribute('d',d);
+  });
+
+  document.getElementById('star-count').textContent=totalStars();
+  document.getElementById('streak-count').textContent=currentStreak();
+}
+
+/* ════════════════ LESSON STATE ════════════════ */
+var L={stage:0,lesson:0,step:0,phase:'learn',score:0,quiz:[]};
+function stageType(){ return STAGES[L.stage].type; }
+function curLesson(){ return STAGES[L.stage].lessons[L.lesson]; }
+function curItems(){ return curLesson().items; }
+
+function openLesson(si,li){
+  L={stage:si,lesson:li,step:0,phase:'learn',score:0,quiz:[]};
+  document.getElementById('lesson-modal').classList.add('open');
+  var t=STAGES[si].type;
+  if(t==='read'){ L.quiz=buildReadQuiz(si,li); showReadStep(); }
+  else{ L.quiz=buildItemQuiz(si,li); showItemStep(); }
+}
+function closeLesson(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  clearKaraoke();
+  document.getElementById('lesson-modal').classList.remove('open');
+  renderJourney();
+}
+function setProgressBar(){
+  var total=curItems().length+L.quiz.length;
+  var doneSteps=(L.phase==='learn') ? L.step : curItems().length+L.step;
+  document.getElementById('prog-fill').style.width=Math.round(doneSteps/Math.max(total,1)*100)+'%';
+}
+function micOrRepeatHtml(){
+  return (mode==='my' && SR)
+    ? '<button class="say-btn" onclick="listenAndCheck()">🎤 अब तुम बोलो!</button><div class="say-feedback" id="say-fb"></div>'
+    : '<div class="repeat-banner">🗣️ सब मिलकर बोलो!</div>';
+}
+
+/* ════════════════ LETTERS & BLEND — learn ════════════════ */
+function showItemStep(){
+  var items=curItems();
+  if(L.step>=items.length){ L.phase='quiz'; L.step=0; showItemQuizStep(); return; }
+  setProgressBar();
+  var it=items[L.step];
+  var isBlend = stageType()==='blend';
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="big-card">'+
+      (isBlend
+        ? '<div class="big-emoji">'+it.e+'</div><div class="anchor" style="font-size:1.6rem;">'+it.anchor+'</div><div class="blend-line">'+it.h+'</div>'
+        : '<div class="giant-letter">'+it.h+'</div><div class="anchor">'+it.anchor+' '+it.e+'</div>')+
+      '<div class="big-meaning">'+it.m+'</div>'+
+      '<button class="hear-btn" onclick="hearItem()">🔊 फिर सुनो · Hear again</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextItemStep()">आगे · Next ➜</button>';
+  sayTa(it.spk||it.h, null, true);
+}
+function hearItem(){
+  var it=curItems()[L.step];
+  sayTa(it.spk||it.h, null, true);
+}
+function nextItemStep(){ L.step++; showItemStep(); }
+
+function listenAndCheck(){
+  var fb=document.getElementById('say-fb');
+  if(!SR){ if(fb)fb.textContent='Listening not available here.'; return; }
+  var it = (L.phase==='learn') ? curItems()[L.step] : null;
+  var target = it ? (it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h) : '';
+  fb.textContent='👂 सुन रहा हूँ… बोलो: "'+target+'"';
+  fb.style.color='var(--sub)';
+  var rec=new SR();
+  rec.lang='hi-IN'; rec.interimResults=false; rec.maxAlternatives=3;
+  var answered=false;
+  rec.onresult=function(ev){
+    answered=true;
+    var heard='';
+    try{ heard=ev.results[0][0].transcript; }catch(e){}
+    if(heard.indexOf(target)>=0 || target.indexOf(heard)>=0){
+      fb.textContent='✅ शाबाश! बहुत बढ़िया!';
+      fb.style.color='var(--leaf)';
+      sayTa('शाबाश!');
+    }else{
+      fb.textContent='अच्छी कोशिश! मैंने सुना "'+heard+'" — फिर बोलो!';
+      fb.style.color='var(--coral)';
+    }
+  };
+  rec.onerror=function(){ if(!answered){ fb.textContent='सुन नहीं पाया। माइक देखो!'; fb.style.color='var(--coral)'; } };
+  rec.onend=function(){ if(!answered && fb.textContent.indexOf('सुन रहा')>=0){ fb.textContent='सुन नहीं पाया — फिर से!'; fb.style.color='var(--coral)'; } };
+  try{ rec.start(); }catch(e){ fb.textContent='माइक व्यस्त है।'; }
+}
+
+/* ════════════════ LETTERS & BLEND — quiz ════════════════ */
+function shuffle(arr){
+  for(var i=arr.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=arr[i];arr[i]=arr[j];arr[j]=t; }
+  return arr;
+}
+function quizFace(it){
+  /* what is shown on an option button + what must be tapped */
+  if(stageType()==='blend') return {big:'', word:it.h, emoji:it.e};
+  var shown = it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h;
+  return {big:shown, word:'', emoji:''};
+}
+function quizAudio(it){
+  if(it.q) return it.q;
+  if(stageType()==='blend') return it.h;
+  return it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h;
+}
+function buildItemQuiz(si,li){
+  var items=STAGES[si].lessons[li].items.slice();
+  var qs=shuffle(items.map(function(w){ return {answer:w}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(items.filter(function(w){ return w.h!==q.answer.h; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showItemQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var isBlend=stageType()==='blend';
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    var f=quizFace(o);
+    return '<button class="opt-btn'+(isBlend?' wide':'')+'" id="opt-'+i+'" onclick="pickItemOption('+i+')">'+
+      (f.emoji?'<div class="o-emoji">'+f.emoji+'</div>':'')+
+      (f.big?'<div class="o-letter">'+f.big+'</div>':'')+
+      (f.word?'<div class="o-word">'+f.word+'</div>':'')+
+      '</button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">👂 सुनो… सही पर क्लिक करो!<br/><span style="font-size:0.9rem;color:var(--sub);">Listen, then tap the right one!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:22px;" onclick="sayItemQuiz()">🔊 फिर सुनो</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayItemQuiz();
+}
+function sayItemQuiz(){ sayTa(quizAudio(L.quiz[L.step].answer), null, true); }
+function pickItemOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.h){
+    btn.classList.add('right'); L.score++; sayTa('सही जवाब!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayTa('जवाब है: '+quizAudio(q.answer));
+  }
+  setTimeout(function(){ L.step++; showItemQuizStep(); },1500);
+}
+
+/* ════════════════ SENTENCE READING (Level 7) ════════════════ */
+var karaokeTimers=[];
+function clearKaraoke(){
+  karaokeTimers.forEach(function(t){ clearTimeout(t); });
+  karaokeTimers=[];
+}
+function showReadStep(){
+  var items=curItems();
+  if(L.step>=items.length){ L.phase='quiz'; L.step=0; showReadQuizStep(); return; }
+  setProgressBar();
+  var it=items[L.step];
+  var words=it.h.split(' ');
+  var spans=words.map(function(w,i){ return '<span class="w" id="kw-'+i+'">'+w+'</span>'; }).join(' ');
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="sentence-box">'+
+      '<div class="sent-emoji">'+it.e+'</div>'+
+      '<div class="sentence-line" id="kline">'+spans+'</div>'+
+      '<div class="sent-mean">'+it.m+'</div>'+
+      '<button class="hear-btn" onclick="playKaraoke()">🔊 देखो, मैं पढ़ता हूँ!</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextReadStep()">मैंने पढ़ा! ➜</button>';
+  playKaraoke();
+}
+function playKaraoke(){
+  clearKaraoke();
+  var it=curItems()[L.step];
+  var words=it.h.split(' ');
+  var totalChars=it.h.length;
+  var per=Math.max(500, Math.round(3600/words.length)); /* rough per-word time at slow rate */
+  var elapsed=200;
+  words.forEach(function(w,i){
+    var dur=Math.max(450, Math.round(w.length/totalChars*3600));
+    karaokeTimers.push(setTimeout(function(){
+      for(var k=0;k<words.length;k++){
+        var el=document.getElementById('kw-'+k);
+        if(el) el.classList.toggle('lit', k===i);
+      }
+    }, elapsed));
+    elapsed+=dur;
+  });
+  karaokeTimers.push(setTimeout(function(){
+    for(var k=0;k<words.length;k++){
+      var el=document.getElementById('kw-'+k);
+      if(el) el.classList.remove('lit');
+    }
+  }, elapsed+300));
+  sayTa(it.h, null, true);
+}
+function nextReadStep(){ clearKaraoke(); L.step++; showReadStep(); }
+
+/* comprehension quiz: hear/see sentence → tap the matching picture */
+function buildReadQuiz(si,li){
+  var items=STAGES[si].lessons[li].items.slice();
+  var qs=shuffle(items.map(function(w){ return {answer:w}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(items.filter(function(w){ return w.h!==q.answer.h; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showReadQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn" id="opt-'+i+'" onclick="pickReadOption('+i+')">'+
+      '<div class="o-emoji" style="font-size:3.4rem;">'+o.e+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">पढ़ो: <br/><span style="color:var(--grape);font-size:1.6rem;">“'+q.answer.h+'”</span><br/>'+
+    '<span style="font-size:0.9rem;color:var(--sub);">सही चित्र पर क्लिक करो!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:20px;" onclick="sayReadQuiz()">🔊 सुनना है?</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+}
+function sayReadQuiz(){ sayTa(L.quiz[L.step].answer.h, null, true); }
+function pickReadOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.h){
+    btn.classList.add('right'); L.score++; sayTa('सही जवाब! तुमने पढ़ लिया!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayTa('वाक्य है: '+q.answer.h);
+  }
+  setTimeout(function(){ L.step++; showReadQuizStep(); },1600);
+}
+
+/* ════════════════ RESULT ════════════════ */
+function showResult(){
+  document.getElementById('prog-fill').style.width='100%';
+  var total=L.quiz.length||1;
+  var ratio=L.score/total;
+  var stars = ratio>=0.99?3 : ratio>=0.75?2 : ratio>=0.5?1 : 0;
+  var body=document.getElementById('lesson-body');
+  var lesson=curLesson();
+
+  if(stars>0){
+    var p=loadProgress();
+    var old=(p[lesson.id]&&p[lesson.id].stars)||0;
+    if(stars>old){ p[lesson.id]={stars:stars}; saveProgress(p); }
+    bumpStreak();
+    confettiBurst();
+    body.innerHTML=
+      '<div class="result-title">🎉 शाबाश! तुम पढ़ रहे हो!</div>'+
+      '<div class="result-stars">'+'⭐'.repeat(stars)+'<span style="opacity:0.25;">'+'⭐'.repeat(3-stars)+'</span></div>'+
+      '<div class="result-sub">'+total+' में से '+L.score+' सही!</div>'+
+      '<button class="next-btn" onclick="closeLesson()">मेरी राह पर वापस ➜</button>';
+    sayTa('शाबाश! तुमने '+stars+' सितारे जीते!');
+  }else{
+    body.innerHTML=
+      '<div class="result-title">💪 अच्छी कोशिश!</div>'+
+      '<div class="result-sub">'+total+' में से '+L.score+' सही। एक बार फिर!</div>'+
+      '<button class="next-btn" onclick="retryLesson()">फिर कोशिश करो ➜</button>'+
+      '<br/><button class="hear-btn" style="margin-top:14px;" onclick="closeLesson()">मेरी राह पर वापस</button>';
+    sayTa('अच्छी कोशिश! एक बार फिर पढ़ते हैं।');
+  }
+}
+function retryLesson(){ openLesson(L.stage,L.lesson); }
+
+function confettiBurst(){
+  var emojis=['🎉','⭐','🎊','✨','📕','🪷'];
+  for(var i=0;i<24;i++){
+    var el=document.createElement('div');
+    el.className='confetti-piece';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(node){ return function(){ node.remove(); }; }(el), 4500);
+  }
+}
+
+/* ════════════════ START ════════════════ */
+if(SCHOOL && SCHOOL.name){ var tbs=document.getElementById('tb-school'); if(tbs) tbs.textContent=SCHOOL.name; }
+renderModeBtn();
+renderJourney();
+window.addEventListener('resize', renderJourney);
+</script>
+</body>
+</html>

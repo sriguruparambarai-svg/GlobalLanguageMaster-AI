@@ -44,6 +44,12 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .trd{box-shadow:0 10px 0 #5C2E78;}
 .trd h2{color:#7B3FA0;}
 .trd .go{background:#7B3FA0;box-shadow:0 4px 0 #5C2E78;}
+.erd{box-shadow:0 10px 0 #1F5E3C;}
+.erd h2{color:#2E8B57;}
+.erd .go{background:#2E8B57;box-shadow:0 4px 0 #1F5E3C;}
+.hrd{box-shadow:0 10px 0 #8E1246;}
+.hrd h2{color:#C2185B;}
+.hrd .go{background:#C2185B;box-shadow:0 4px 0 #8E1246;}
 .none{max-width:420px;margin:20px auto 0;background:#fff;border-radius:20px;padding:26px;text-align:center;
   font-weight:700;color:var(--sub);box-shadow:0 6px 0 #EADFC8;}
 </style>
@@ -100,6 +106,18 @@ if(SCHOOL){
       '<div class="big">\uD83D\uDDFC</div><h2>French Journey</h2>'+
       '<p>Fran\u00E7ais \u2014 spoken French step by step</p>'+
       '<span class="go">Start French \u279C</span></button>';
+  }
+  if(SCHOOL.has_english){
+    html+='<button class="lang-card erd" onclick="location.href=\'english-reading.html\'">'+
+      '<div class="big">\uD83D\uDCD7</div><h2>English Reading</h2>'+
+      '<p>Phonics fun \u2014 alphabets to sentences</p>'+
+      '<span class="go">Start Phonics \u279C</span></button>';
+  }
+  if(SCHOOL.has_hindi){
+    html+='<button class="lang-card hrd" onclick="location.href=\'hindi-reading.html\'">'+
+      '<div class="big">\uD83D\uDCD5</div><h2>Hindi Reading</h2>'+
+      '<p>\u092A\u0922\u093C\u0928\u093E \u0938\u0940\u0916\u0947\u0902 \u2014 alphabets to sentences</p>'+
+      '<span class="go">Start Reading \u279C</span></button>';
   }
   if(SCHOOL.has_tamil){
     html+='<button class="lang-card trd" onclick="location.href=\'tamil-reading.html\'">'+
