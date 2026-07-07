@@ -1,38 +1,1021 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hindi Journey — Global Language Master</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"/>
+<title>My Hindi Journey — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root{--lotus:#E85D9A;--lotus-dark:#C13E77;--cream:#FFF9EF;--ink:#27323A;--sub:#5F7078;--mango:#FFB627;--mango-dark:#E89B00;}
+:root{
+  --lotus:#E85D9A; --lotus-dark:#C13E77; --lotus-soft:#FCE7F1;
+  --mango:#FFB627; --mango-dark:#E89B00; --mango-soft:#FFF3D6;
+  --leaf:#57A639; --leaf-soft:#E9F5E1;
+  --teal:#0E7C7B; --teal-dark:#095C5B;
+  --coral:#FF6B57;
+  --cream:#FFF9EF; --ink:#27323A; --sub:#5F7078;
+  --locked:#C9D2D6;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;
-  display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink);}
-.card{background:#fff;border-radius:26px;padding:44px 36px;max-width:440px;width:100%;
-  text-align:center;box-shadow:0 10px 0 #EADFC8;}
-.big{font-size:4.5rem;}
-h1{font-family:"Baloo 2",cursive;font-size:1.7rem;font-weight:800;color:var(--lotus);margin-top:8px;}
-p{font-weight:700;color:var(--sub);margin-top:10px;line-height:1.6;}
-.back{display:inline-block;margin-top:24px;background:var(--mango);color:var(--ink);border-radius:999px;
-  padding:13px 32px;font-family:"Baloo 2",cursive;font-size:1.1rem;font-weight:800;text-decoration:none;
-  box-shadow:0 5px 0 var(--mango-dark);}
+html,body{height:100%;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);color:var(--ink);}
+
+.topbar{position:sticky;top:0;z-index:50;background:var(--lotus);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:12px 18px;
+  box-shadow:0 4px 18px rgba(232,93,154,0.35);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .lotus{font-size:2rem;}
+.brand h1{font-family:"Baloo 2",cursive;font-size:1.25rem;font-weight:800;line-height:1.1;}
+.brand small{display:block;font-weight:600;font-size:0.7rem;opacity:0.85;}
+.top-stats{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.28);
+  border-radius:999px;padding:6px 14px;font-weight:800;font-size:0.9rem;display:flex;gap:6px;align-items:center;}
+.mode-toggle{cursor:pointer;user-select:none;background:var(--mango);color:var(--ink);border:none;}
+.mode-toggle:hover{background:var(--mango-dark);color:#fff;}
+.home-link{color:#fff;text-decoration:none;font-weight:800;font-size:0.85rem;
+  border-bottom:2px dashed rgba(255,255,255,0.5);padding-bottom:1px;}
+.home-link:hover{border-bottom-style:solid;}
+
+.journey-wrap{max-width:560px;margin:0 auto;padding:26px 16px 90px;position:relative;}
+.stage-banner{background:var(--lotus);color:#fff;border-radius:18px;padding:14px 20px;
+  margin:34px 0 10px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 6px 0 var(--lotus-dark);}
+.stage-banner.locked{background:var(--locked);box-shadow:0 6px 0 #AEB9BE;color:#5F7078;}
+.stage-banner .st-emoji{font-size:1.9rem;}
+.stage-banner .st-name{font-family:"Baloo 2",cursive;font-size:1.12rem;font-weight:800;}
+.stage-banner .st-sub{font-size:0.78rem;font-weight:700;opacity:0.9;}
+
+.path-block{position:relative;}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.path-svg path{fill:none;stroke:var(--mango);stroke-width:7;stroke-linecap:round;stroke-dasharray:1 18;}
+.node-row{position:relative;height:112px;display:flex;align-items:center;}
+.node{position:relative;width:84px;height:84px;border-radius:50%;border:none;cursor:pointer;
+  font-size:2rem;display:flex;align-items:center;justify-content:center;
+  background:var(--leaf);box-shadow:0 7px 0 #3E7A28;transition:transform 0.12s;}
+.node:active{transform:translateY(4px);box-shadow:0 3px 0 #3E7A28;}
+.node .node-label{position:absolute;top:100%;margin-top:12px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-weight:800;font-size:0.8rem;color:var(--ink);
+  background:#fff;border-radius:999px;padding:3px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.node .stars{position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:0.85rem;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.node.current{background:var(--mango);box-shadow:0 7px 0 var(--mango-dark);animation:pulse 1.6s infinite;}
+.node.current:active{box-shadow:0 3px 0 var(--mango-dark);}
+.node.locked{background:var(--locked);box-shadow:0 7px 0 #AEB9BE;cursor:not-allowed;filter:grayscale(0.4);}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+.mascot{position:absolute;font-size:2.2rem;top:-46px;left:50%;transform:translateX(-50%);
+  animation:bob 1.4s ease-in-out infinite;pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+
+.lesson-modal{position:fixed;inset:0;background:var(--cream);z-index:100;display:none;
+  flex-direction:column;overflow-y:auto;}
+.lesson-modal.open{display:flex;}
+.lesson-top{display:flex;align-items:center;gap:14px;padding:14px 18px;}
+.close-btn{background:none;border:none;font-size:1.7rem;cursor:pointer;color:var(--sub);font-weight:800;}
+.progress-track{flex:1;height:16px;background:#EADFC8;border-radius:999px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:var(--leaf);border-radius:999px;transition:width 0.35s;}
+.lesson-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 20px 30px;text-align:center;}
+
+.big-card{background:#fff;border-radius:26px;padding:32px 28px;max-width:480px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.big-emoji{font-size:5.4rem;line-height:1;}
+.big-hindi{font-family:"Baloo 2",cursive;font-size:2.4rem;font-weight:800;color:var(--lotus);margin-top:8px;line-height:1.3;}
+.big-translit{font-size:1.25rem;font-weight:800;color:var(--teal);margin-top:4px;}
+.big-meaning{font-size:1rem;font-weight:700;color:var(--sub);margin-top:4px;}
+.qa-q{font-family:"Baloo 2",cursive;font-size:1.4rem;font-weight:800;color:var(--coral);line-height:1.35;}
+.qa-a{font-family:"Baloo 2",cursive;font-size:1.6rem;font-weight:800;color:var(--lotus);margin-top:12px;line-height:1.35;}
+.qa-sub{font-size:0.95rem;font-weight:800;color:var(--teal);}
+.qa-mean{font-size:0.85rem;font-weight:700;color:var(--sub);}
+.qa-tag{display:inline-block;font-size:0.72rem;font-weight:800;letter-spacing:1px;
+  color:#fff;border-radius:999px;padding:3px 12px;margin-bottom:6px;}
+.hear-btn{margin-top:16px;background:var(--teal);color:#fff;border:none;border-radius:999px;
+  padding:13px 30px;font-family:"Baloo 2",cursive;font-size:1.1rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 var(--teal-dark);}
+.hear-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--teal-dark);}
+.say-btn{margin-top:12px;background:var(--coral);color:#fff;border:none;border-radius:999px;
+  padding:13px 30px;font-family:"Baloo 2",cursive;font-size:1.1rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 #C74936;display:inline-block;}
+.say-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #C74936;}
+.say-feedback{margin-top:12px;font-weight:800;font-size:1rem;min-height:26px;}
+.repeat-banner{margin-top:16px;background:var(--mango-soft);border:3px dashed var(--mango);
+  border-radius:18px;padding:14px 20px;font-family:"Baloo 2",cursive;font-size:1.2rem;
+  font-weight:800;color:var(--mango-dark);animation:pulse 1.2s infinite;}
+.next-btn{margin-top:24px;background:var(--leaf);color:#fff;border:none;border-radius:999px;
+  padding:15px 46px;font-family:"Baloo 2",cursive;font-size:1.25rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 0 #3E7A28;}
+.next-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #3E7A28;}
+
+.quiz-question{font-family:"Baloo 2",cursive;font-size:1.35rem;font-weight:800;color:var(--ink);margin-bottom:18px;max-width:560px;line-height:1.4;}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:660px;}
+.opt-btn{background:#fff;border:4px solid #EADFC8;border-radius:22px;cursor:pointer;
+  width:170px;padding:18px 10px;font-family:"Nunito",sans-serif;transition:transform 0.1s;}
+.opt-btn.wide{width:290px;padding:16px;}
+.opt-btn:hover{transform:translateY(-4px);border-color:var(--mango);}
+.opt-btn .o-emoji{font-size:2.8rem;}
+.opt-btn .o-hindi{font-weight:800;font-size:1.15rem;margin-top:6px;color:var(--lotus);}
+.opt-btn .o-translit{font-weight:800;font-size:0.85rem;color:var(--teal);}
+.opt-btn.right{border-color:var(--leaf);background:var(--leaf-soft);}
+.opt-btn.wrong{border-color:var(--coral);background:#FFE9E5;animation:shake 0.4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+.dialog-box{max-width:520px;width:100%;display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+.d-line{max-width:88%;padding:12px 18px;border-radius:18px;font-weight:700;font-size:1rem;text-align:left;}
+.d-line.a{background:#fff;box-shadow:0 4px 0 #EADFC8;align-self:flex-start;border-bottom-left-radius:4px;}
+.d-line.b{background:var(--lotus);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;box-shadow:0 4px 0 var(--lotus-dark);}
+.d-who{font-size:0.7rem;font-weight:800;opacity:0.75;letter-spacing:0.5px;margin-bottom:2px;}
+.d-h{font-size:1.1rem;font-weight:800;}
+.d-t{font-size:0.82rem;font-weight:800;opacity:0.85;}
+.d-m{font-size:0.75rem;font-weight:700;opacity:0.7;}
+.your-turn{background:var(--mango-soft);border:3px dashed var(--mango);border-radius:18px;
+  padding:14px 20px;max-width:520px;width:100%;}
+.your-turn .yt-label{font-size:0.8rem;font-weight:800;color:var(--mango-dark);letter-spacing:1px;}
+.your-turn .yt-h{font-family:"Baloo 2",cursive;font-size:1.35rem;font-weight:800;color:var(--ink);margin-top:4px;}
+.your-turn .yt-t{font-size:1rem;font-weight:800;color:var(--teal);}
+.your-turn .yt-m{font-size:0.85rem;font-weight:700;color:var(--sub);}
+
+.chat-wrap{max-width:560px;width:100%;display:flex;flex-direction:column;height:100%;flex:1;}
+.chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 2px 14px;min-height:220px;}
+.c-msg{max-width:88%;padding:12px 16px;border-radius:18px;font-weight:700;font-size:1rem;text-align:left;white-space:pre-wrap;}
+.c-msg.ai{background:#fff;box-shadow:0 4px 0 #EADFC8;align-self:flex-start;border-bottom-left-radius:4px;}
+.c-msg.me{background:var(--lotus);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;box-shadow:0 4px 0 var(--lotus-dark);}
+.c-msg.think{color:var(--sub);font-style:italic;background:#fff;align-self:flex-start;}
+.chat-input-row{display:flex;gap:8px;padding:10px 0 4px;}
+.chat-input{flex:1;border:3px solid #EADFC8;border-radius:999px;padding:12px 18px;font-size:1.02rem;
+  font-family:"Nunito",sans-serif;font-weight:700;outline:none;}
+.chat-input:focus{border-color:var(--lotus);}
+.chat-send{background:var(--lotus);color:#fff;border:none;border-radius:999px;padding:0 24px;
+  font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--lotus-dark);}
+.chat-mic{background:var(--coral);color:#fff;border:none;border-radius:50%;width:50px;height:50px;
+  font-size:1.3rem;cursor:pointer;box-shadow:0 4px 0 #C74936;}
+.chat-goal{font-size:0.85rem;font-weight:800;color:var(--sub);padding:4px 0;}
+
+.result-stars{font-size:4rem;letter-spacing:8px;margin:10px 0;}
+.result-title{font-family:"Baloo 2",cursive;font-size:1.9rem;font-weight:800;color:var(--lotus);}
+.result-sub{font-weight:700;color:var(--sub);margin-top:6px;font-size:1.05rem;}
+.confetti-piece{position:fixed;top:-30px;font-size:1.6rem;z-index:200;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0.6;}}
+
+@media (max-width:600px){
+  .brand h1{font-size:0.95rem;}
+  .pill{padding:5px 10px;font-size:0.8rem;}
+  .opt-btn{width:135px;}
+  .opt-btn.wide{width:100%;}
+  .big-emoji{font-size:4.2rem;}
+  .big-hindi{font-size:1.9rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  .node.current,.mascot,.repeat-banner{animation:none;}
+}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="big">🪷</div>
-  <h1>Hindi Journey — जल्द आ रहा है!</h1>
-  <p>The Hindi Journey is being prepared with the same fun path, stars and games.<br/>It will open here very soon!</p>
-  <a class="back" href="home.html">🏠 Back to Home</a>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="lotus">🪷</span>
+    <h1>My Hindi Journey — मेरी हिंदी यात्रा<small id="tb-school">Global Language Master</small></h1>
+  </div>
+  <div class="top-stats">
+    <div class="pill" title="Days practiced in a row">🔥 <span id="streak-count">0</span></div>
+    <div class="pill" title="Hindi stars earned">⭐ <span id="star-count">0</span></div>
+    <button class="pill mode-toggle" id="mode-btn" onclick="toggleMode()" title="Class mode (projector) or My mode (headset)">🏫 Class Mode</button>
+    <a class="home-link" href="home.html">🏠 Home</a>
+  </div>
 </div>
+
+<div class="journey-wrap" id="journey"></div>
+
+<div class="lesson-modal" id="lesson-modal">
+  <div class="lesson-top">
+    <button class="close-btn" onclick="closeLesson()" title="Close lesson">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+</div>
+
 <script>
 'use strict';
+
+/* ── school login guard ── */
 var SCHOOL=null;
 try{ SCHOOL=JSON.parse(localStorage.getItem('glm_school')||'null'); }catch(e){}
 if(!SCHOOL || !SCHOOL.code){ location.href='index.html'; }
 else if(!SCHOOL.has_hindi){ location.href='home.html'; }
+
+/* ════════════════ HINDI LESSON CONTENT ════════════════
+   Every item: h = Hindi, t = English letters, m = meaning, e = picture */
+var STAGES=[
+  { id:'h1', emoji:'🌱', name:'Stage 1 · पहले शब्द (First Words)', sub:'Everyday Hindi words', type:'words',
+    lessons:[
+      {id:'h1l1', emoji:'🍎', label:'फल · Fruits', words:[
+        {h:'सेब', t:'seb', m:'apple', e:'🍎'},
+        {h:'केला', t:'kela', m:'banana', e:'🍌'},
+        {h:'आम', t:'aam', m:'mango', e:'🥭'},
+        {h:'अंगूर', t:'angoor', m:'grapes', e:'🍇'},
+        {h:'संतरा', t:'santara', m:'orange', e:'🍊'}
+      ]},
+      {id:'h1l2', emoji:'🐘', label:'जानवर · Animals', words:[
+        {h:'बिल्ली', t:'billi', m:'cat', e:'🐱'},
+        {h:'कुत्ता', t:'kutta', m:'dog', e:'🐶'},
+        {h:'हाथी', t:'haathi', m:'elephant', e:'🐘'},
+        {h:'शेर', t:'sher', m:'lion', e:'🦁'},
+        {h:'गाय', t:'gaay', m:'cow', e:'🐮'}
+      ]},
+      {id:'h1l3', emoji:'🎨', label:'रंग · Colours', words:[
+        {h:'लाल', t:'laal', m:'red', e:'🔴'},
+        {h:'नीला', t:'neela', m:'blue', e:'🔵'},
+        {h:'हरा', t:'hara', m:'green', e:'🟢'},
+        {h:'पीला', t:'peela', m:'yellow', e:'🟡'},
+        {h:'काला', t:'kaala', m:'black', e:'⚫'}
+      ]},
+      {id:'h1l4', emoji:'🔢', label:'गिनती · Numbers', words:[
+        {h:'एक', t:'ek', m:'one', e:'1️⃣'},
+        {h:'दो', t:'do', m:'two', e:'2️⃣'},
+        {h:'तीन', t:'teen', m:'three', e:'3️⃣'},
+        {h:'चार', t:'chaar', m:'four', e:'4️⃣'},
+        {h:'पाँच', t:'paanch', m:'five', e:'5️⃣'}
+      ]},
+      {id:'h1l5', emoji:'👨‍👩‍👧', label:'परिवार · Family', words:[
+        {h:'माँ', t:'maa', m:'mother', e:'👩'},
+        {h:'पिता', t:'pita', m:'father', e:'👨'},
+        {h:'भाई', t:'bhai', m:'brother', e:'👦'},
+        {h:'बहन', t:'behen', m:'sister', e:'👧'},
+        {h:'दादी', t:'daadi', m:'grandmother', e:'👵'}
+      ]},
+      {id:'h1l6', emoji:'🙋', label:'शरीर · My Body', words:[
+        {h:'आँख', t:'aankh', m:'eye', e:'👁️'},
+        {h:'कान', t:'kaan', m:'ear', e:'👂'},
+        {h:'नाक', t:'naak', m:'nose', e:'👃'},
+        {h:'हाथ', t:'haath', m:'hand', e:'✋'},
+        {h:'पैर', t:'pair', m:'leg', e:'🦵'}
+      ]}
+    ]
+  },
+
+  { id:'h2', emoji:'💬', name:'Stage 2 · छोटे वाक्य (Small Sentences)', sub:'Little sentences about me', type:'words',
+    lessons:[
+      {id:'h2l1', emoji:'🙂', label:'मैं… · I am…', words:[
+        {h:'मैं खुश हूँ।', t:'main khush hoon', m:'I am happy.', e:'😄'},
+        {h:'मैं ठीक हूँ।', t:'main theek hoon', m:'I am fine.', e:'👍'},
+        {h:'मैं तैयार हूँ।', t:'main taiyaar hoon', m:'I am ready.', e:'✅'},
+        {h:'मैं भूखा हूँ।', t:'main bhookha hoon', m:'I am hungry.', e:'🍛'},
+        {h:'मैं छात्र हूँ।', t:'main chhaatra hoon', m:'I am a student.', e:'🧑‍🎓'}
+      ]},
+      {id:'h2l2', emoji:'👉', label:'यह… · This is…', words:[
+        {h:'यह मेरा बस्ता है।', t:'yah mera basta hai', m:'This is my bag.', e:'🎒'},
+        {h:'यह मेरी किताब है।', t:'yah meri kitaab hai', m:'This is my book.', e:'📖'},
+        {h:'यह मेरा घर है।', t:'yah mera ghar hai', m:'This is my house.', e:'🏠'},
+        {h:'यह मेरा स्कूल है।', t:'yah mera school hai', m:'This is my school.', e:'🏫'},
+        {h:'यह मेरा दोस्त है।', t:'yah mera dost hai', m:'This is my friend.', e:'🤝'}
+      ]},
+      {id:'h2l3', emoji:'❤️', label:'मुझे पसंद है · I like', words:[
+        {h:'मुझे आम पसंद है।', t:'mujhe aam pasand hai', m:'I like mangoes.', e:'🥭'},
+        {h:'मुझे खेल पसंद है।', t:'mujhe khel pasand hai', m:'I like games.', e:'⚽'},
+        {h:'मुझे गाना पसंद है।', t:'mujhe gaana pasand hai', m:'I like songs.', e:'🎵'},
+        {h:'मुझे रंग पसंद हैं।', t:'mujhe rang pasand hain', m:'I like colours.', e:'🎨'},
+        {h:'मुझे पढ़ना पसंद है।', t:'mujhe padhna pasand hai', m:'I like reading.', e:'📚'}
+      ]},
+      {id:'h2l4', emoji:'🤲', label:'मेरे पास · I have', words:[
+        {h:'मेरे पास दो आँखें हैं।', t:'mere paas do aankhen hain', m:'I have two eyes.', e:'👀'},
+        {h:'मेरे पास पेंसिल है।', t:'mere paas pencil hai', m:'I have a pencil.', e:'✏️'},
+        {h:'मेरे पास छाता है।', t:'mere paas chhaata hai', m:'I have an umbrella.', e:'☔'},
+        {h:'मेरे पास बहन है।', t:'mere paas behen hai', m:'I have a sister.', e:'👧'},
+        {h:'मेरे पास लाल बस्ता है।', t:'mere paas laal basta hai', m:'I have a red bag.', e:'🎒'}
+      ]},
+      {id:'h2l5', emoji:'💪', label:'मैं सकता हूँ · I can', words:[
+        {h:'मैं दौड़ सकता हूँ।', t:'main daud sakta hoon', m:'I can run.', e:'🏃'},
+        {h:'मैं पढ़ सकता हूँ।', t:'main padh sakta hoon', m:'I can read.', e:'📚'},
+        {h:'मैं गा सकता हूँ।', t:'main gaa sakta hoon', m:'I can sing.', e:'🎤'},
+        {h:'मैं कूद सकता हूँ।', t:'main kood sakta hoon', m:'I can jump.', e:'🦘'},
+        {h:'मैं लिख सकता हूँ।', t:'main likh sakta hoon', m:'I can write.', e:'✍️'}
+      ]}
+    ]
+  },
+
+  { id:'h3', emoji:'❓', name:'Stage 3 · सवाल-जवाब (Questions & Answers)', sub:'Ask and answer in Hindi', type:'qa',
+    lessons:[
+      {id:'h3l1', emoji:'🙋', label:'मेरे बारे में · About Me', qa:[
+        {q:'आपका नाम क्या है?', qt:'aapka naam kya hai?', a:'मेरा नाम रवि है।', at:'mera naam Ravi hai', m:'What is your name? — My name is Ravi.', e:'🙋', key:'नाम'},
+        {q:'आप कैसे हैं?', qt:'aap kaise hain?', a:'मैं ठीक हूँ, धन्यवाद।', at:'main theek hoon, dhanyavaad', m:'How are you? — I am fine, thank you.', e:'😊', key:'ठीक'},
+        {q:'आपकी उम्र क्या है?', qt:'aapki umra kya hai?', a:'मैं सात साल का हूँ।', at:'main saat saal ka hoon', m:'How old are you? — I am seven years old.', e:'🎂', key:'साल'},
+        {q:'आप कहाँ रहते हैं?', qt:'aap kahaan rehte hain?', a:'मैं चेन्नई में रहता हूँ।', at:'main Chennai mein rehta hoon', m:'Where do you live? — I live in Chennai.', e:'🏠', key:'रहता'},
+        {q:'आप किस कक्षा में हैं?', qt:'aap kis kaksha mein hain?', a:'मैं कक्षा दो में हूँ।', at:'main kaksha do mein hoon', m:'Which class are you in? — I am in Class Two.', e:'🏫', key:'कक्षा'}
+      ]},
+      {id:'h3l2', emoji:'🏫', label:'स्कूल में · At School', qa:[
+        {q:'यह क्या है?', qt:'yah kya hai?', a:'यह किताब है।', at:'yah kitaab hai', m:'What is this? — It is a book.', e:'📖', key:'किताब'},
+        {q:'वह कौन हैं?', qt:'vah kaun hain?', a:'वह मेरी टीचर हैं।', at:'vah meri teacher hain', m:'Who is she? — She is my teacher.', e:'👩‍🏫', key:'टीचर'},
+        {q:'क्या मैं अंदर आ सकता हूँ?', qt:'kya main andar aa sakta hoon?', a:'हाँ, आइए।', at:'haan, aaiye', m:'May I come in? — Yes, please come.', e:'🚪', key:'आइए'},
+        {q:'क्या मैं पानी पी सकता हूँ?', qt:'kya main paani pee sakta hoon?', a:'हाँ, पी लो।', at:'haan, pee lo', m:'May I drink water? — Yes, drink.', e:'💧', key:'पी'},
+        {q:'क्या तुमने काम पूरा किया?', qt:'kya tumne kaam poora kiya?', a:'हाँ जी, पूरा किया।', at:'haan ji, poora kiya', m:'Did you finish the work? — Yes, I finished it.', e:'✅', key:'पूरा'}
+      ]},
+      {id:'h3l3', emoji:'🏠', label:'घर पर · At Home', qa:[
+        {q:'वह कौन है?', qt:'vah kaun hai?', a:'वह मेरे पिता हैं।', at:'vah mere pita hain', m:'Who is he? — He is my father.', e:'👨', key:'पिता'},
+        {q:'माँ क्या कर रही हैं?', qt:'maa kya kar rahi hain?', a:'वह खाना बना रही हैं।', at:'vah khaana bana rahi hain', m:'What is mother doing? — She is cooking.', e:'🍳', key:'खाना'},
+        {q:'आपका बस्ता कहाँ है?', qt:'aapka basta kahaan hai?', a:'वह मेज़ पर है।', at:'vah mez par hai', m:'Where is your bag? — It is on the table.', e:'🎒', key:'मेज़'},
+        {q:'आपको क्या चाहिए?', qt:'aapko kya chaahiye?', a:'मुझे पानी चाहिए।', at:'mujhe paani chaahiye', m:'What do you want? — I want water.', e:'💧', key:'पानी'},
+        {q:'आप कब सोते हैं?', qt:'aap kab sote hain?', a:'मैं नौ बजे सोता हूँ।', at:'main nau baje sota hoon', m:'When do you sleep? — I sleep at nine.', e:'😴', key:'नौ'}
+      ]},
+      {id:'h3l4', emoji:'🍛', label:'खाने की बातें · Food Talk', qa:[
+        {q:'आपका पसंदीदा फल क्या है?', qt:'aapka pasandeeda phal kya hai?', a:'मुझे आम पसंद है।', at:'mujhe aam pasand hai', m:'Favourite fruit? — I like mangoes.', e:'🥭', key:'आम'},
+        {q:'क्या आपने खाना खाया?', qt:'kya aapne khaana khaaya?', a:'हाँ, मैंने चावल खाया।', at:'haan, maine chaawal khaaya', m:'Did you eat? — Yes, I ate rice.', e:'🍚', key:'चावल'},
+        {q:'क्या यह स्वादिष्ट है?', qt:'kya yah swaadisht hai?', a:'हाँ, बहुत स्वादिष्ट है।', at:'haan, bahut swaadisht hai', m:'Is it tasty? — Yes, very tasty.', e:'😋', key:'स्वादिष्ट'},
+        {q:'आप क्या खाना चाहते हैं?', qt:'aap kya khaana chaahte hain?', a:'मुझे इडली चाहिए।', at:'mujhe idli chaahiye', m:'What do you want to eat? — I want idli.', e:'🥟', key:'इडली'},
+        {q:'क्या आपको भूख लगी है?', qt:'kya aapko bhookh lagi hai?', a:'हाँ, मुझे भूख लगी है।', at:'haan, mujhe bhookh lagi hai', m:'Are you hungry? — Yes, I am hungry.', e:'🍛', key:'भूख'}
+      ]}
+    ]
+  },
+
+  { id:'h4', emoji:'🗣️', name:'Stage 4 · बातचीत (Talking Time)', sub:'Real Hindi conversations', type:'dialog',
+    lessons:[
+      {id:'h4l1', emoji:'🛒', label:'दुकान पर · At the Shop', whoA:'दुकानदार (Shopkeeper)', whoB:'आप (You)', lines:[
+        {who:'A', h:'नमस्ते! क्या चाहिए?', t:'namaste! kya chaahiye?', m:'Hello! What do you want?'},
+        {who:'B', h:'मुझे एक पेंसिल चाहिए।', t:'mujhe ek pencil chaahiye', m:'I want a pencil.'},
+        {who:'A', h:'यह लीजिए। दस रुपये।', t:'yah leejiye. das rupaye', m:'Here it is. Ten rupees.'},
+        {who:'B', h:'यह पैसे लीजिए। धन्यवाद!', t:'yah paise leejiye. dhanyavaad!', m:'Here is the money. Thank you!'},
+        {who:'A', h:'फिर आइए!', t:'phir aaiye!', m:'Come again!'},
+        {who:'B', h:'ज़रूर! नमस्ते!', t:'zaroor! namaste!', m:'Sure! Bye!'}
+      ]},
+      {id:'h4l2', emoji:'🤝', label:'दोस्त से · With a Friend', whoA:'दोस्त (Friend)', whoB:'आप (You)', lines:[
+        {who:'A', h:'नमस्ते! कैसे हो?', t:'namaste! kaise ho?', m:'Hi! How are you?'},
+        {who:'B', h:'मैं ठीक हूँ। तुम कैसे हो?', t:'main theek hoon. tum kaise ho?', m:'I am fine. How are you?'},
+        {who:'A', h:'मैं भी ठीक हूँ। कहाँ जा रहे हो?', t:'main bhi theek hoon. kahaan ja rahe ho?', m:'I am fine too. Where are you going?'},
+        {who:'B', h:'मैं स्कूल जा रहा हूँ।', t:'main school ja raha hoon', m:'I am going to school.'},
+        {who:'A', h:'चलो साथ चलें!', t:'chalo saath chalen!', m:'Let us go together!'},
+        {who:'B', h:'हाँ, चलो!', t:'haan, chalo!', m:'Yes, come on!'}
+      ]},
+      {id:'h4l3', emoji:'👩‍🏫', label:'कक्षा में · In the Classroom', whoA:'टीचर (Teacher)', whoB:'आप (You)', lines:[
+        {who:'A', h:'सुप्रभात, बच्चों!', t:'suprabhaat, bachchon!', m:'Good morning, children!'},
+        {who:'B', h:'सुप्रभात, टीचर जी!', t:'suprabhaat, teacher ji!', m:'Good morning, teacher!'},
+        {who:'A', h:'क्या तुमने गृहकार्य किया?', t:'kya tumne grihakaarya kiya?', m:'Did you do your homework?'},
+        {who:'B', h:'हाँ जी, यह रहा।', t:'haan ji, yah raha', m:'Yes, here it is.'},
+        {who:'A', h:'बहुत अच्छे! बैठ जाओ।', t:'bahut achchhe! baith jao', m:'Very good! Sit down.'},
+        {who:'B', h:'धन्यवाद, टीचर जी।', t:'dhanyavaad, teacher ji', m:'Thank you, teacher.'}
+      ]}
+    ]
+  },
+
+  { id:'h5', emoji:'🌟', name:'Stage 5 · खुलकर बोलो (Free Talk)', sub:'Talk with your AI Hindi teacher!', type:'chat',
+    lessons:[
+      {id:'h5l1', emoji:'🌞', label:'मेरा दिन · My Day', topic:'the student\u2019s day at school and home'},
+      {id:'h5l2', emoji:'💖', label:'पसंदीदा चीज़ें · Favourites', topic:'the student\u2019s favourite food, games, animals and colours'},
+      {id:'h5l3', emoji:'🎈', label:'खुली बातें · Free Chat', topic:'anything the student wants to talk about'}
+    ]
+  }
+];
+
+/* ════════════════ PROGRESS (Hindi has its own stars; streak is shared) ════════════════ */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('glmh_progress')||'{}'); }catch(e){ return {}; }
+}
+function saveProgress(p){ try{ localStorage.setItem('glmh_progress',JSON.stringify(p)); }catch(e){} }
+function totalStars(){
+  var p=loadProgress(),t=0,k;
+  for(k in p){ if(p[k] && p[k].stars) t+=p[k].stars; }
+  return t;
+}
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function yesterdayStr(){
+  var y=new Date(); y.setDate(y.getDate()-1);
+  return y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+}
+function bumpStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  var today=todayStr();
+  if(s.last!==today){
+    s.count = (s.last===yesterdayStr()) ? (s.count||0)+1 : 1;
+    s.last=today;
+    try{ localStorage.setItem('glm_streak',JSON.stringify(s)); }catch(e){}
+  }
+  return s.count||0;
+}
+function currentStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  if(!s.last) return 0;
+  return (s.last===todayStr()||s.last===yesterdayStr()) ? (s.count||0) : 0;
+}
+
+/* ════════════════ MODE ════════════════ */
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+var mode = localStorage.getItem('glm_mode') || (SR ? 'my' : 'class');
+function toggleMode(){
+  mode = (mode==='class') ? 'my' : 'class';
+  if(mode==='my' && !SR){
+    alert('This computer/browser cannot listen to speech.\nClass Mode will be used — everyone repeats aloud together!');
+    mode='class';
+  }
+  try{ localStorage.setItem('glm_mode',mode); }catch(e){}
+  renderModeBtn();
+}
+function renderModeBtn(){
+  var b=document.getElementById('mode-btn');
+  b.textContent = (mode==='class') ? '🏫 Class Mode' : '🎧 My Mode';
+}
+
+/* ════════════════ HINDI VOICE ════════════════ */
+var hiVoice=null;
+function pickVoice(){
+  var vs=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  var i;
+  hiVoice=null;
+  for(i=0;i<vs.length;i++){ if(/hi[-_]IN/i.test(vs[i].lang)){ hiVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/^hi/i.test(vs[i].lang)){ hiVoice=vs[i]; return; } }
+}
+if(window.speechSynthesis){
+  pickVoice();
+  window.speechSynthesis.onvoiceschanged=pickVoice;
+}
+/* Speak Hindi text; if no Hindi voice on this computer, speak the English-letter version instead */
+function sayHi(hText, tText, cb){
+  if(!window.speechSynthesis){ if(cb)cb(); return; }
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(hiVoice ? hText : (tText||hText));
+  if(hiVoice){ u.voice=hiVoice; u.lang='hi-IN'; }
+  u.rate=0.8; u.pitch=1.05;
+  if(cb) u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+
+/* ════════════════ UNLOCK RULES ════════════════ */
+function stageComplete(si){
+  var p=loadProgress();
+  return STAGES[si].lessons.every(function(l){ return p[l.id] && p[l.id].stars>0; });
+}
+function stageUnlocked(si){
+  if(si===0) return true;
+  return stageComplete(si-1);
+}
+function lessonUnlocked(si, li){
+  if(!stageUnlocked(si)) return false;
+  if(li===0) return true;
+  var prev=STAGES[si].lessons[li-1];
+  var p=loadProgress();
+  return !!(p[prev.id] && p[prev.id].stars>0);
+}
+
+/* ════════════════ PATH RENDERING ════════════════ */
+function renderJourney(){
+  var wrap=document.getElementById('journey');
+  wrap.innerHTML='';
+  var p=loadProgress();
+  var mascotPlaced=false;
+
+  STAGES.forEach(function(stage, si){
+    var unlockedStage=stageUnlocked(si);
+    var banner=document.createElement('div');
+    banner.className='stage-banner'+(unlockedStage?'':' locked');
+    var subText = unlockedStage ? stage.sub : 'Finish the stage above to open this';
+    banner.innerHTML='<span class="st-emoji">'+stage.emoji+'</span>'+
+      '<div><div class="st-name">'+stage.name+'</div><div class="st-sub">'+subText+'</div></div>';
+    wrap.appendChild(banner);
+
+    var block=document.createElement('div');
+    block.className='path-block';
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','path-svg');
+    var pathEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+    svg.appendChild(pathEl);
+    block.appendChild(svg);
+
+    var pts=[];
+    stage.lessons.forEach(function(lesson, li){
+      var row=document.createElement('div');
+      row.className='node-row';
+      var xPercent = 50 + 32*Math.sin(li*1.1);
+      var node=document.createElement('button');
+      var unlocked=lessonUnlocked(si,li);
+      var done=!!(p[lesson.id] && p[lesson.id].stars>0);
+      var cls='node';
+      if(!unlocked) cls+=' locked';
+      else if(done) cls+=' done';
+      else cls+=' current';
+      node.className=cls;
+      node.style.position='absolute';
+      node.style.left='calc('+xPercent+'% - 42px)';
+      node.innerHTML=(unlocked?lesson.emoji:'🔒')+
+        '<span class="node-label">'+lesson.label+'</span>'+
+        (done?'<span class="stars">'+'⭐'.repeat(p[lesson.id].stars)+'</span>':'');
+      if(unlocked){
+        node.onclick=(function(s,l){return function(){openLesson(s,l);};})(si,li);
+      }else{
+        node.onclick=function(){ sayHi('पहले पिछला पाठ पूरा करो!','pehle pichhla paath poora karo!'); };
+      }
+      if(cls.indexOf('current')>=0 && !mascotPlaced){
+        var m=document.createElement('span');
+        m.className='mascot'; m.textContent='🪷';
+        node.appendChild(m);
+        mascotPlaced=true;
+      }
+      row.appendChild(node);
+      block.appendChild(row);
+      pts.push({x:xPercent, y:li*112+56});
+    });
+
+    wrap.appendChild(block);
+
+    var w=block.clientWidth||520;
+    var h=stage.lessons.length*112;
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    var d='';
+    pts.forEach(function(pt,i){
+      var px=pt.x/100*w, py=pt.y;
+      if(i===0){ d+='M '+px+' '+py; }
+      else{
+        var prev=pts[i-1];
+        var prx=prev.x/100*w, pry=prev.y;
+        var midY=(pry+py)/2;
+        d+=' C '+prx+' '+midY+', '+px+' '+midY+', '+px+' '+py;
+      }
+    });
+    pathEl.setAttribute('d',d);
+  });
+
+  document.getElementById('star-count').textContent=totalStars();
+  document.getElementById('streak-count').textContent=currentStreak();
+}
+
+/* ════════════════ SHARED LESSON STATE ════════════════ */
+var L={stage:0,lesson:0,step:0,phase:'learn',score:0,quiz:[],chatCount:0,chatHistory:[]};
+function stageType(){ return STAGES[L.stage].type; }
+function curLesson(){ return STAGES[L.stage].lessons[L.lesson]; }
+
+function openLesson(si,li){
+  L={stage:si,lesson:li,step:0,phase:'learn',score:0,quiz:[],chatCount:0,chatHistory:[]};
+  var t=STAGES[si].type;
+  document.getElementById('lesson-modal').classList.add('open');
+  if(t==='words'){ L.quiz=buildWordQuiz(si,li); showLearnStep(); }
+  else if(t==='qa'){ L.quiz=buildQaQuiz(si,li); showQaLearnStep(); }
+  else if(t==='dialog'){ L.quiz=buildDialogQuiz(si,li); showDialogLearnStep(); }
+  else if(t==='chat'){ showChat(); }
+}
+function closeLesson(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('lesson-modal').classList.remove('open');
+  renderJourney();
+}
+function learnTotal(){
+  var t=stageType(), l=curLesson();
+  if(t==='words') return l.words.length;
+  if(t==='qa') return l.qa.length;
+  if(t==='dialog') return l.lines.length;
+  return 5;
+}
+function setProgressBar(){
+  var total=learnTotal()+L.quiz.length;
+  var doneSteps=(L.phase==='learn') ? L.step : learnTotal()+L.step;
+  if(stageType()==='chat'){ total=5; doneSteps=Math.min(L.chatCount,5); }
+  document.getElementById('prog-fill').style.width=Math.round(doneSteps/Math.max(total,1)*100)+'%';
+}
+function micOrRepeatHtml(){
+  return (mode==='my' && SR)
+    ? '<button class="say-btn" onclick="listenAndCheck()">🎤 अब तुम बोलो! Now you say it!</button><div class="say-feedback" id="say-fb"></div>'
+    : '<div class="repeat-banner">🗣️ सब मिलकर बोलो! Everyone repeat together!</div>';
+}
+
+/* ════════════════ WORDS / SENTENCES (Stages 1–2) ════════════════ */
+function showLearnStep(){
+  var words=curLesson().words;
+  if(L.step>=words.length){ L.phase='quiz'; L.step=0; showQuizStep(); return; }
+  setProgressBar();
+  var wd=words[L.step];
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="big-card">'+
+      '<div class="big-emoji">'+wd.e+'</div>'+
+      '<div class="big-hindi">'+wd.h+'</div>'+
+      '<div class="big-translit">'+wd.t+'</div>'+
+      '<div class="big-meaning">'+wd.m+'</div>'+
+      '<button class="hear-btn" onclick="hearWord()">🔊 फिर सुनो · Hear again</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextLearnStep()">आगे · Next ➜</button>';
+  sayHi(wd.h, wd.t);
+}
+function hearWord(){
+  var wd=curLesson().words[L.step];
+  sayHi(wd.h, wd.t);
+}
+function nextLearnStep(){ L.step++; showLearnStep(); }
+
+function checkTargetHi(){
+  var t=stageType();
+  if(t==='words') return curLesson().words[L.step];
+  if(t==='qa'){ var it=curLesson().qa[L.step]; return {h:it.a, t:it.at, key:it.key}; }
+  if(t==='dialog'){ var ln=curLesson().lines[L.step]; return {h:ln.h, t:ln.t}; }
+  return {h:'',t:''};
+}
+function listenAndCheck(){
+  var fb=document.getElementById('say-fb');
+  if(!SR){ if(fb)fb.textContent='Listening not available here.'; return; }
+  var target=checkTargetHi();
+  var key=target.key || target.h.replace(/[।!?,]/g,'').trim().split(' ').slice(-1)[0];
+  fb.textContent='👂 सुन रहा हूँ… बोलो: "'+target.h+'"';
+  fb.style.color='var(--sub)';
+  var rec=new SR();
+  rec.lang='hi-IN'; rec.interimResults=false; rec.maxAlternatives=3;
+  var answered=false;
+  rec.onresult=function(ev){
+    answered=true;
+    var heard='';
+    try{ heard=ev.results[0][0].transcript; }catch(e){}
+    if(heard.indexOf(key)>=0){
+      fb.textContent='✅ शाबाश! बहुत बढ़िया!';
+      fb.style.color='var(--leaf)';
+      sayHi('शाबाश!','shaabaash!');
+    }else{
+      fb.textContent='कोशिश अच्छी थी! मैंने सुना "'+heard+'" — फिर बोलो!';
+      fb.style.color='var(--coral)';
+    }
+  };
+  rec.onerror=function(){ if(!answered){ fb.textContent='सुन नहीं पाया। माइक देखो और फिर बोलो!'; fb.style.color='var(--coral)'; } };
+  rec.onend=function(){ if(!answered && fb.textContent.indexOf('सुन रहा')>=0){ fb.textContent='सुन नहीं पाया — फिर कोशिश करो!'; fb.style.color='var(--coral)'; } };
+  try{ rec.start(); }catch(e){ fb.textContent='माइक व्यस्त है। फिर कोशिश करो।'; }
+}
+
+function shuffle(arr){
+  for(var i=arr.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=arr[i];arr[i]=arr[j];arr[j]=t; }
+  return arr;
+}
+function buildWordQuiz(si,li){
+  var words=STAGES[si].lessons[li].words.slice();
+  var qs=shuffle(words.map(function(w){ return {answer:w}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(words.filter(function(w){ return w.h!==q.answer.h; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var wide = q.answer.h.indexOf(' ')>=0;
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn'+(wide?' wide':'')+'" id="opt-'+i+'" onclick="pickOption('+i+')">'+
+      '<div class="o-emoji">'+o.e+'</div><div class="o-hindi">'+o.h+'</div><div class="o-translit">'+o.t+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">👂 सुनो… फिर सही चित्र पर क्लिक करो!<br/><span style="font-size:0.9rem;color:var(--sub);">Listen, then tap the right one!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:22px;" onclick="sayQuizWord()">🔊 फिर सुनो</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayQuizWord();
+}
+function sayQuizWord(){ sayHi(L.quiz[L.step].answer.h, L.quiz[L.step].answer.t); }
+function pickOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.h){
+    btn.classList.add('right'); L.score++; sayHi('सही जवाब!','sahi jawaab!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayHi('जवाब है '+q.answer.h, 'jawaab hai '+q.answer.t);
+  }
+  setTimeout(function(){ L.step++; showQuizStep(); },1500);
+}
+
+/* ════════════════ Q&A (Stage 3) ════════════════ */
+function showQaLearnStep(){
+  var qa=curLesson().qa;
+  if(L.step>=qa.length){ L.phase='quiz'; L.step=0; showQaQuizStep(); return; }
+  setProgressBar();
+  var item=qa[L.step];
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="big-card">'+
+      '<div class="big-emoji">'+item.e+'</div>'+
+      '<span class="qa-tag" style="background:var(--coral);">सवाल · QUESTION</span>'+
+      '<div class="qa-q">'+item.q+'</div>'+
+      '<div class="qa-sub">'+item.qt+'</div>'+
+      '<span class="qa-tag" style="background:var(--lotus);margin-top:14px;">तुम्हारा जवाब · YOUR ANSWER</span>'+
+      '<div class="qa-a">'+item.a+'</div>'+
+      '<div class="qa-sub">'+item.at+'</div>'+
+      '<div class="qa-mean" style="margin-top:6px;">'+item.m+'</div>'+
+      '<button class="hear-btn" onclick="hearQa()">🔊 फिर सुनो</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextQaStep()">आगे · Next ➜</button>';
+  sayHi(item.q, item.qt, function(){ setTimeout(function(){ sayHi(item.a, item.at); },400); });
+}
+function hearQa(){
+  var item=curLesson().qa[L.step];
+  sayHi(item.q, item.qt, function(){ setTimeout(function(){ sayHi(item.a, item.at); },400); });
+}
+function nextQaStep(){ L.step++; showQaLearnStep(); }
+
+function buildQaQuiz(si,li){
+  var qa=STAGES[si].lessons[li].qa.slice();
+  var qs=shuffle(qa.map(function(x){ return {answer:x}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(qa.filter(function(x){ return x.a!==q.answer.a; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showQaQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn wide" id="opt-'+i+'" onclick="pickQaOption('+i+')">'+
+      '<div class="o-emoji">'+o.e+'</div><div class="o-hindi">'+o.a+'</div><div class="o-translit">'+o.at+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">❓ '+q.answer.q+'<br/><span class="qa-sub">'+q.answer.qt+'</span><br/>'+
+    '<span style="font-size:0.9rem;color:var(--sub);">सही जवाब चुनो · Tap the best answer!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:20px;" onclick="sayQaQuestion()">🔊 सवाल फिर सुनो</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayQaQuestion();
+}
+function sayQaQuestion(){ sayHi(L.quiz[L.step].answer.q, L.quiz[L.step].answer.qt); }
+function pickQaOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.a===q.answer.a){
+    btn.classList.add('right'); L.score++; sayHi('सही जवाब!','sahi jawaab!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.a===q.answer.a) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayHi('जवाब है: '+q.answer.a, 'jawaab hai: '+q.answer.at);
+  }
+  setTimeout(function(){ L.step++; showQaQuizStep(); },1600);
+}
+
+/* ════════════════ DIALOGUE (Stage 4) ════════════════ */
+function dLineHtml(line, whoName){
+  return '<div class="d-line '+line.who.toLowerCase()+'"><div class="d-who">'+whoName+'</div>'+
+    '<div class="d-h">'+line.h+'</div><div class="d-t">'+line.t+'</div><div class="d-m">'+line.m+'</div></div>';
+}
+function dialogSoFarHtml(upto){
+  var l=curLesson();
+  var html='<div class="dialog-box">';
+  for(var i=0;i<=upto && i<l.lines.length;i++){
+    var line=l.lines[i];
+    html+=dLineHtml(line, (line.who==='A')?l.whoA:l.whoB);
+  }
+  html+='</div>';
+  return html;
+}
+function showDialogLearnStep(){
+  var l=curLesson();
+  if(L.step>=l.lines.length){ L.phase='quiz'; L.step=0; showDialogQuizStep(); return; }
+  setProgressBar();
+  var line=l.lines[L.step];
+  var body=document.getElementById('lesson-body');
+
+  if(line.who==='A'){
+    body.innerHTML=
+      dialogSoFarHtml(L.step)+
+      '<button class="hear-btn" onclick="hearDialogLine()">🔊 फिर सुनो</button>'+
+      '<button class="next-btn" onclick="nextDialogStep()">आगे ➜</button>';
+    sayHi(line.h, line.t);
+  }else{
+    body.innerHTML=
+      dialogSoFarHtml(L.step-1)+
+      '<div class="your-turn"><div class="yt-label">🫵 तुम्हारी बारी — बोलो · YOUR TURN — SAY:</div>'+
+      '<div class="yt-h">'+line.h+'</div><div class="yt-t">'+line.t+'</div><div class="yt-m">'+line.m+'</div></div>'+
+      '<button class="hear-btn" onclick="hearDialogLine()">🔊 पहले सुनो</button><br/>'+
+      micOrRepeatHtml()+
+      '<button class="next-btn" onclick="nextDialogStep()">मैंने बोला! ➜</button>';
+    sayHi(line.h, line.t);
+  }
+}
+function hearDialogLine(){ var ln=curLesson().lines[L.step]; sayHi(ln.h, ln.t); }
+function nextDialogStep(){ L.step++; showDialogLearnStep(); }
+
+function buildDialogQuiz(si,li){
+  var lesson=STAGES[si].lessons[li];
+  var pairs=[];
+  lesson.lines.forEach(function(line,i){
+    if(line.who==='A' && lesson.lines[i+1] && lesson.lines[i+1].who==='B'){
+      pairs.push({q:lesson.lines[i], a:lesson.lines[i+1]});
+    }
+  });
+  var allB=pairs.map(function(p){ return p.a; });
+  var qs=shuffle(pairs.map(function(p){ return {answer:p}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(allB.filter(function(b){ return b.h!==q.answer.a.h; }));
+    var o1=pool[0]||{h:'मुझे नहीं पता।',t:'mujhe nahin pata',m:'I do not know.'};
+    var o2=pool[1]||{h:'कुछ नहीं, धन्यवाद।',t:'kuchh nahin, dhanyavaad',m:'Nothing, thank you.'};
+    q.options=shuffle([q.answer.a,o1,o2]);
+  });
+  return qs;
+}
+function showDialogQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var l=curLesson();
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn wide" id="opt-'+i+'" onclick="pickDialogOption('+i+')">'+
+      '<div class="o-hindi">'+o.h+'</div><div class="o-translit">'+o.t+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">'+l.whoA+' कहते हैं:<br/>“'+q.answer.q.h+'”<br/><span class="qa-sub">'+q.answer.q.t+'</span><br/>'+
+    '<span style="font-size:0.9rem;color:var(--sub);">तुम क्या कहोगे? · What do YOU say back?</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:20px;" onclick="sayDialogQ()">🔊 फिर सुनो</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayDialogQ();
+}
+function sayDialogQ(){ sayHi(L.quiz[L.step].answer.q.h, L.quiz[L.step].answer.q.t); }
+function pickDialogOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.a.h){
+    btn.classList.add('right'); L.score++; sayHi('सही जवाब!','sahi jawaab!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.a.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayHi('तुम कहोगे: '+q.answer.a.h, 'tum kahoge: '+q.answer.a.t);
+  }
+  setTimeout(function(){ L.step++; showDialogQuizStep(); },1600);
+}
+
+/* ════════════════ FREE TALK WITH AI (Stage 5) ════════════════ */
+var CHAT_GOAL=5;
+function showChat(){
+  var l=curLesson();
+  L.chatHistory=[];
+  L.chatCount=0;
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="chat-wrap">'+
+      '<div class="chat-goal">🎯 '+CHAT_GOAL+' बार बोलो और सितारे पाओ! (<span id="chat-done">0</span>/'+CHAT_GOAL+')</div>'+
+      '<div class="chat-msgs" id="chat-msgs"></div>'+
+      '<div class="chat-input-row">'+
+        ((mode==='my'&&SR)?'<button class="chat-mic" onclick="chatMic()" title="बोलकर लिखो">🎤</button>':'')+
+        '<input class="chat-input" id="chat-input" placeholder="हिंदी, Hinglish या English में लिखो…" onkeydown="if(event.key===\'Enter\')sendChat()"/>'+
+        '<button class="chat-send" onclick="sendChat()">भेजो</button>'+
+      '</div>'+
+    '</div>';
+  setProgressBar();
+  var opener='नमस्ते! मैं तुम्हारा हिंदी टीचर हूँ। (namaste! main tumhaara Hindi teacher hoon.) — Hello! I am your Hindi teacher.\nतुम्हारा दिन कैसा था? (tumhaara din kaisa tha?) — How was your day?';
+  addChatMsg('ai',opener);
+  sayHi('नमस्ते! मैं तुम्हारा हिंदी टीचर हूँ। तुम्हारा दिन कैसा था?','namaste! main tumhaara Hindi teacher hoon. tumhaara din kaisa tha?');
+}
+function addChatMsg(who,text){
+  var box=document.getElementById('chat-msgs');
+  if(!box) return null;
+  var d=document.createElement('div');
+  d.className='c-msg '+who;
+  d.textContent=text;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+  return d;
+}
+function sendChat(){
+  var inp=document.getElementById('chat-input');
+  var text=(inp.value||'').trim();
+  if(!text) return;
+  inp.value='';
+  addChatMsg('me',text);
+  L.chatHistory.push({role:'user',content:text});
+  L.chatCount++;
+  var doneEl=document.getElementById('chat-done');
+  if(doneEl) doneEl.textContent=Math.min(L.chatCount,CHAT_GOAL);
+  setProgressBar();
+
+  var thinking=addChatMsg('think','टीचर सोच रहे हैं…');
+  var l=curLesson();
+  var systemPrompt='You are a warm, patient Hindi teacher for young Tamil-speaking school children in Tamil Nadu, India who are just beginning Hindi. '+
+    'Topic today: '+l.topic+'. Rules: '+
+    '1) Reply in VERY simple Hindi — 1 or 2 short sentences maximum. '+
+    '2) FORMAT EVERY SENTENCE EXACTLY LIKE THIS: Hindi sentence (english letters) — English meaning. Example: तुम कैसे हो? (tum kaise ho?) — How are you? '+
+    '3) The child may write in Hindi, Hinglish (Hindi in English letters), or English — understand all three. '+
+    '4) If the child makes a Hindi mistake, gently show the correct sentence once in the same three-part format. '+
+    '5) Always end with one simple question to keep the child talking. '+
+    '6) Be cheerful and encouraging. Never discuss anything unsuitable for children.';
+
+  fetch('/api/ai',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({payload:{
+      model:'claude-sonnet-4-5',
+      max_tokens:350,
+      system:systemPrompt,
+      messages:L.chatHistory.slice(-12)
+    }})
+  }).then(function(r){ return r.json(); })
+  .then(function(data){
+    if(thinking) thinking.remove();
+    var reply='';
+    if(data && data.content && data.content[0] && data.content[0].text){ reply=data.content[0].text; }
+    else{ reply='छोटी सी दिक्कत हुई! (chhoti si dikkat hui!) — Small problem! फिर से भेजो। (phir se bhejo.) — Send again.'; }
+    addChatMsg('ai',reply);
+    L.chatHistory.push({role:'assistant',content:reply});
+    /* speak only the Hindi parts (text before brackets) */
+    var hindiOnly=reply.replace(/\([^)]*\)/g,'').replace(/—[^\n]*/g,'').replace(/\n+/g,' ').trim();
+    sayHi(hindiOnly, reply);
+    if(L.chatCount>=CHAT_GOAL){
+      setTimeout(function(){ finishChat(); },2800);
+    }
+  }).catch(function(){
+    if(thinking) thinking.remove();
+    addChatMsg('ai','इंटरनेट में दिक्कत! फिर से भेजो। (internet mein dikkat! phir se bhejo.)');
+  });
+}
+function chatMic(){
+  if(!SR) return;
+  var inp=document.getElementById('chat-input');
+  inp.placeholder='👂 सुन रहा हूँ…';
+  var rec=new SR();
+  rec.lang='hi-IN'; rec.interimResults=false;
+  rec.onresult=function(ev){
+    try{ inp.value=ev.results[0][0].transcript; }catch(e){}
+    inp.placeholder='हिंदी, Hinglish या English में लिखो…';
+  };
+  rec.onerror=function(){ inp.placeholder='सुन नहीं पाया — लिख दो!'; };
+  rec.onend=function(){ if(inp.placeholder.indexOf('सुन रहा')>=0) inp.placeholder='हिंदी, Hinglish या English में लिखो…'; };
+  try{ rec.start(); }catch(e){}
+}
+function finishChat(){
+  var lesson=curLesson();
+  var p=loadProgress();
+  var old=(p[lesson.id]&&p[lesson.id].stars)||0;
+  if(3>old){ p[lesson.id]={stars:3}; saveProgress(p); }
+  bumpStreak();
+  confettiBurst();
+  var body=document.getElementById('lesson-body');
+  document.getElementById('prog-fill').style.width='100%';
+  body.innerHTML=
+    '<div class="result-title">🎉 वाह! बहुत बढ़िया!</div>'+
+    '<div class="result-stars">⭐⭐⭐</div>'+
+    '<div class="result-sub">तुमने '+CHAT_GOAL+' बार हिंदी में बात की! Real Hindi practice!</div>'+
+    '<button class="next-btn" onclick="closeLesson()">मेरी यात्रा पर वापस ➜</button>';
+  sayHi('वाह! तुमने तीन सितारे जीते!','waah! tumne teen sitaare jeete!');
+}
+
+/* ════════════════ RESULT ════════════════ */
+function showResult(){
+  document.getElementById('prog-fill').style.width='100%';
+  var total=L.quiz.length||1;
+  var ratio=L.score/total;
+  var stars = ratio>=0.99?3 : ratio>=0.75?2 : ratio>=0.5?1 : 0;
+  var body=document.getElementById('lesson-body');
+  var lesson=curLesson();
+
+  if(stars>0){
+    var p=loadProgress();
+    var old=(p[lesson.id]&&p[lesson.id].stars)||0;
+    if(stars>old){ p[lesson.id]={stars:stars}; saveProgress(p); }
+    bumpStreak();
+    confettiBurst();
+    body.innerHTML=
+      '<div class="result-title">🎉 शाबाश!</div>'+
+      '<div class="result-stars">'+'⭐'.repeat(stars)+'<span style="opacity:0.25;">'+'⭐'.repeat(3-stars)+'</span></div>'+
+      '<div class="result-sub">'+total+' में से '+L.score+' सही! ('+L.score+' out of '+total+' right!)</div>'+
+      '<button class="next-btn" onclick="closeLesson()">मेरी यात्रा पर वापस ➜</button>';
+    sayHi('शाबाश! तुमने '+stars+' सितारे जीते!','shaabaash! tumne '+stars+' sitaare jeete!');
+  }else{
+    body.innerHTML=
+      '<div class="result-title">💪 अच्छी कोशिश!</div>'+
+      '<div class="result-sub">'+total+' में से '+L.score+' सही। एक बार फिर सीखें!</div>'+
+      '<button class="next-btn" onclick="retryLesson()">फिर कोशिश करो ➜</button>'+
+      '<br/><button class="hear-btn" style="margin-top:14px;" onclick="closeLesson()">मेरी यात्रा पर वापस</button>';
+    sayHi('अच्छी कोशिश! एक बार फिर सीखते हैं।','achchhi koshish! ek baar phir seekhte hain.');
+  }
+}
+function retryLesson(){ openLesson(L.stage,L.lesson); }
+
+function confettiBurst(){
+  var emojis=['🎉','⭐','🎊','✨','🪷'];
+  for(var i=0;i<24;i++){
+    var el=document.createElement('div');
+    el.className='confetti-piece';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(node){ return function(){ node.remove(); }; }(el), 4500);
+  }
+}
+
+/* ════════════════ START ════════════════ */
+if(SCHOOL && SCHOOL.name){ var tbs=document.getElementById('tb-school'); if(tbs) tbs.textContent=SCHOOL.name; }
+renderModeBtn();
+renderJourney();
+window.addEventListener('resize', renderJourney);
 </script>
 </body>
 </html>
