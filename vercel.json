@@ -2,7 +2,7 @@
   "functions": {
     "api/ai.js": { "maxDuration": 60, "memory": 1024 }
   },
-  "rewrites": [
-    { "source": "/", "destination": "/journey.html" }
+  "redirects": [
+    { "source": "/", "destination": "/journey.html", "permanent": false }
   ]
 }
