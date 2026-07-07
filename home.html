@@ -44,6 +44,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .trd{box-shadow:0 10px 0 #5C2E78;}
 .trd h2{color:#7B3FA0;}
 .trd .go{background:#7B3FA0;box-shadow:0 4px 0 #5C2E78;}
+.frd{box-shadow:0 10px 0 #1256A3;}
+.frd h2{color:#1E88E5;}
+.frd .go{background:#1E88E5;box-shadow:0 4px 0 #1256A3;}
 .erd{box-shadow:0 10px 0 #1F5E3C;}
 .erd h2{color:#2E8B57;}
 .erd .go{background:#2E8B57;box-shadow:0 4px 0 #1F5E3C;}
@@ -123,6 +126,12 @@ if(SCHOOL){
     html+='<button class="lang-card trd" onclick="location.href=\'tamil-reading.html\'">'+
       '<div class="big">\uD83D\uDCD6</div><h2>Tamil Reading</h2>'+
       '<p>\u0BAA\u0B9F\u0BBF\u0B95\u0BCD\u0B95\u0B95\u0BCD \u0B95\u0BB1\u0BCD\u0BAA\u0BCB\u0BAE\u0BCD \u2014 alphabets to sentences</p>'+
+      '<span class="go">Start Reading \u279C</span></button>';
+  }
+  if(SCHOOL.has_french){
+    html+='<button class="lang-card frd" onclick="location.href=\'french-reading.html\'">'+
+      '<div class="big">\uD83D\uDCD8</div><h2>French Reading</h2>'+
+      '<p>Lire en fran\u00E7ais \u2014 letters to sentences</p>'+
       '<span class="go">Start Reading \u279C</span></button>';
   }
   if(!html){
