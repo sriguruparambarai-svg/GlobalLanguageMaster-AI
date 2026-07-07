@@ -35,6 +35,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .hin{box-shadow:0 10px 0 var(--lotus-dark);}
 .hin h2{color:var(--lotus);}
 .hin .go{background:var(--lotus);box-shadow:0 4px 0 var(--lotus-dark);}
+.tam{box-shadow:0 10px 0 #C24E12;}
+.tam h2{color:#F26B21;}
+.tam .go{background:#F26B21;box-shadow:0 4px 0 #C24E12;}
 .none{max-width:420px;margin:20px auto 0;background:#fff;border-radius:20px;padding:26px;text-align:center;
   font-weight:700;color:var(--sub);box-shadow:0 6px 0 #EADFC8;}
 </style>
@@ -79,6 +82,12 @@ if(SCHOOL){
       '<div class="big">🪷</div><h2>Hindi Journey</h2>'+
       '<p>हिंदी — spoken Hindi step by step</p>'+
       '<span class="go">Start Hindi ➜</span></button>';
+  }
+  if(SCHOOL.has_tamil){
+    html+='<button class="lang-card tam" onclick="location.href=\'tamil.html\'">'+
+      '<div class="big">\uD83C\uDF3A</div><h2>Tamil Journey</h2>'+
+      '<p>\u0BA4\u0BAE\u0BBF\u0BB4\u0BCD \u2014 spoken Tamil step by step</p>'+
+      '<span class="go">Start Tamil \u279C</span></button>';
   }
   if(!html){
     html='';
