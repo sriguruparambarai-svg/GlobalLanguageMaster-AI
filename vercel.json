@@ -1,6 +1,5 @@
 {
   "functions": {
-    "api/ai.js": { "maxDuration": 60, "memory": 1024 },
-    "api/auth.js": { "maxDuration": 30, "memory": 512 }
+    "api/ai.js": { "maxDuration": 60, "memory": 1024 }
   }
 }
