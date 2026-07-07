@@ -38,6 +38,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .tam{box-shadow:0 10px 0 #C24E12;}
 .tam h2{color:#F26B21;}
 .tam .go{background:#F26B21;box-shadow:0 4px 0 #C24E12;}
+.fre{box-shadow:0 10px 0 #1E4480;}
+.fre h2{color:#2A5CAA;}
+.fre .go{background:#2A5CAA;box-shadow:0 4px 0 #1E4480;}
 .none{max-width:420px;margin:20px auto 0;background:#fff;border-radius:20px;padding:26px;text-align:center;
   font-weight:700;color:var(--sub);box-shadow:0 6px 0 #EADFC8;}
 </style>
@@ -88,6 +91,12 @@ if(SCHOOL){
       '<div class="big">\uD83C\uDF3A</div><h2>Tamil Journey</h2>'+
       '<p>\u0BA4\u0BAE\u0BBF\u0BB4\u0BCD \u2014 spoken Tamil step by step</p>'+
       '<span class="go">Start Tamil \u279C</span></button>';
+  }
+  if(SCHOOL.has_french){
+    html+='<button class="lang-card fre" onclick="location.href=\'french.html\'">'+
+      '<div class="big">\uD83D\uDDFC</div><h2>French Journey</h2>'+
+      '<p>Fran\u00E7ais \u2014 spoken French step by step</p>'+
+      '<span class="go">Start French \u279C</span></button>';
   }
   if(!html){
     html='';
