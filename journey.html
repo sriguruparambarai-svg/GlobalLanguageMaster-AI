@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My English Journey — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --teal:#0E7C7B; --teal-dark:#095C5B; --teal-soft:#DFF3F2;
+  --mango:#FFB627; --mango-dark:#E89B00; --mango-soft:#FFF3D6;
+  --leaf:#57A639; --leaf-soft:#E9F5E1;
+  --coral:#FF6B57;
+  --cream:#FFF9EF; --ink:#27323A; --sub:#5F7078;
+  --locked:#C9D2D6; --locked-soft:#EEF2F4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);color:var(--ink);}
+
+/* ── TOP BAR ── */
+.topbar{position:sticky;top:0;z-index:50;background:var(--teal);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:12px 18px;
+  box-shadow:0 4px 18px rgba(14,124,123,0.35);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .peacock{font-size:2rem;}
+.brand h1{font-family:"Baloo 2",cursive;font-size:1.25rem;font-weight:800;line-height:1.1;}
+.brand small{display:block;font-family:"Nunito",sans-serif;font-weight:600;font-size:0.7rem;opacity:0.85;}
+.top-stats{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.28);
+  border-radius:999px;padding:6px 14px;font-weight:800;font-size:0.9rem;display:flex;gap:6px;align-items:center;}
+.mode-toggle{cursor:pointer;user-select:none;background:var(--mango);color:var(--ink);border:none;}
+.mode-toggle:hover{background:var(--mango-dark);color:#fff;}
+.practice-link{color:#fff;text-decoration:none;font-weight:800;font-size:0.85rem;
+  border-bottom:2px dashed rgba(255,255,255,0.5);padding-bottom:1px;}
+.practice-link:hover{border-bottom-style:solid;}
+
+/* ── PATH AREA ── */
+.journey-wrap{max-width:560px;margin:0 auto;padding:26px 16px 90px;position:relative;}
+.stage-banner{background:var(--teal);color:#fff;border-radius:18px;padding:14px 20px;
+  margin:34px 0 10px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 6px 0 var(--teal-dark);}
+.stage-banner.locked{background:var(--locked);box-shadow:0 6px 0 #AEB9BE;color:#5F7078;}
+.stage-banner .st-emoji{font-size:1.9rem;}
+.stage-banner .st-name{font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;}
+.stage-banner .st-sub{font-size:0.78rem;font-weight:700;opacity:0.9;}
+
+.path-block{position:relative;}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.path-svg path{fill:none;stroke:var(--mango);stroke-width:7;stroke-linecap:round;
+  stroke-dasharray:1 18;}
+.node-row{position:relative;height:112px;display:flex;align-items:center;}
+
+.node{position:relative;width:84px;height:84px;border-radius:50%;border:none;cursor:pointer;
+  font-size:2rem;display:flex;align-items:center;justify-content:center;
+  background:var(--leaf);box-shadow:0 7px 0 #3E7A28;transition:transform 0.12s;}
+.node:active{transform:translateY(4px);box-shadow:0 3px 0 #3E7A28;}
+.node .node-label{position:absolute;top:100%;margin-top:12px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-weight:800;font-size:0.8rem;color:var(--ink);
+  background:#fff;border-radius:999px;padding:3px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.node .stars{position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:0.85rem;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.node.current{background:var(--mango);box-shadow:0 7px 0 var(--mango-dark);animation:pulse 1.6s infinite;}
+.node.current:active{box-shadow:0 3px 0 var(--mango-dark);}
+.node.locked{background:var(--locked);box-shadow:0 7px 0 #AEB9BE;cursor:not-allowed;filter:grayscale(0.4);}
+.node.done{background:var(--leaf);}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+.mascot{position:absolute;font-size:2.2rem;top:-46px;left:50%;transform:translateX(-50%);
+  animation:bob 1.4s ease-in-out infinite;pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+
+/* ── LESSON MODAL ── */
+.lesson-modal{position:fixed;inset:0;background:var(--cream);z-index:100;display:none;
+  flex-direction:column;overflow-y:auto;}
+.lesson-modal.open{display:flex;}
+.lesson-top{display:flex;align-items:center;gap:14px;padding:14px 18px;}
+.close-btn{background:none;border:none;font-size:1.7rem;cursor:pointer;color:var(--sub);font-weight:800;}
+.progress-track{flex:1;height:16px;background:#EADFC8;border-radius:999px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:var(--leaf);border-radius:999px;transition:width 0.35s;}
+.lesson-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 20px 30px;text-align:center;}
+
+.big-card{background:#fff;border-radius:26px;padding:34px 30px;max-width:460px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.big-emoji{font-size:6rem;line-height:1;}
+.big-word{font-family:"Baloo 2",cursive;font-size:2.6rem;font-weight:800;color:var(--teal);margin-top:8px;}
+.big-sentence{font-size:1.15rem;font-weight:700;color:var(--sub);margin-top:6px;}
+.hear-btn{margin-top:18px;background:var(--teal);color:#fff;border:none;border-radius:999px;
+  padding:13px 30px;font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 var(--teal-dark);}
+.hear-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--teal-dark);}
+.say-btn{margin-top:12px;background:var(--coral);color:#fff;border:none;border-radius:999px;
+  padding:13px 30px;font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 #C74936;display:inline-block;}
+.say-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #C74936;}
+.say-feedback{margin-top:12px;font-weight:800;font-size:1.05rem;min-height:26px;}
+.repeat-banner{margin-top:16px;background:var(--mango-soft);border:3px dashed var(--mango);
+  border-radius:18px;padding:14px 20px;font-family:"Baloo 2",cursive;font-size:1.3rem;
+  font-weight:800;color:var(--mango-dark);display:none;animation:pulse 1.2s infinite;}
+.next-btn{margin-top:26px;background:var(--leaf);color:#fff;border:none;border-radius:999px;
+  padding:15px 46px;font-family:"Baloo 2",cursive;font-size:1.3rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 0 #3E7A28;}
+.next-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #3E7A28;}
+
+/* quiz */
+.quiz-question{font-family:"Baloo 2",cursive;font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:20px;}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.opt-btn{background:#fff;border:4px solid #EADFC8;border-radius:22px;cursor:pointer;
+  width:140px;padding:20px 10px;font-family:"Nunito",sans-serif;transition:transform 0.1s;}
+.opt-btn:hover{transform:translateY(-4px);border-color:var(--mango);}
+.opt-btn .o-emoji{font-size:3.2rem;}
+.opt-btn .o-word{font-weight:800;font-size:1.1rem;margin-top:6px;color:var(--ink);}
+.opt-btn.right{border-color:var(--leaf);background:var(--leaf-soft);}
+.opt-btn.wrong{border-color:var(--coral);background:#FFE9E5;animation:shake 0.4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+/* results */
+.result-stars{font-size:4rem;letter-spacing:8px;margin:10px 0;}
+.result-title{font-family:"Baloo 2",cursive;font-size:2rem;font-weight:800;color:var(--teal);}
+.result-sub{font-weight:700;color:var(--sub);margin-top:6px;font-size:1.05rem;}
+.confetti-piece{position:fixed;top:-30px;font-size:1.6rem;z-index:200;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0.6;}}
+
+@media (max-width:600px){
+  .brand h1{font-size:1rem;}
+  .pill{padding:5px 10px;font-size:0.8rem;}
+  .opt-btn{width:110px;}
+  .big-emoji{font-size:4.5rem;}
+  .big-word{font-size:2rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  .node.current,.mascot,.repeat-banner{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="peacock">🦚</span>
+    <h1>My English Journey<small>Global Language Master</small></h1>
+  </div>
+  <div class="top-stats">
+    <div class="pill" title="Days practiced in a row">🔥 <span id="streak-count">0</span></div>
+    <div class="pill" title="Total stars earned">⭐ <span id="star-count">0</span></div>
+    <button class="pill mode-toggle" id="mode-btn" onclick="toggleMode()" title="Switch between class mode (projector) and my mode (headset)">🏫 Class Mode</button>
+    <a class="practice-link" href="index.html">Practice Room →</a>
+  </div>
+</div>
+
+<div class="journey-wrap" id="journey"></div>
+
+<!-- ── LESSON PLAYER ── -->
+<div class="lesson-modal" id="lesson-modal">
+  <div class="lesson-top">
+    <button class="close-btn" onclick="closeLesson()" title="Close lesson">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+</div>
+
+<script>
+'use strict';
+
+/* ════════ LESSON CONTENT — STAGE 1 ════════ */
+var STAGES=[
+  {
+    id:'stage1', emoji:'🌱', name:'Stage 1 · First Words', sub:'Words we see every day',
+    locked:false,
+    lessons:[
+      {id:'s1l1', emoji:'🍎', label:'Fruits', words:[
+        {w:'Apple', e:'🍎', s:'This is an apple.'},
+        {w:'Banana', e:'🍌', s:'I like bananas.'},
+        {w:'Mango', e:'🥭', s:'The mango is sweet.'},
+        {w:'Grapes', e:'🍇', s:'Grapes are purple.'},
+        {w:'Orange', e:'🍊', s:'I eat an orange.'}
+      ]},
+      {id:'s1l2', emoji:'🐘', label:'Animals', words:[
+        {w:'Cat', e:'🐱', s:'The cat says meow.'},
+        {w:'Dog', e:'🐶', s:'The dog is my friend.'},
+        {w:'Elephant', e:'🐘', s:'The elephant is big.'},
+        {w:'Lion', e:'🦁', s:'The lion is strong.'},
+        {w:'Cow', e:'🐮', s:'The cow gives milk.'}
+      ]},
+      {id:'s1l3', emoji:'🎨', label:'Colours', words:[
+        {w:'Red', e:'🔴', s:'The apple is red.'},
+        {w:'Blue', e:'🔵', s:'The sky is blue.'},
+        {w:'Green', e:'🟢', s:'The leaf is green.'},
+        {w:'Yellow', e:'🟡', s:'The sun is yellow.'},
+        {w:'Black', e:'⚫', s:'My hair is black.'}
+      ]},
+      {id:'s1l4', emoji:'🔢', label:'Numbers', words:[
+        {w:'One', e:'1️⃣', s:'I have one nose.'},
+        {w:'Two', e:'2️⃣', s:'I have two eyes.'},
+        {w:'Three', e:'3️⃣', s:'Three little birds.'},
+        {w:'Four', e:'4️⃣', s:'A cow has four legs.'},
+        {w:'Five', e:'5️⃣', s:'I have five fingers.'}
+      ]},
+      {id:'s1l5', emoji:'🙋', label:'My Body', words:[
+        {w:'Eye', e:'👁️', s:'I see with my eyes.'},
+        {w:'Ear', e:'👂', s:'I hear with my ears.'},
+        {w:'Nose', e:'👃', s:'I smell with my nose.'},
+        {w:'Hand', e:'✋', s:'I write with my hand.'},
+        {w:'Leg', e:'🦵', s:'I run with my legs.'}
+      ]},
+      {id:'s1l6', emoji:'👨‍👩‍👧', label:'My Family', words:[
+        {w:'Mother', e:'👩', s:'I love my mother.'},
+        {w:'Father', e:'👨', s:'My father is kind.'},
+        {w:'Brother', e:'👦', s:'My brother plays with me.'},
+        {w:'Sister', e:'👧', s:'My sister sings well.'},
+        {w:'Baby', e:'👶', s:'The baby is small.'}
+      ]},
+      {id:'s1l7', emoji:'🎒', label:'School Things', words:[
+        {w:'Book', e:'📖', s:'I read my book.'},
+        {w:'Pencil', e:'✏️', s:'I write with a pencil.'},
+        {w:'Bag', e:'🎒', s:'My bag is heavy.'},
+        {w:'Chair', e:'🪑', s:'I sit on a chair.'},
+        {w:'Scale', e:'📏', s:'I draw a line with a scale.'}
+      ]},
+      {id:'s1l8', emoji:'⚽', label:'Action Words', words:[
+        {w:'Run', e:'🏃', s:'I run fast.'},
+        {w:'Eat', e:'🍽️', s:'I eat my lunch.'},
+        {w:'Sleep', e:'😴', s:'I sleep at night.'},
+        {w:'Play', e:'⚽', s:'I play with friends.'},
+        {w:'Read', e:'📚', s:'I read every day.'}
+      ]}
+    ]
+  },
+  { id:'stage2', emoji:'💬', name:'Stage 2 · My Sentences', sub:'Coming soon', locked:true,
+    lessons:[{id:'s2l1',emoji:'🔒',label:'Soon'},{id:'s2l2',emoji:'🔒',label:'Soon'},{id:'s2l3',emoji:'🔒',label:'Soon'}] },
+  { id:'stage3', emoji:'❓', name:'Stage 3 · Questions & Answers', sub:'Coming soon', locked:true,
+    lessons:[{id:'s3l1',emoji:'🔒',label:'Soon'},{id:'s3l2',emoji:'🔒',label:'Soon'}] },
+  { id:'stage4', emoji:'🗣️', name:'Stage 4 · Talking Time', sub:'Coming soon', locked:true,
+    lessons:[{id:'s4l1',emoji:'🔒',label:'Soon'},{id:'s4l2',emoji:'🔒',label:'Soon'}] },
+  { id:'stage5', emoji:'🌟', name:'Stage 5 · Free Talk with AI Teacher', sub:'Coming soon', locked:true,
+    lessons:[{id:'s5l1',emoji:'🔒',label:'Soon'}] }
+];
+
+/* ════════ PROGRESS (saved on this computer) ════════ */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('glm_progress')||'{}'); }catch(e){ return {}; }
+}
+function saveProgress(p){ try{ localStorage.setItem('glm_progress',JSON.stringify(p)); }catch(e){} }
+function totalStars(){
+  var p=loadProgress(),t=0,k;
+  for(k in p){ if(p[k] && p[k].stars) t+=p[k].stars; }
+  return t;
+}
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function bumpStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  var today=todayStr();
+  if(s.last===today){ /* already counted today */ }
+  else{
+    var y=new Date(); y.setDate(y.getDate()-1);
+    var yest=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+    s.count = (s.last===yest) ? (s.count||0)+1 : 1;
+    s.last=today;
+    try{ localStorage.setItem('glm_streak',JSON.stringify(s)); }catch(e){}
+  }
+  return s.count||0;
+}
+function currentStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  if(!s.last) return 0;
+  var today=todayStr();
+  var y=new Date(); y.setDate(y.getDate()-1);
+  var yest=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+  return (s.last===today||s.last===yest) ? (s.count||0) : 0;
+}
+
+/* ════════ MODE: Class (projector, no mic) vs My (headset with mic) ════════ */
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+var mode = localStorage.getItem('glm_mode') || (SR ? 'my' : 'class');
+function toggleMode(){
+  mode = (mode==='class') ? 'my' : 'class';
+  if(mode==='my' && !SR){
+    alert('This computer/browser cannot listen to speech.\nClass Mode will be used — everyone repeats aloud together!');
+    mode='class';
+  }
+  try{ localStorage.setItem('glm_mode',mode); }catch(e){}
+  renderModeBtn();
+}
+function renderModeBtn(){
+  var b=document.getElementById('mode-btn');
+  b.textContent = (mode==='class') ? '🏫 Class Mode' : '🎧 My Mode';
+}
+
+/* ════════ SPEAKING (free browser voice) ════════ */
+var pickedVoice=null;
+function pickVoice(){
+  var vs=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  var i;
+  for(i=0;i<vs.length;i++){ if(/en[-_]IN/i.test(vs[i].lang)){ pickedVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/en[-_]GB/i.test(vs[i].lang)){ pickedVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/^en/i.test(vs[i].lang)){ pickedVoice=vs[i]; return; } }
+}
+if(window.speechSynthesis){
+  pickVoice();
+  window.speechSynthesis.onvoiceschanged=pickVoice;
+}
+function say(text, cb){
+  if(!window.speechSynthesis){ if(cb)cb(); return; }
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  if(pickedVoice) u.voice=pickedVoice;
+  u.rate=0.85; u.pitch=1.05;
+  if(cb) u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+
+/* ════════ PATH RENDERING ════════ */
+function lessonUnlocked(stageIdx, lessonIdx){
+  if(STAGES[stageIdx].locked) return false;
+  if(lessonIdx===0) return true;
+  var prev=STAGES[stageIdx].lessons[lessonIdx-1];
+  var p=loadProgress();
+  return !!(p[prev.id] && p[prev.id].stars>0);
+}
+function renderJourney(){
+  var wrap=document.getElementById('journey');
+  wrap.innerHTML='';
+  var p=loadProgress();
+  var mascotPlaced=false;
+
+  STAGES.forEach(function(stage, si){
+    var banner=document.createElement('div');
+    banner.className='stage-banner'+(stage.locked?' locked':'');
+    banner.innerHTML='<span class="st-emoji">'+stage.emoji+'</span>'+
+      '<div><div class="st-name">'+stage.name+'</div><div class="st-sub">'+stage.sub+'</div></div>';
+    wrap.appendChild(banner);
+
+    var block=document.createElement('div');
+    block.className='path-block';
+
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','path-svg');
+    var pathEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+    svg.appendChild(pathEl);
+    block.appendChild(svg);
+
+    var pts=[];
+    stage.lessons.forEach(function(lesson, li){
+      var row=document.createElement('div');
+      row.className='node-row';
+      // zig-zag: left, middle-right, right, middle-left ... using a gentle wave
+      var xPercent = 50 + 32*Math.sin((li)*1.1);
+      var node=document.createElement('button');
+      var unlocked=lessonUnlocked(si,li);
+      var done=!!(p[lesson.id] && p[lesson.id].stars>0);
+      var cls='node';
+      if(!unlocked) cls+=' locked';
+      else if(done) cls+=' done';
+      else { cls+=' current'; }
+      node.className=cls;
+      node.style.position='absolute';
+      node.style.left='calc('+xPercent+'% - 42px)';
+      node.innerHTML=(unlocked?lesson.emoji:'🔒')+
+        '<span class="node-label">'+lesson.label+'</span>'+
+        (done?'<span class="stars">'+'⭐'.repeat(p[lesson.id].stars)+'</span>':'');
+      if(unlocked && !stage.locked && stage.lessons[li].words){
+        node.onclick=(function(s,l){return function(){openLesson(s,l);};})(si,li);
+      } else if(!unlocked){
+        node.onclick=function(){ say('Finish the lesson before this one first!'); };
+      }
+      // mascot sits on the first "current" node
+      if(cls.indexOf('current')>=0 && !mascotPlaced && stage.lessons[li].words){
+        var m=document.createElement('span');
+        m.className='mascot'; m.textContent='🦚';
+        node.appendChild(m);
+        mascotPlaced=true;
+      }
+      row.appendChild(node);
+      block.appendChild(row);
+      pts.push({x:xPercent, y:li*112+56});
+    });
+
+    wrap.appendChild(block);
+
+    // draw the dotted road connecting nodes
+    var w=block.clientWidth||520;
+    var h=stage.lessons.length*112;
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    var d='';
+    pts.forEach(function(pt,i){
+      var px=pt.x/100*w, py=pt.y;
+      if(i===0){ d+='M '+px+' '+py; }
+      else{
+        var prev=pts[i-1];
+        var prx=prev.x/100*w, pry=prev.y;
+        var midY=(pry+py)/2;
+        d+=' C '+prx+' '+midY+', '+px+' '+midY+', '+px+' '+py;
+      }
+    });
+    pathEl.setAttribute('d',d);
+  });
+
+  document.getElementById('star-count').textContent=totalStars();
+  document.getElementById('streak-count').textContent=currentStreak();
+}
+
+/* ════════ LESSON PLAYER ════════ */
+var L={stage:0,lesson:0,step:0,phase:'learn',score:0,quiz:[]};
+
+function openLesson(si,li){
+  L={stage:si,lesson:li,step:0,phase:'learn',score:0,quiz:buildQuiz(si,li)};
+  document.getElementById('lesson-modal').classList.add('open');
+  showLearnStep();
+}
+function closeLesson(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('lesson-modal').classList.remove('open');
+  renderJourney();
+}
+function setProgressBar(){
+  var total=STAGES[L.stage].lessons[L.lesson].words.length + L.quiz.length;
+  var doneSteps=(L.phase==='learn') ? L.step : STAGES[L.stage].lessons[L.lesson].words.length + L.step;
+  document.getElementById('prog-fill').style.width=Math.round(doneSteps/total*100)+'%';
+}
+
+/* — learn phase: see picture, hear word, repeat — */
+function showLearnStep(){
+  var words=STAGES[L.stage].lessons[L.lesson].words;
+  if(L.step>=words.length){ L.phase='quiz'; L.step=0; showQuizStep(); return; }
+  setProgressBar();
+  var wd=words[L.step];
+  var body=document.getElementById('lesson-body');
+
+  var micPart = (mode==='my' && SR)
+    ? '<button class="say-btn" onclick="listenAndCheck()">🎤 Now you say it!</button><div class="say-feedback" id="say-fb"></div>'
+    : '<div class="repeat-banner" id="repeat-banner" style="display:block;">🗣️ Everyone repeat together!</div>';
+
+  body.innerHTML=
+    '<div class="big-card">'+
+      '<div class="big-emoji">'+wd.e+'</div>'+
+      '<div class="big-word">'+wd.w+'</div>'+
+      '<div class="big-sentence">'+wd.s+'</div>'+
+      '<button class="hear-btn" onclick="hearWord()">🔊 Hear it again</button><br/>'+
+      micPart+
+    '</div>'+
+    '<button class="next-btn" onclick="nextLearnStep()">Next ➜</button>';
+
+  say(wd.w+'. '+wd.s);
+}
+function hearWord(){
+  var wd=STAGES[L.stage].lessons[L.lesson].words[L.step];
+  say(wd.w+'. '+wd.s);
+}
+function nextLearnStep(){ L.step++; showLearnStep(); }
+
+function listenAndCheck(){
+  var fb=document.getElementById('say-fb');
+  if(!SR){ fb.textContent='Listening not available here.'; return; }
+  var wd=STAGES[L.stage].lessons[L.lesson].words[L.step];
+  fb.textContent='👂 Listening… say "'+wd.w+'"';
+  fb.style.color='var(--sub)';
+  var rec=new SR();
+  rec.lang='en-IN'; rec.interimResults=false; rec.maxAlternatives=3;
+  var answered=false;
+  rec.onresult=function(ev){
+    answered=true;
+    var heard='';
+    try{ heard=ev.results[0][0].transcript.toLowerCase(); }catch(e){}
+    if(heard.indexOf(wd.w.toLowerCase())>=0){
+      fb.textContent='✅ Super! You said it!';
+      fb.style.color='var(--leaf)';
+      say('Super!');
+    }else{
+      fb.textContent='Almost! I heard "'+heard+'" — try once more!';
+      fb.style.color='var(--coral)';
+    }
+  };
+  rec.onerror=function(){ if(!answered){ fb.textContent='Could not hear. Check the microphone and try again.'; fb.style.color='var(--coral)'; } };
+  rec.onend=function(){ if(!answered && fb.textContent.indexOf('Listening')===0){ fb.textContent='Could not hear you. Try again!'; fb.style.color='var(--coral)'; } };
+  try{ rec.start(); }catch(e){ fb.textContent='Microphone is busy. Try again.'; }
+}
+
+/* — quiz phase: hear the word, tap the right picture — */
+function buildQuiz(si,li){
+  var words=STAGES[si].lessons[li].words.slice();
+  // one question per word, shuffled
+  var qs=words.map(function(w){ return {answer:w}; });
+  for(var i=qs.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=qs[i];qs[i]=qs[j];qs[j]=t; }
+  qs.forEach(function(q){
+    var opts=[q.answer];
+    var pool=words.filter(function(w){ return w.w!==q.answer.w; });
+    for(var k=pool.length-1;k>0;k--){ var m=Math.floor(Math.random()*(k+1)); var t2=pool[k];pool[k]=pool[m];pool[m]=t2; }
+    opts.push(pool[0],pool[1]);
+    for(var n=opts.length-1;n>0;n--){ var r=Math.floor(Math.random()*(n+1)); var t3=opts[n];opts[n]=opts[r];opts[r]=t3; }
+    q.options=opts;
+  });
+  return qs;
+}
+function showQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn" id="opt-'+i+'" onclick="pickOption('+i+')">'+
+      '<div class="o-emoji">'+o.e+'</div><div class="o-word">'+o.w+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">👂 Listen… then tap the right one!</div>'+
+    '<button class="hear-btn" style="margin-bottom:22px;" onclick="sayQuizWord()">🔊 Hear it again</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayQuizWord();
+}
+function sayQuizWord(){ say(L.quiz[L.step].answer.w); }
+function pickOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.w===q.answer.w){
+    btn.classList.add('right');
+    L.score++;
+    say('Correct!');
+  }else{
+    btn.classList.add('wrong');
+    // show the right one
+    q.options.forEach(function(o,idx){
+      if(o.w===q.answer.w) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    say('The answer is '+q.answer.w);
+  }
+  setTimeout(function(){ L.step++; showQuizStep(); },1400);
+}
+
+/* — result — */
+function showResult(){
+  document.getElementById('prog-fill').style.width='100%';
+  var stars = L.score>=5?3 : L.score===4?2 : L.score===3?1 : 0;
+  var body=document.getElementById('lesson-body');
+  var lesson=STAGES[L.stage].lessons[L.lesson];
+
+  if(stars>0){
+    var p=loadProgress();
+    var old=(p[lesson.id]&&p[lesson.id].stars)||0;
+    if(stars>old){ p[lesson.id]={stars:stars}; saveProgress(p); }
+    bumpStreak();
+    confettiBurst();
+    body.innerHTML=
+      '<div class="result-title">🎉 Well done!</div>'+
+      '<div class="result-stars">'+'⭐'.repeat(stars)+'<span style="opacity:0.25;">'+'⭐'.repeat(3-stars)+'</span></div>'+
+      '<div class="result-sub">You got '+L.score+' out of '+L.quiz.length+' right!</div>'+
+      '<button class="next-btn" onclick="closeLesson()">Back to my journey ➜</button>';
+    say('Well done! You earned '+stars+(stars===1?' star!':' stars!'));
+  }else{
+    body.innerHTML=
+      '<div class="result-title">💪 Good try!</div>'+
+      '<div class="result-sub">You got '+L.score+' out of '+L.quiz.length+'. Let\'s learn the words once more!</div>'+
+      '<button class="next-btn" onclick="retryLesson()">Try again ➜</button>'+
+      '<br/><button class="hear-btn" style="margin-top:14px;" onclick="closeLesson()">Back to my journey</button>';
+    say('Good try! Let us practice once more.');
+  }
+}
+function retryLesson(){ openLesson(L.stage,L.lesson); }
+
+function confettiBurst(){
+  var emojis=['🎉','⭐','🎊','✨','🦚'];
+  for(var i=0;i<24;i++){
+    var el=document.createElement('div');
+    el.className='confetti-piece';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(node){ return function(){ node.remove(); }; }(el), 4500);
+  }
+}
+
+/* ════════ START ════════ */
+renderModeBtn();
+renderJourney();
+window.addEventListener('resize', renderJourney);
+</script>
+</body>
+</html>
