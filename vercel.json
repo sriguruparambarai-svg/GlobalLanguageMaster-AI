@@ -1,8 +1,5 @@
 {
   "functions": {
     "api/ai.js": { "maxDuration": 60, "memory": 1024 }
-  },
-  "redirects": [
-    { "source": "/", "destination": "/journey.html", "permanent": false }
-  ]
+  }
 }
