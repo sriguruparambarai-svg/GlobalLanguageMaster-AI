@@ -47,6 +47,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .frd{box-shadow:0 10px 0 #1256A3;}
 .frd h2{color:#1E88E5;}
 .frd .go{background:#1E88E5;box-shadow:0 4px 0 #1256A3;}
+.kgc{box-shadow:0 10px 0 #5E35B1;}
+.kgc h2{color:#7C4DFF;}
+.kgc .go{background:#7C4DFF;box-shadow:0 4px 0 #5E35B1;}
 .erd{box-shadow:0 10px 0 #1F5E3C;}
 .erd h2{color:#2E8B57;}
 .erd .go{background:#2E8B57;box-shadow:0 4px 0 #1F5E3C;}
@@ -86,6 +89,12 @@ if(SCHOOL){
   document.getElementById('hello').textContent='Welcome, '+SCHOOL.name+'!';
   var cards=document.getElementById('cards');
   var html='';
+  if(SCHOOL.has_kg){
+    html+='<button class="lang-card kgc" onclick="location.href=\'kg.html\'">'+
+      '<div class="big">\uD83D\uDC18</div><h2>DigiKids \u2014 KG Explorers</h2>'+
+      '<p>LKG &amp; UKG \u2014 letters, numbers &amp; fun with Appu!</p>'+
+      '<span class="go">Explore! \u279C</span></button>';
+  }
   if(SCHOOL.has_english){
     html+='<button class="lang-card eng" onclick="location.href=\'english.html\'">'+
       '<div class="big">🦚</div><h2>English Journey</h2>'+

@@ -64,6 +64,7 @@ th{font-weight:800;color:var(--sub);font-size:0.75rem;text-transform:uppercase;l
         <div class="chk"><input type="checkbox" id="n-hin"/> Hindi Journey</div>
         <div class="chk"><input type="checkbox" id="n-tam"/> Tamil Journey</div>
         <div class="chk"><input type="checkbox" id="n-fre"/> French Journey</div>
+        <div class="chk"><input type="checkbox" id="n-kg"/> DigiKids KG</div>
       </div>
       <br/>
       <button class="btn mango" onclick="addSchool()">Add School</button>
@@ -74,8 +75,8 @@ th{font-weight:800;color:var(--sub);font-size:0.75rem;text-transform:uppercase;l
       <h2>🏫 Schools <button class="btn teal" style="float:right;padding:7px 16px;font-size:0.85rem;" onclick="loadSchools()">↻ Refresh</button></h2>
       <div style="overflow-x:auto;">
         <table>
-          <thead><tr><th>Code</th><th>Name</th><th>English</th><th>Hindi</th><th>Tamil</th><th>French</th><th>Active</th><th>New Password</th><th></th></tr></thead>
-          <tbody id="rows"><tr><td colspan="9">Loading…</td></tr></tbody>
+          <thead><tr><th>Code</th><th>Name</th><th>English</th><th>Hindi</th><th>Tamil</th><th>French</th><th>KG</th><th>Active</th><th>New Password</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="10">Loading…</td></tr></tbody>
         </table>
       </div>
       <div class="msg" id="list-msg"></div>
@@ -122,7 +123,8 @@ async function addSchool(){
       has_english:document.getElementById('n-eng').checked,
       has_hindi:document.getElementById('n-hin').checked,
       has_tamil:document.getElementById('n-tam').checked,
-      has_french:document.getElementById('n-fre').checked});
+      has_french:document.getElementById('n-fre').checked,
+      has_kg:document.getElementById('n-kg').checked});
     if(d.ok){
       m.style.color='var(--leaf)'; m.textContent='✅ School added!';
       document.getElementById('n-code').value='';
@@ -135,11 +137,11 @@ async function addSchool(){
 
 async function loadSchools(){
   var tb=document.getElementById('rows');
-  tb.innerHTML='<tr><td colspan="9">Loading…</td></tr>';
+  tb.innerHTML='<tr><td colspan="10">Loading…</td></tr>';
   try{
     var d=await api({action:'list_schools'});
-    if(!d.ok){ tb.innerHTML='<tr><td colspan="9">'+(d.error||'Error')+'</td></tr>'; return; }
-    if(!d.schools.length){ tb.innerHTML='<tr><td colspan="9">No schools yet — add your first one above.</td></tr>'; return; }
+    if(!d.ok){ tb.innerHTML='<tr><td colspan="10">'+(d.error||'Error')+'</td></tr>'; return; }
+    if(!d.schools.length){ tb.innerHTML='<tr><td colspan="10">No schools yet — add your first one above.</td></tr>'; return; }
     tb.innerHTML=d.schools.map(function(s){
       var c=encodeURIComponent(s.school_code);
       return '<tr>'+
@@ -149,12 +151,13 @@ async function loadSchools(){
         '<td><button class="pillbtn '+(s.has_hindi?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_hindi\','+(!s.has_hindi)+')">'+(s.has_hindi?'✅ On':'✖ Off')+'</button></td>'+
         '<td><button class="pillbtn '+(s.has_tamil?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_tamil\','+(!s.has_tamil)+')">'+(s.has_tamil?'✅ On':'✖ Off')+'</button></td>'+
         '<td><button class="pillbtn '+(s.has_french?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_french\','+(!s.has_french)+')">'+(s.has_french?'✅ On':'✖ Off')+'</button></td>'+
+        '<td><button class="pillbtn '+(s.has_kg?'on':'off')+'" onclick="toggle(\''+c+'\',\'has_kg\','+(!s.has_kg)+')">'+(s.has_kg?'✅ On':'✖ Off')+'</button></td>'+
         '<td><button class="pillbtn '+(s.active?'on':'off')+'" onclick="toggle(\''+c+'\',\'active\','+(!s.active)+')">'+(s.active?'✅ Active':'⏸ Paused')+'</button></td>'+
         '<td><button class="pillbtn off" onclick="resetPass(\''+c+'\')">🔑 Set</button></td>'+
         '<td><button class="pillbtn danger" onclick="removeSchool(\''+c+'\')">🗑</button></td>'+
       '</tr>';
     }).join('');
-  }catch(e){ tb.innerHTML='<tr><td colspan="9">Error: '+e.message+'</td></tr>'; }
+  }catch(e){ tb.innerHTML='<tr><td colspan="10">Error: '+e.message+'</td></tr>'; }
 }
 
 async function toggle(code, field, value){
