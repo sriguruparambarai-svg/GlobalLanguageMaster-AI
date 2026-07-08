@@ -54,7 +54,7 @@ module.exports = async function handler(req, res) {
       var pass = (body.password || '').trim();
       if (!code || !pass) return res.status(400).json({ ok:false, error:'Enter school code and password' });
 
-      var rows = await db('GET', 'schools?school_code=eq.' + encodeURIComponent(code) + '&select=school_code,name,password,has_english,has_hindi,has_tamil,has_french,active');
+      var rows = await db('GET', 'schools?school_code=eq.' + encodeURIComponent(code) + '&select=school_code,name,password,has_english,has_hindi,has_tamil,has_french,has_kg,active');
       if (!rows || !rows.length) return res.status(200).json({ ok:false, error:'School code not found' });
       var s = rows[0];
       if (s.password !== pass) return res.status(200).json({ ok:false, error:'Wrong password' });
@@ -62,7 +62,7 @@ module.exports = async function handler(req, res) {
 
       return res.status(200).json({ ok:true, school:{
         code: s.school_code, name: s.name,
-        has_english: !!s.has_english, has_hindi: !!s.has_hindi, has_tamil: !!s.has_tamil, has_french: !!s.has_french
+        has_english: !!s.has_english, has_hindi: !!s.has_hindi, has_tamil: !!s.has_tamil, has_french: !!s.has_french, has_kg: !!s.has_kg
       }});
     }
 
@@ -76,7 +76,7 @@ module.exports = async function handler(req, res) {
       if (!isAdmin()) return res.status(403).json({ ok:false, error:'Admin access denied' });
 
       if (action === 'list_schools') {
-        var all = await db('GET', 'schools?select=school_code,name,has_english,has_hindi,has_tamil,has_french,active,created_at&order=created_at.desc');
+        var all = await db('GET', 'schools?select=school_code,name,has_english,has_hindi,has_tamil,has_french,has_kg,active,created_at&order=created_at.desc');
         return res.status(200).json({ ok:true, schools: all });
       }
 
@@ -89,6 +89,7 @@ module.exports = async function handler(req, res) {
           has_hindi: !!body.has_hindi,
           has_tamil: !!body.has_tamil,
           has_french: !!body.has_french,
+          has_kg: !!body.has_kg,
           active: true
         });
         return res.status(200).json({ ok:true, school: made && made[0] });
@@ -104,6 +105,7 @@ module.exports = async function handler(req, res) {
         if (typeof body.has_hindi === 'boolean') fields.has_hindi = body.has_hindi;
         if (typeof body.has_tamil === 'boolean') fields.has_tamil = body.has_tamil;
         if (typeof body.has_french === 'boolean') fields.has_french = body.has_french;
+        if (typeof body.has_kg === 'boolean') fields.has_kg = body.has_kg;
         if (typeof body.active === 'boolean') fields.active = body.active;
         if (!Object.keys(fields).length) return res.status(400).json({ ok:false, error:'Nothing to update' });
         var upd = await db('PATCH', 'schools?school_code=eq.' + encodeURIComponent(uc), fields);
