@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Reading — Phonics Fun — Global Language Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --sun:#F26B21; --sun-dark:#C24E12; --sun-soft:#FDE9DC;
+  --grape:#2E8B57; --grape-dark:#1F5E3C;
+  --mango:#FFB627; --mango-dark:#E89B00; --mango-soft:#FFF3D6;
+  --leaf:#57A639; --leaf-soft:#E9F5E1;
+  --teal:#0E7C7B; --teal-dark:#095C5B;
+  --coral:#FF6B57;
+  --cream:#FFF9EF; --ink:#27323A; --sub:#5F7078;
+  --locked:#C9D2D6;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:"Nunito",sans-serif;background:var(--cream);color:var(--ink);}
+
+.topbar{position:sticky;top:0;z-index:50;background:var(--grape);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:12px 18px;
+  box-shadow:0 4px 18px rgba(46,139,87,0.35);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand .icon{font-size:2rem;}
+.brand h1{font-family:"Baloo 2",cursive;font-size:1.15rem;font-weight:800;line-height:1.1;}
+.brand small{display:block;font-weight:600;font-size:0.7rem;opacity:0.85;}
+.top-stats{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.28);
+  border-radius:999px;padding:6px 14px;font-weight:800;font-size:0.9rem;display:flex;gap:6px;align-items:center;}
+.mode-toggle{cursor:pointer;user-select:none;background:var(--mango);color:var(--ink);border:none;}
+.mode-toggle:hover{background:var(--mango-dark);color:#fff;}
+.home-link{color:#fff;text-decoration:none;font-weight:800;font-size:0.85rem;
+  border-bottom:2px dashed rgba(255,255,255,0.5);padding-bottom:1px;}
+.home-link:hover{border-bottom-style:solid;}
+
+.journey-wrap{max-width:560px;margin:0 auto;padding:26px 16px 90px;position:relative;}
+.stage-banner{background:var(--grape);color:#fff;border-radius:18px;padding:14px 20px;
+  margin:34px 0 10px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 6px 0 var(--grape-dark);}
+.stage-banner.locked{background:var(--locked);box-shadow:0 6px 0 #AEB9BE;color:#5F7078;}
+.stage-banner .st-emoji{font-size:1.9rem;}
+.stage-banner .st-name{font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;}
+.stage-banner .st-sub{font-size:0.78rem;font-weight:700;opacity:0.9;}
+
+.path-block{position:relative;}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.path-svg path{fill:none;stroke:var(--mango);stroke-width:7;stroke-linecap:round;stroke-dasharray:1 18;}
+.node-row{position:relative;height:112px;display:flex;align-items:center;}
+.node{position:relative;width:84px;height:84px;border-radius:50%;border:none;cursor:pointer;
+  font-size:1.8rem;display:flex;align-items:center;justify-content:center;
+  background:var(--leaf);box-shadow:0 7px 0 #3E7A28;transition:transform 0.12s;font-family:"Baloo 2",cursive;font-weight:800;color:#fff;}
+.node:active{transform:translateY(4px);box-shadow:0 3px 0 #3E7A28;}
+.node .node-label{position:absolute;top:100%;margin-top:12px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-weight:800;font-size:0.78rem;color:var(--ink);
+  background:#fff;border-radius:999px;padding:3px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);font-family:"Nunito",sans-serif;}
+.node .stars{position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:0.85rem;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.25);}
+.node.current{background:var(--mango);box-shadow:0 7px 0 var(--mango-dark);animation:pulse 1.6s infinite;}
+.node.current:active{box-shadow:0 3px 0 var(--mango-dark);}
+.node.locked{background:var(--locked);box-shadow:0 7px 0 #AEB9BE;cursor:not-allowed;filter:grayscale(0.4);}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+.mascot{position:absolute;font-size:2.2rem;top:-46px;left:50%;transform:translateX(-50%);
+  animation:bob 1.4s ease-in-out infinite;pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+
+.lesson-modal{position:fixed;inset:0;background:var(--cream);z-index:100;display:none;
+  flex-direction:column;overflow-y:auto;}
+.lesson-modal.open{display:flex;}
+.lesson-top{display:flex;align-items:center;gap:14px;padding:14px 18px;}
+.close-btn{background:none;border:none;font-size:1.7rem;cursor:pointer;color:var(--sub);font-weight:800;}
+.progress-track{flex:1;height:16px;background:#EADFC8;border-radius:999px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:var(--leaf);border-radius:999px;transition:width 0.35s;}
+.lesson-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 20px 30px;text-align:center;}
+
+.big-card{background:#fff;border-radius:26px;padding:30px 26px;max-width:490px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.giant-letter{font-family:"Baloo 2",cursive;font-size:5.4rem;font-weight:800;color:var(--grape);line-height:1.1;}
+.blend-line{font-family:"Baloo 2",cursive;font-size:2.4rem;font-weight:800;color:var(--sun);margin-top:6px;line-height:1.35;}
+.anchor{font-size:1.35rem;font-weight:800;color:var(--teal);margin-top:8px;}
+.big-emoji{font-size:4rem;line-height:1;margin-top:4px;}
+.big-meaning{font-size:1rem;font-weight:700;color:var(--sub);margin-top:4px;}
+.hear-btn{margin-top:16px;background:var(--teal);color:#fff;border:none;border-radius:999px;
+  padding:13px 28px;font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 var(--teal-dark);}
+.hear-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--teal-dark);}
+.say-btn{margin-top:12px;background:var(--coral);color:#fff;border:none;border-radius:999px;
+  padding:13px 28px;font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;
+  box-shadow:0 5px 0 #C74936;display:inline-block;}
+.say-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #C74936;}
+.say-feedback{margin-top:12px;font-weight:800;font-size:1rem;min-height:26px;}
+.repeat-banner{margin-top:16px;background:var(--mango-soft);border:3px dashed var(--mango);
+  border-radius:18px;padding:14px 20px;font-family:"Baloo 2",cursive;font-size:1.15rem;
+  font-weight:800;color:var(--mango-dark);animation:pulse 1.2s infinite;}
+.next-btn{margin-top:24px;background:var(--leaf);color:#fff;border:none;border-radius:999px;
+  padding:15px 44px;font-family:"Baloo 2",cursive;font-size:1.2rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 0 #3E7A28;}
+.next-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #3E7A28;}
+
+.quiz-question{font-family:"Baloo 2",cursive;font-size:1.3rem;font-weight:800;color:var(--ink);margin-bottom:18px;max-width:560px;line-height:1.45;}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:680px;}
+.opt-btn{background:#fff;border:4px solid #EADFC8;border-radius:22px;cursor:pointer;
+  width:150px;padding:18px 10px;font-family:"Nunito",sans-serif;transition:transform 0.1s;}
+.opt-btn.wide{width:280px;padding:16px;}
+.opt-btn:hover{transform:translateY(-4px);border-color:var(--mango);}
+.opt-btn .o-letter{font-family:"Baloo 2",cursive;font-size:3rem;font-weight:800;color:var(--grape);}
+.opt-btn .o-emoji{font-size:2.8rem;}
+.opt-btn .o-word{font-weight:800;font-size:1.15rem;margin-top:6px;color:var(--sun);}
+.opt-btn .o-small{font-weight:700;font-size:0.8rem;color:var(--sub);margin-top:2px;}
+.opt-btn.right{border-color:var(--leaf);background:var(--leaf-soft);}
+.opt-btn.wrong{border-color:var(--coral);background:#FFE9E5;animation:shake 0.4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+
+/* sentence karaoke */
+.sentence-box{background:#fff;border-radius:26px;padding:30px 26px;max-width:520px;width:100%;
+  box-shadow:0 10px 0 #EADFC8;}
+.sentence-line{font-family:"Baloo 2",cursive;font-size:2rem;font-weight:800;line-height:1.6;color:var(--ink);}
+.sentence-line .w{padding:2px 6px;border-radius:10px;transition:background 0.15s,color 0.15s;display:inline-block;}
+.sentence-line .w.lit{background:var(--mango);color:#fff;}
+.sent-emoji{font-size:3.6rem;margin-bottom:6px;}
+.sent-mean{font-size:0.95rem;font-weight:700;color:var(--sub);margin-top:8px;}
+
+.result-stars{font-size:4rem;letter-spacing:8px;margin:10px 0;}
+.result-title{font-family:"Baloo 2",cursive;font-size:1.85rem;font-weight:800;color:var(--grape);}
+.result-sub{font-weight:700;color:var(--sub);margin-top:6px;font-size:1.05rem;}
+.confetti-piece{position:fixed;top:-30px;font-size:1.6rem;z-index:200;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0.6;}}
+
+@media (max-width:600px){
+  .brand h1{font-size:0.9rem;}
+  .pill{padding:5px 10px;font-size:0.8rem;}
+  .opt-btn{width:120px;}
+  .opt-btn.wide{width:100%;}
+  .giant-letter{font-size:4.8rem;}
+  .blend-line{font-size:1.8rem;}
+  .sentence-line{font-size:1.5rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  .node.current,.mascot,.repeat-banner{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="icon">📗</span>
+    <h1>English Reading — Phonics Fun<small id="tb-school">Global Language Master</small></h1>
+  </div>
+  <div class="top-stats">
+    <div class="pill" title="Days practiced in a row">🔥 <span id="streak-count">0</span></div>
+    <div class="pill" title="Reading stars earned">⭐ <span id="star-count">0</span></div>
+    <button class="pill mode-toggle" id="mode-btn" onclick="toggleMode()" title="Class mode (projector) or My mode (headset)">🏫 Class Mode</button>
+    <a class="home-link" href="home.html">🏠 Home</a>
+  </div>
+</div>
+
+<div class="journey-wrap" id="journey"></div>
+
+<div class="lesson-modal" id="lesson-modal">
+  <div class="lesson-top">
+    <button class="close-btn" onclick="closeLesson()" title="Close lesson">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+</div>
+
+<script>
+'use strict';
+
+/* ── school login guard ── */
+var SCHOOL=null;
+try{ SCHOOL=JSON.parse(localStorage.getItem('glm_school')||'null'); }catch(e){}
+if(!SCHOOL || !SCHOOL.code){ location.href='index.html'; }
+else if(!SCHOOL.has_english){ location.href='home.html'; }
+
+/* ════════════════ READING CONTENT ════════════════
+   Item fields: h = what is shown big, spk = what the voice says,
+   anchor = helper word, m = meaning, e = picture, node = circle face */
+var STAGES=[
+
+  /* ───── LEVEL 1 · VOWELS ───── */
+  { id:'e1', emoji:'🅰️', name:'Level 1 · The Vowels (A E I O U)', sub:'Five special letters!', type:'letters',
+    lessons:[
+      {id:'e1l1', node:'Aa', label:'Short Sounds', items:[
+        {h:'A a', spk:'A. a says a. a. apple.', q:'a. a for apple', anchor:'a — apple', m:'short a', e:'🍎'},
+        {h:'E e', spk:'E. e says e. e. egg.', q:'e. e for egg', anchor:'e — egg', m:'short e', e:'🥚'},
+        {h:'I i', spk:'I. i says i. i. insect.', q:'i. i for insect', anchor:'i — insect', m:'short i', e:'🐜'},
+        {h:'O o', spk:'O. o says o. o. octopus.', q:'o. o for octopus', anchor:'o — octopus', m:'short o', e:'🐙'},
+        {h:'U u', spk:'U. u says u. u. umbrella.', q:'u. u for umbrella', anchor:'u — umbrella', m:'short u', e:'☂️'}
+      ]},
+      {id:'e1l2', node:'ā', label:'Long Sounds (names)', items:[
+        {h:'A', spk:'A. A says its name in. ape.', q:'A. A for ape', anchor:'A — ape', m:'long a says AY', e:'🦍'},
+        {h:'E', spk:'E. E says its name in. eagle.', q:'E. E for eagle', anchor:'E — eagle', m:'long e says EE', e:'🦅'},
+        {h:'I', spk:'I. I says its name in. ice.', q:'I. I for ice', anchor:'I — ice', m:'long i says EYE', e:'🧊'},
+        {h:'O', spk:'O. O says its name in. ocean.', q:'O. O for ocean', anchor:'O — ocean', m:'long o says OH', e:'🌊'},
+        {h:'U', spk:'U. U says its name in. unicorn.', q:'U. U for unicorn', anchor:'U — unicorn', m:'long u says YOO', e:'🦄'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 2 · CONSONANT SOUNDS ───── */
+  { id:'e2', emoji:'🔤', name:'Level 2 · Consonant Sounds', sub:'Every letter has a sound!', type:'letters',
+    lessons:[
+      {id:'e2l1', node:'Bb', label:'B C D F G', items:[
+        {h:'B b', spk:'B says buh. buh. ball.', q:'buh. b for ball', anchor:'b — ball', m:'buh', e:'⚽'},
+        {h:'C c', spk:'C says kuh. kuh. cat.', q:'kuh. c for cat', anchor:'c — cat', m:'kuh', e:'🐱'},
+        {h:'D d', spk:'D says duh. duh. dog.', q:'duh. d for dog', anchor:'d — dog', m:'duh', e:'🐶'},
+        {h:'F f', spk:'F says fff. fff. fish.', q:'fff. f for fish', anchor:'f — fish', m:'fff', e:'🐟'},
+        {h:'G g', spk:'G says guh. guh. goat.', q:'guh. g for goat', anchor:'g — goat', m:'guh', e:'🐐'}
+      ]},
+      {id:'e2l2', node:'Hh', label:'H J K L M', items:[
+        {h:'H h', spk:'H says huh. huh. hat.', q:'huh. h for hat', anchor:'h — hat', m:'huh', e:'🎩'},
+        {h:'J j', spk:'J says juh. juh. jam.', q:'juh. j for jam', anchor:'j — jam', m:'juh', e:'🍓'},
+        {h:'K k', spk:'K says kuh. kuh. kite.', q:'kuh. k for kite', anchor:'k — kite', m:'kuh', e:'🪁'},
+        {h:'L l', spk:'L says lll. lll. lion.', q:'lll. l for lion', anchor:'l — lion', m:'lll', e:'🦁'},
+        {h:'M m', spk:'M says mmm. mmm. moon.', q:'mmm. m for moon', anchor:'m — moon', m:'mmm', e:'🌙'}
+      ]},
+      {id:'e2l3', node:'Nn', label:'N P Q R S', items:[
+        {h:'N n', spk:'N says nnn. nnn. nest.', q:'nnn. n for nest', anchor:'n — nest', m:'nnn', e:'🪹'},
+        {h:'P p', spk:'P says puh. puh. pen.', q:'puh. p for pen', anchor:'p — pen', m:'puh', e:'🖊️'},
+        {h:'Q q', spk:'Q says kwuh. kwuh. queen.', q:'kwuh. q for queen', anchor:'q — queen', m:'kwuh', e:'👑'},
+        {h:'R r', spk:'R says rrr. rrr. rain.', q:'rrr. r for rain', anchor:'r — rain', m:'rrr', e:'🌧️'},
+        {h:'S s', spk:'S says sss. sss. sun.', q:'sss. s for sun', anchor:'s — sun', m:'sss', e:'☀️'}
+      ]},
+      {id:'e2l4', node:'Tt', label:'T V W X Y Z', items:[
+        {h:'T t', spk:'T says tuh. tuh. tap.', q:'tuh. t for tap', anchor:'t — tap', m:'tuh', e:'🚰'},
+        {h:'V v', spk:'V says vvv. vvv. van.', q:'vvv. v for van', anchor:'v — van', m:'vvv', e:'🚐'},
+        {h:'W w', spk:'W says wuh. wuh. web.', q:'wuh. w for web', anchor:'w — web', m:'wuh', e:'🕸️'},
+        {h:'X x', spk:'X says ks. ks. box.', q:'ks. x as in box', anchor:'x — box', m:'ks', e:'📦'},
+        {h:'Y y', spk:'Y says yuh. yuh. yo-yo.', q:'yuh. y for yo-yo', anchor:'y — yo-yo', m:'yuh', e:'🪀'},
+        {h:'Z z', spk:'Z says zzz. zzz. zebra.', q:'zzz. z for zebra', anchor:'z — zebra', m:'zzz', e:'🦓'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 3 · FIRST LITTLE WORDS ───── */
+  { id:'e3', emoji:'🧩', name:'Level 3 · First Little Words', sub:'Two letters make a word!', type:'blend',
+    lessons:[
+      {id:'e3l1', node:'at', label:'at in on up it', items:[
+        {h:'at', spk:'a. t. at!', anchor:'a + t → at', m:'Look at me!', e:'🎯'},
+        {h:'in', spk:'i. n. in!', anchor:'i + n → in', m:'The ball is in.', e:'📥'},
+        {h:'on', spk:'o. n. on!', anchor:'o + n → on', m:'The light is on.', e:'💡'},
+        {h:'up', spk:'u. p. up!', anchor:'u + p → up', m:'Go up!', e:'⬆️'},
+        {h:'it', spk:'i. t. it!', anchor:'i + t → it', m:'I see it.', e:'👉'}
+      ]},
+      {id:'e3l2', node:'go', label:'go no me we he', items:[
+        {h:'go', spk:'g. o. go!', anchor:'g + o → go', m:'Let us go!', e:'🚶'},
+        {h:'no', spk:'n. o. no!', anchor:'n + o → no', m:'No, thank you.', e:'🚫'},
+        {h:'me', spk:'m. e. me!', anchor:'m + e → me', m:'Look at me!', e:'🙋'},
+        {h:'we', spk:'w. e. we!', anchor:'w + e → we', m:'We are friends.', e:'👨‍👩‍👧'},
+        {h:'he', spk:'h. e. he!', anchor:'h + e → he', m:'He is my friend.', e:'👦'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 4 · WORD FAMILIES (3-letter CVC) ───── */
+  { id:'e4', emoji:'👪', name:'Level 4 · Word Families (3-Letter Words)', sub:'Sound it out: c-a-t… cat!', type:'blend',
+    lessons:[
+      {id:'e4l1', node:'cat', label:'-at and -an family', items:[
+        {h:'cat', spk:'kuh. a. tuh. cat!', anchor:'c + a + t → cat', m:'the -at family', e:'🐱'},
+        {h:'hat', spk:'huh. a. tuh. hat!', anchor:'h + a + t → hat', m:'the -at family', e:'🎩'},
+        {h:'rat', spk:'rrr. a. tuh. rat!', anchor:'r + a + t → rat', m:'the -at family', e:'🐀'},
+        {h:'fan', spk:'fff. a. nnn. fan!', anchor:'f + a + n → fan', m:'the -an family', e:'🪭'},
+        {h:'man', spk:'mmm. a. nnn. man!', anchor:'m + a + n → man', m:'the -an family', e:'👨'}
+      ]},
+      {id:'e4l2', node:'pen', label:'-en and -in family', items:[
+        {h:'pen', spk:'puh. e. nnn. pen!', anchor:'p + e + n → pen', m:'the -en family', e:'🖊️'},
+        {h:'hen', spk:'huh. e. nnn. hen!', anchor:'h + e + n → hen', m:'the -en family', e:'🐔'},
+        {h:'ten', spk:'tuh. e. nnn. ten!', anchor:'t + e + n → ten', m:'the -en family', e:'🔟'},
+        {h:'pin', spk:'puh. i. nnn. pin!', anchor:'p + i + n → pin', m:'the -in family', e:'📌'},
+        {h:'win', spk:'wuh. i. nnn. win!', anchor:'w + i + n → win', m:'the -in family', e:'🏆'}
+      ]},
+      {id:'e4l3', node:'dog', label:'-og -un -ug family', items:[
+        {h:'dog', spk:'duh. o. guh. dog!', anchor:'d + o + g → dog', m:'the -og family', e:'🐶'},
+        {h:'log', spk:'lll. o. guh. log!', anchor:'l + o + g → log', m:'the -og family', e:'🪵'},
+        {h:'sun', spk:'sss. u. nnn. sun!', anchor:'s + u + n → sun', m:'the -un family', e:'☀️'},
+        {h:'bug', spk:'buh. u. guh. bug!', anchor:'b + u + g → bug', m:'the -ug family', e:'🐛'},
+        {h:'cup', spk:'kuh. u. puh. cup!', anchor:'c + u + p → cup', m:'the -up family', e:'☕'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 5 · BIGGER WORDS (blends & special sounds) ───── */
+  { id:'e5', emoji:'💪', name:'Level 5 · Bigger Words', sub:'Blends and special sounds!', type:'blend',
+    lessons:[
+      {id:'e5l1', node:'frog', label:'Two sounds together', items:[
+        {h:'frog', spk:'fff. rrr. o. guh. frog!', anchor:'f + r + o + g → frog', m:'fr blend', e:'🐸'},
+        {h:'stop', spk:'sss. tuh. o. puh. stop!', anchor:'s + t + o + p → stop', m:'st blend', e:'🛑'},
+        {h:'flag', spk:'fff. lll. a. guh. flag!', anchor:'f + l + a + g → flag', m:'fl blend', e:'🚩'},
+        {h:'drum', spk:'duh. rrr. u. mmm. drum!', anchor:'d + r + u + m → drum', m:'dr blend', e:'🥁'},
+        {h:'hand', spk:'huh. a. nnn. duh. hand!', anchor:'h + a + n + d → hand', m:'nd ending', e:'✋'}
+      ]},
+      {id:'e5l2', node:'ship', label:'sh ch oo ai — team sounds', items:[
+        {h:'ship', spk:'sh. i. puh. ship!', anchor:'sh + i + p → ship', m:'s and h say SH', e:'🚢'},
+        {h:'fish', spk:'fff. i. sh. fish!', anchor:'f + i + sh → fish', m:'SH at the end', e:'🐟'},
+        {h:'chat', spk:'ch. a. tuh. chat!', anchor:'ch + a + t → chat', m:'c and h say CH', e:'💬'},
+        {h:'moon', spk:'mmm. oo. nnn. moon!', anchor:'m + oo + n → moon', m:'two Os say OO', e:'🌙'},
+        {h:'rain', spk:'rrr. ai. nnn. rain!', anchor:'r + ai + n → rain', m:'a and i say AY', e:'🌧️'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 6 · MAGIC E (long vs short vowels) ───── */
+  { id:'e6', emoji:'🪄', name:'Level 6 · Magic E!', sub:'E at the end makes the vowel say its NAME', type:'blend',
+    lessons:[
+      {id:'e6l1', node:'a→ā', label:'cap→cape kit→kite', items:[
+        {h:'cape', spk:'cap. now add magic e. cape!', anchor:'cap + e → cape', m:'A says its name!', e:'🦸'},
+        {h:'kite', spk:'kit. now add magic e. kite!', anchor:'kit + e → kite', m:'I says its name!', e:'🪁'},
+        {h:'tape', spk:'tap. now add magic e. tape!', anchor:'tap + e → tape', m:'A says its name!', e:'📼'},
+        {h:'cube', spk:'cub. now add magic e. cube!', anchor:'cub + e → cube', m:'U says its name!', e:'🧊'},
+        {h:'hope', spk:'hop. now add magic e. hope!', anchor:'hop + e → hope', m:'O says its name!', e:'🤞'}
+      ]},
+      {id:'e6l2', node:'o→ō', label:'note pine huge', items:[
+        {h:'note', spk:'not. now add magic e. note!', anchor:'not + e → note', m:'O says its name!', e:'🎵'},
+        {h:'pine', spk:'pin. now add magic e. pine!', anchor:'pin + e → pine', m:'I says its name!', e:'🌲'},
+        {h:'huge', spk:'hug. now add magic e. huge!', anchor:'hug + e → huge', m:'U says its name!', e:'🐘'},
+        {h:'robe', spk:'rob. now add magic e. robe!', anchor:'rob + e → robe', m:'O says its name!', e:'👘'},
+        {h:'ride', spk:'rid. now add magic e. ride!', anchor:'rid + e → ride', m:'I says its name!', e:'🚲'}
+      ]}
+    ]
+  },
+
+  /* ───── LEVEL 7 · READ SENTENCES ───── */
+  { id:'e7', emoji:'📖', name:'Level 7 · Read Sentences!', sub:'You are a reader now!', type:'read',
+    lessons:[
+      {id:'e7l1', node:'📖', label:'Little sentences', items:[
+        {h:'The cat sat.', m:'', e:'🐱'},
+        {h:'I can run.', m:'', e:'🏃'},
+        {h:'The dog is big.', m:'', e:'🐶'},
+        {h:'We go up.', m:'', e:'⬆️'},
+        {h:'The sun is hot.', m:'', e:'☀️'}
+      ]},
+      {id:'e7l2', node:'📚', label:'Bigger sentences', items:[
+        {h:'The frog can jump.', m:'', e:'🐸'},
+        {h:'I like my school.', m:'', e:'🏫'},
+        {h:'The moon is in the sky.', m:'', e:'🌙'},
+        {h:'She has a red hat.', m:'', e:'👒'},
+        {h:'I can read English!', m:'', e:'📗'}
+      ]}
+    ]
+  }
+];
+
+/* ════════════════ PROGRESS ════════════════ */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('glmer_progress')||'{}'); }catch(e){ return {}; }
+}
+function saveProgress(p){ try{ localStorage.setItem('glmer_progress',JSON.stringify(p)); }catch(e){} }
+function totalStars(){
+  var p=loadProgress(),t=0,k;
+  for(k in p){ if(p[k] && p[k].stars) t+=p[k].stars; }
+  return t;
+}
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function yesterdayStr(){
+  var y=new Date(); y.setDate(y.getDate()-1);
+  return y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+}
+function bumpStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  var today=todayStr();
+  if(s.last!==today){
+    s.count = (s.last===yesterdayStr()) ? (s.count||0)+1 : 1;
+    s.last=today;
+    try{ localStorage.setItem('glm_streak',JSON.stringify(s)); }catch(e){}
+  }
+  return s.count||0;
+}
+function currentStreak(){
+  var s;
+  try{ s=JSON.parse(localStorage.getItem('glm_streak')||'{}'); }catch(e){ s={}; }
+  if(!s.last) return 0;
+  return (s.last===todayStr()||s.last===yesterdayStr()) ? (s.count||0) : 0;
+}
+
+/* ════════════════ MODE ════════════════ */
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+var mode = localStorage.getItem('glm_mode') || (SR ? 'my' : 'class');
+function toggleMode(){
+  mode = (mode==='class') ? 'my' : 'class';
+  if(mode==='my' && !SR){
+    alert('This computer/browser cannot listen to speech.\nClass Mode will be used — everyone reads aloud together!');
+    mode='class';
+  }
+  try{ localStorage.setItem('glm_mode',mode); }catch(e){}
+  renderModeBtn();
+}
+function renderModeBtn(){
+  var b=document.getElementById('mode-btn');
+  b.textContent = (mode==='class') ? '🏫 Class Mode' : '🎧 My Mode';
+}
+
+/* ════════════════ ENGLISH VOICE ════════════════ */
+var enVoice=null;
+function pickVoice(){
+  var vs=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  var i;
+  enVoice=null;
+  for(i=0;i<vs.length;i++){ if(/en[-_]IN/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/en[-_]GB/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
+  for(i=0;i<vs.length;i++){ if(/^en/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
+}
+if(window.speechSynthesis){
+  pickVoice();
+  window.speechSynthesis.onvoiceschanged=pickVoice;
+}
+function sayTa(text, cb, slow){
+  if(!window.speechSynthesis){ if(cb)cb(); return; }
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  if(enVoice) u.voice=enVoice;
+  u.rate=slow?0.62:0.78; u.pitch=1.05;
+  if(cb) u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+
+/* ════════════════ UNLOCK RULES ════════════════ */
+function stageComplete(si){
+  var p=loadProgress();
+  return STAGES[si].lessons.every(function(l){ return p[l.id] && p[l.id].stars>0; });
+}
+function stageUnlocked(si){
+  if(si===0) return true;
+  return stageComplete(si-1);
+}
+function lessonUnlocked(si, li){
+  if(!stageUnlocked(si)) return false;
+  if(li===0) return true;
+  var prev=STAGES[si].lessons[li-1];
+  var p=loadProgress();
+  return !!(p[prev.id] && p[prev.id].stars>0);
+}
+
+/* ════════════════ PATH RENDERING ════════════════ */
+function renderJourney(){
+  var wrap=document.getElementById('journey');
+  wrap.innerHTML='';
+  var p=loadProgress();
+  var mascotPlaced=false;
+
+  STAGES.forEach(function(stage, si){
+    var unlockedStage=stageUnlocked(si);
+    var banner=document.createElement('div');
+    banner.className='stage-banner'+(unlockedStage?'':' locked');
+    var subText = unlockedStage ? stage.sub : 'Finish the level above to open this';
+    banner.innerHTML='<span class="st-emoji">'+stage.emoji+'</span>'+
+      '<div><div class="st-name">'+stage.name+'</div><div class="st-sub">'+subText+'</div></div>';
+    wrap.appendChild(banner);
+
+    var block=document.createElement('div');
+    block.className='path-block';
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','path-svg');
+    var pathEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+    svg.appendChild(pathEl);
+    block.appendChild(svg);
+
+    var pts=[];
+    stage.lessons.forEach(function(lesson, li){
+      var row=document.createElement('div');
+      row.className='node-row';
+      var xPercent = 50 + 32*Math.sin(li*1.1);
+      var node=document.createElement('button');
+      var unlocked=lessonUnlocked(si,li);
+      var done=!!(p[lesson.id] && p[lesson.id].stars>0);
+      var cls='node';
+      if(!unlocked) cls+=' locked';
+      else if(done) cls+=' done';
+      else cls+=' current';
+      node.className=cls;
+      node.style.position='absolute';
+      node.style.left='calc('+xPercent+'% - 42px)';
+      node.innerHTML=(unlocked?lesson.node:'🔒')+
+        '<span class="node-label">'+lesson.label+'</span>'+
+        (done?'<span class="stars">'+'⭐'.repeat(p[lesson.id].stars)+'</span>':'');
+      if(unlocked){
+        node.onclick=(function(s,l){return function(){openLesson(s,l);};})(si,li);
+      }else{
+        node.onclick=function(){ sayTa('Finish the lesson before this one first!'); };
+      }
+      if(cls.indexOf('current')>=0 && !mascotPlaced){
+        var m=document.createElement('span');
+        m.className='mascot'; m.textContent='📗';
+        node.appendChild(m);
+        mascotPlaced=true;
+      }
+      row.appendChild(node);
+      block.appendChild(row);
+      pts.push({x:xPercent, y:li*112+56});
+    });
+
+    wrap.appendChild(block);
+
+    var w=block.clientWidth||520;
+    var h=stage.lessons.length*112;
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    var d='';
+    pts.forEach(function(pt,i){
+      var px=pt.x/100*w, py=pt.y;
+      if(i===0){ d+='M '+px+' '+py; }
+      else{
+        var prev=pts[i-1];
+        var prx=prev.x/100*w, pry=prev.y;
+        var midY=(pry+py)/2;
+        d+=' C '+prx+' '+midY+', '+px+' '+midY+', '+px+' '+py;
+      }
+    });
+    pathEl.setAttribute('d',d);
+  });
+
+  document.getElementById('star-count').textContent=totalStars();
+  document.getElementById('streak-count').textContent=currentStreak();
+}
+
+/* ════════════════ LESSON STATE ════════════════ */
+var L={stage:0,lesson:0,step:0,phase:'learn',score:0,quiz:[]};
+function stageType(){ return STAGES[L.stage].type; }
+function curLesson(){ return STAGES[L.stage].lessons[L.lesson]; }
+function curItems(){ return curLesson().items; }
+
+function openLesson(si,li){
+  L={stage:si,lesson:li,step:0,phase:'learn',score:0,quiz:[]};
+  document.getElementById('lesson-modal').classList.add('open');
+  var t=STAGES[si].type;
+  if(t==='read'){ L.quiz=buildReadQuiz(si,li); showReadStep(); }
+  else{ L.quiz=buildItemQuiz(si,li); showItemStep(); }
+}
+function closeLesson(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  clearKaraoke();
+  document.getElementById('lesson-modal').classList.remove('open');
+  renderJourney();
+}
+function setProgressBar(){
+  var total=curItems().length+L.quiz.length;
+  var doneSteps=(L.phase==='learn') ? L.step : curItems().length+L.step;
+  document.getElementById('prog-fill').style.width=Math.round(doneSteps/Math.max(total,1)*100)+'%';
+}
+function micOrRepeatHtml(){
+  return (mode==='my' && SR)
+    ? '<button class="say-btn" onclick="listenAndCheck()">🎤 Now YOU say it!</button><div class="say-feedback" id="say-fb"></div>'
+    : '<div class="repeat-banner">🗣️ Everyone say it together!</div>';
+}
+
+/* ════════════════ LETTERS & BLEND — learn ════════════════ */
+function showItemStep(){
+  var items=curItems();
+  if(L.step>=items.length){ L.phase='quiz'; L.step=0; showItemQuizStep(); return; }
+  setProgressBar();
+  var it=items[L.step];
+  var isBlend = stageType()==='blend';
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="big-card">'+
+      (isBlend
+        ? '<div class="big-emoji">'+it.e+'</div><div class="anchor" style="font-size:1.6rem;">'+it.anchor+'</div><div class="blend-line">'+it.h+'</div>'
+        : '<div class="giant-letter">'+it.h+'</div><div class="anchor">'+it.anchor+' '+it.e+'</div>')+
+      '<div class="big-meaning">'+it.m+'</div>'+
+      '<button class="hear-btn" onclick="hearItem()">🔊 Hear it again</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextItemStep()">Next ➜</button>';
+  sayTa(it.spk||it.h, null, true);
+}
+function hearItem(){
+  var it=curItems()[L.step];
+  sayTa(it.spk||it.h, null, true);
+}
+function nextItemStep(){ L.step++; showItemStep(); }
+
+function listenAndCheck(){
+  var fb=document.getElementById('say-fb');
+  if(!SR){ if(fb)fb.textContent='Listening not available here.'; return; }
+  var it = (L.phase==='learn') ? curItems()[L.step] : null;
+  var target = it ? (it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h) : '';
+  fb.textContent='👂 Listening… say: "'+target+'"';
+  fb.style.color='var(--sub)';
+  var rec=new SR();
+  rec.lang='en-IN'; rec.interimResults=false; rec.maxAlternatives=3;
+  var answered=false;
+  rec.onresult=function(ev){
+    answered=true;
+    var heard='';
+    try{ heard=ev.results[0][0].transcript; }catch(e){}
+    if(heard.indexOf(target)>=0 || target.indexOf(heard)>=0){
+      fb.textContent='✅ Super! You read it!';
+      fb.style.color='var(--leaf)';
+      sayTa('Super!');
+    }else{
+      fb.textContent='Good try! I heard "'+heard+'" — try once more!';
+      fb.style.color='var(--coral)';
+    }
+  };
+  rec.onerror=function(){ if(!answered){ fb.textContent='Could not hear. Check the mic!'; fb.style.color='var(--coral)'; } };
+  rec.onend=function(){ if(!answered && fb.textContent.indexOf('Listening')>=0){ fb.textContent='Could not hear — try again!'; fb.style.color='var(--coral)'; } };
+  try{ rec.start(); }catch(e){ fb.textContent='Mic is busy. Try again.'; }
+}
+
+/* ════════════════ LETTERS & BLEND — quiz ════════════════ */
+function shuffle(arr){
+  for(var i=arr.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=arr[i];arr[i]=arr[j];arr[j]=t; }
+  return arr;
+}
+function quizFace(it){
+  /* what is shown on an option button + what must be tapped */
+  if(stageType()==='blend') return {big:'', word:it.h, emoji:it.e};
+  var shown = it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h;
+  return {big:shown, word:'', emoji:''};
+}
+function quizAudio(it){
+  if(it.q) return it.q;
+  if(stageType()==='blend') return it.h;
+  return it.h.indexOf('→')>=0 ? it.h.split('→').pop().trim() : it.h;
+}
+function buildItemQuiz(si,li){
+  var items=STAGES[si].lessons[li].items.slice();
+  var qs=shuffle(items.map(function(w){ return {answer:w}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(items.filter(function(w){ return w.h!==q.answer.h; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showItemQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var isBlend=stageType()==='blend';
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    var f=quizFace(o);
+    return '<button class="opt-btn'+(isBlend?' wide':'')+'" id="opt-'+i+'" onclick="pickItemOption('+i+')">'+
+      (f.emoji?'<div class="o-emoji">'+f.emoji+'</div>':'')+
+      (f.big?'<div class="o-letter">'+f.big+'</div>':'')+
+      (f.word?'<div class="o-word">'+f.word+'</div>':'')+
+      '</button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">👂 Listen… then tap the right one!<br/><span style="font-size:0.9rem;color:var(--sub);">Listen, then tap the right one!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:22px;" onclick="sayItemQuiz()">🔊 Hear it again</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+  sayItemQuiz();
+}
+function sayItemQuiz(){ sayTa(quizAudio(L.quiz[L.step].answer), null, true); }
+function pickItemOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.h){
+    btn.classList.add('right'); L.score++; sayTa('Correct!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayTa('The answer is: '+quizAudio(q.answer));
+  }
+  setTimeout(function(){ L.step++; showItemQuizStep(); },1500);
+}
+
+/* ════════════════ SENTENCE READING (Level 7) ════════════════ */
+var karaokeTimers=[];
+function clearKaraoke(){
+  karaokeTimers.forEach(function(t){ clearTimeout(t); });
+  karaokeTimers=[];
+}
+function showReadStep(){
+  var items=curItems();
+  if(L.step>=items.length){ L.phase='quiz'; L.step=0; showReadQuizStep(); return; }
+  setProgressBar();
+  var it=items[L.step];
+  var words=it.h.split(' ');
+  var spans=words.map(function(w,i){ return '<span class="w" id="kw-'+i+'">'+w+'</span>'; }).join(' ');
+  var body=document.getElementById('lesson-body');
+  body.innerHTML=
+    '<div class="sentence-box">'+
+      '<div class="sent-emoji">'+it.e+'</div>'+
+      '<div class="sentence-line" id="kline">'+spans+'</div>'+
+      '<div class="sent-mean">'+it.m+'</div>'+
+      '<button class="hear-btn" onclick="playKaraoke()">🔊 Watch me read!</button><br/>'+
+      micOrRepeatHtml()+
+    '</div>'+
+    '<button class="next-btn" onclick="nextReadStep()">I read it! ➜</button>';
+  playKaraoke();
+}
+function playKaraoke(){
+  clearKaraoke();
+  var it=curItems()[L.step];
+  var words=it.h.split(' ');
+  var totalChars=it.h.length;
+  var per=Math.max(500, Math.round(3600/words.length)); /* rough per-word time at slow rate */
+  var elapsed=200;
+  words.forEach(function(w,i){
+    var dur=Math.max(450, Math.round(w.length/totalChars*3600));
+    karaokeTimers.push(setTimeout(function(){
+      for(var k=0;k<words.length;k++){
+        var el=document.getElementById('kw-'+k);
+        if(el) el.classList.toggle('lit', k===i);
+      }
+    }, elapsed));
+    elapsed+=dur;
+  });
+  karaokeTimers.push(setTimeout(function(){
+    for(var k=0;k<words.length;k++){
+      var el=document.getElementById('kw-'+k);
+      if(el) el.classList.remove('lit');
+    }
+  }, elapsed+300));
+  sayTa(it.h, null, true);
+}
+function nextReadStep(){ clearKaraoke(); L.step++; showReadStep(); }
+
+/* comprehension quiz: hear/see sentence → tap the matching picture */
+function buildReadQuiz(si,li){
+  var items=STAGES[si].lessons[li].items.slice();
+  var qs=shuffle(items.map(function(w){ return {answer:w}; }));
+  qs.forEach(function(q){
+    var pool=shuffle(items.filter(function(w){ return w.h!==q.answer.h; }));
+    q.options=shuffle([q.answer,pool[0],pool[1]]);
+  });
+  return qs;
+}
+function showReadQuizStep(){
+  if(L.step>=L.quiz.length){ showResult(); return; }
+  setProgressBar();
+  var q=L.quiz[L.step];
+  var body=document.getElementById('lesson-body');
+  var optsHtml=q.options.map(function(o,i){
+    return '<button class="opt-btn" id="opt-'+i+'" onclick="pickReadOption('+i+')">'+
+      '<div class="o-emoji" style="font-size:3.4rem;">'+o.e+'</div></button>';
+  }).join('');
+  body.innerHTML=
+    '<div class="quiz-question">Read this: <br/><span style="color:var(--grape);font-size:1.6rem;">“'+q.answer.h+'”</span><br/>'+
+    '<span style="font-size:0.9rem;color:var(--sub);">Read it, then tap the right picture!</span></div>'+
+    '<button class="hear-btn" style="margin-bottom:20px;" onclick="sayReadQuiz()">🔊 Need a hint? Listen</button>'+
+    '<div class="quiz-options">'+optsHtml+'</div>';
+}
+function sayReadQuiz(){ sayTa(L.quiz[L.step].answer.h, null, true); }
+function pickReadOption(i){
+  var q=L.quiz[L.step];
+  var chosen=q.options[i];
+  var btn=document.getElementById('opt-'+i);
+  var all=document.querySelectorAll('.opt-btn');
+  for(var k=0;k<all.length;k++){ all[k].onclick=null; }
+  if(chosen.h===q.answer.h){
+    btn.classList.add('right'); L.score++; sayTa('Correct! You read it!');
+  }else{
+    btn.classList.add('wrong');
+    q.options.forEach(function(o,idx){
+      if(o.h===q.answer.h) document.getElementById('opt-'+idx).classList.add('right');
+    });
+    sayTa('The sentence says: '+q.answer.h);
+  }
+  setTimeout(function(){ L.step++; showReadQuizStep(); },1600);
+}
+
+/* ════════════════ RESULT ════════════════ */
+function showResult(){
+  document.getElementById('prog-fill').style.width='100%';
+  var total=L.quiz.length||1;
+  var ratio=L.score/total;
+  var stars = ratio>=0.99?3 : ratio>=0.75?2 : ratio>=0.5?1 : 0;
+  var body=document.getElementById('lesson-body');
+  var lesson=curLesson();
+
+  if(stars>0){
+    var p=loadProgress();
+    var old=(p[lesson.id]&&p[lesson.id].stars)||0;
+    if(stars>old){ p[lesson.id]={stars:stars}; saveProgress(p); }
+    bumpStreak();
+    confettiBurst();
+    body.innerHTML=
+      '<div class="result-title">🎉 Super! You are reading!</div>'+
+      '<div class="result-stars">'+'⭐'.repeat(stars)+'<span style="opacity:0.25;">'+'⭐'.repeat(3-stars)+'</span></div>'+
+      '<div class="result-sub">'+total+' — you got '+L.score+' right!</div>'+
+      '<button class="next-btn" onclick="closeLesson()">Back to my path ➜</button>';
+    sayTa('Super! You earned '+stars+(stars===1?' star!':' stars!'));
+  }else{
+    body.innerHTML=
+      '<div class="result-title">💪 Good try!</div>'+
+      '<div class="result-sub">'+total+' — '+L.score+' right. One more time!</div>'+
+      '<button class="next-btn" onclick="retryLesson()">Try again ➜</button>'+
+      '<br/><button class="hear-btn" style="margin-top:14px;" onclick="closeLesson()">Back to my path</button>';
+    sayTa('Good try! Let us read once more.');
+  }
+}
+function retryLesson(){ openLesson(L.stage,L.lesson); }
+
+function confettiBurst(){
+  var emojis=['🎉','⭐','🎊','✨','📗','🔤'];
+  for(var i=0;i<24;i++){
+    var el=document.createElement('div');
+    el.className='confetti-piece';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(node){ return function(){ node.remove(); }; }(el), 4500);
+  }
+}
+
+/* ════════════════ START ════════════════ */
+if(SCHOOL && SCHOOL.name){ var tbs=document.getElementById('tb-school'); if(tbs) tbs.textContent=SCHOOL.name; }
+renderModeBtn();
+renderJourney();
+window.addEventListener('resize', renderJourney);
+</script>
+</body>
+</html>
