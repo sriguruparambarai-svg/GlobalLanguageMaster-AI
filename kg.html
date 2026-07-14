@@ -48,6 +48,9 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
 .mat{box-shadow:0 10px 0 var(--blue-dark);}
 .mat h2{color:var(--blue);}
 .mat .go{background:var(--blue);box-shadow:0 4px 0 var(--blue-dark);}
+.skg{box-shadow:0 10px 0 var(--green-dark);}
+.skg h2{color:var(--green);}
+.skg .go{background:var(--green);box-shadow:0 4px 0 var(--green-dark);}
 .soon{box-shadow:0 10px 0 #C9D2D6;opacity:0.75;cursor:default;}
 .soon:hover{transform:none;}
 .soon h2{color:#8B979D;}
@@ -74,6 +77,12 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);min-height:100vh;co
   </div>
 
   <div class="islands">
+    <button class="island skg" onclick="location.href='kg-ukg-english.html'">
+      <div class="big">🎒</div>
+      <h2>Senior KG — English</h2>
+      <p>Position words, opposites, this &amp; that — full UKG lessons!</p>
+      <span class="go">Let's Go! ➜</span>
+    </button>
     <button class="island eng" onclick="location.href='kg-english.html'">
       <div class="big">🔤</div>
       <h2>English Island</h2>
@@ -122,7 +131,7 @@ function starsOf(key){
     return t;
   }catch(e){ return 0; }
 }
-document.getElementById('kg-stars').textContent = starsOf('kge_progress')+starsOf('kgm_progress');
+document.getElementById('kg-stars').textContent = starsOf('kge_progress')+starsOf('kgm_progress')+starsOf('ukge_progress');
 
 /* Appu says hello (English voice, once per visit) */
 if(window.speechSynthesis){
