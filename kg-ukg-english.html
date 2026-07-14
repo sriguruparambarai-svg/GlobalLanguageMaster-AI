@@ -157,6 +157,8 @@ body{font-family:"Nunito",sans-serif;background:var(--cream);color:var(--ink);}
   transition:opacity 0.28s,transform 0.28s;margin-right:0.32em;}
 .scene-sentence .sw.show{opacity:1;transform:none;}
 .scene-sentence .sw.key{color:var(--sun);font-family:"Baloo 2",cursive;font-size:1.7rem;}
+.tamil-btn{background:var(--grape,#8E5BD1);box-shadow:0 5px 0 #6B3FA8;}
+.tamil-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #6B3FA8;}
 .opt-btn.scene-opt{width:180px;padding:10px;}
 .opt-btn.scene-opt img{width:100%;border-radius:14px;display:block;}
 .lesson-body>.scene-card, .lesson-body>.big-card, .lesson-body>.sentence-box,
@@ -212,28 +214,28 @@ var STAGES=[
   { id:'u1', emoji:'📦', name:'Chapter 1 · Position Words', sub:'Where is it? In, on, under, near, far!', type:'scene',
     lessons:[
       {id:'u1l1', node:'📦', label:'In · On · Under · Out', items:[
-        {h:'IN',    spk:'In! The ball is IN the box.',        q:'In. The ball is in the box',        anchor:'The ball is IN the box.',      m:'', e:'⚽📦', img:'assets/kg/pos-in.webp'},
-        {h:'ON',    spk:'On! The cat is ON the chair.',       q:'On. The cat is on the chair',       anchor:'The cat is ON the chair.',     m:'', e:'🐱🪑', img:'assets/kg/pos-on.webp'},
-        {h:'UNDER', spk:'Under! The dog is UNDER the bed.',   q:'Under. The dog is under the bed',   anchor:'The dog is UNDER the bed.',    m:'', e:'🛏️🐶', img:'assets/kg/pos-under.webp'},
-        {h:'OUT',   spk:'Out! The chick is OUT of the box.',  q:'Out. The chick is out of the box',  anchor:'The chick is OUT of the box.', m:'', e:'🐥📦', img:'assets/kg/pos-out.webp'}
+        {h:'IN',    spk:'In! The ball is IN the box.',        q:'In. The ball is in the box',        anchor:'The ball is IN the box.',      m:'', e:'⚽📦', img:'assets/kg/pos-in.webp', ta:'Ball எங்க இருக்கு? Ball, box-க்கு உள்ள இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'ON',    spk:'On! The cat is ON the chair.',       q:'On. The cat is on the chair',       anchor:'The cat is ON the chair.',     m:'', e:'🐱🪑', img:'assets/kg/pos-on.webp', ta:'Cat எங்க இருக்கு? Cat, chair மேல உட்கார்ந்திருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'UNDER', spk:'Under! The dog is UNDER the bed.',   q:'Under. The dog is under the bed',   anchor:'The dog is UNDER the bed.',    m:'', e:'🛏️🐶', img:'assets/kg/pos-under.webp', ta:'நாய்க்குட்டி எங்க இருக்கு? அது கட்டில் கீழ இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'OUT',   spk:'Out! The chick is OUT of the box.',  q:'Out. The chick is out of the box',  anchor:'The chick is OUT of the box.', m:'', e:'🐥📦', img:'assets/kg/pos-out.webp', ta:'குஞ்சு எங்க இருக்கு? அது box-க்கு வெளியே இருக்கு. அத English-ல எப்படி சொல்லணும்?'}
       ]},
       {id:'u1l2', node:'🐱', label:'Near · Far · Beside · Between', items:[
-        {h:'NEAR',    spk:'Near! The cat is NEAR the box.',           q:'Near. The cat is near the box',           anchor:'The cat is NEAR the box.',        m:'', e:'🐱📦', img:'assets/kg/pos-near.webp'},
-        {h:'FAR',     spk:'Far! The mountain is FAR away.',           q:'Far. The mountain is far away',           anchor:'The mountain is FAR away.',       m:'', e:'🧍⛰️', img:'assets/kg/pos-far.webp'},
-        {h:'BESIDE',  spk:'Beside! The girl is BESIDE the boy.',      q:'Beside. The girl is beside the boy',      anchor:'The girl is BESIDE the boy.',     m:'', e:'👧👦', img:'assets/kg/pos-beside.webp'},
-        {h:'BETWEEN', spk:'Between! The girl is BETWEEN two trees.',  q:'Between. The girl is between two trees',  anchor:'The girl is BETWEEN two trees.',  m:'', e:'🌳👧🌳', img:'assets/kg/pos-between.webp'}
+        {h:'NEAR',    spk:'Near! The cat is NEAR the box.',           q:'Near. The cat is near the box',           anchor:'The cat is NEAR the box.',        m:'', e:'🐱📦', img:'assets/kg/pos-near.webp', ta:'Cat எங்க இருக்கு? Cat, box பக்கத்துல இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'FAR',     spk:'Far! The mountain is FAR away.',           q:'Far. The mountain is far away',           anchor:'The mountain is FAR away.',       m:'', e:'🧍⛰️', img:'assets/kg/pos-far.webp', ta:'மலை எங்க இருக்கு? மலை ரொம்ப தூரத்துல இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'BESIDE',  spk:'Beside! The girl is BESIDE the boy.',      q:'Beside. The girl is beside the boy',      anchor:'The girl is BESIDE the boy.',     m:'', e:'👧👦', img:'assets/kg/pos-beside.webp', ta:'பொண்ணு எங்க நிக்கிறா? பையன் பக்கத்துலயே நிக்கிறா. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'BETWEEN', spk:'Between! The girl is BETWEEN two trees.',  q:'Between. The girl is between two trees',  anchor:'The girl is BETWEEN two trees.',  m:'', e:'🌳👧🌳', img:'assets/kg/pos-between.webp', ta:'பொண்ணு எங்க நிக்கிறா? ரெண்டு மரத்துக்கு நடுவுல நிக்கிறா. அத English-ல எப்படி சொல்லணும்?'}
       ]},
       {id:'u1l3', node:'🎈', label:'Up · Down · Top · Bottom', items:[
-        {h:'UP',     spk:'Up! The balloon goes UP in the sky.',              q:'Up. The balloon goes up',                        anchor:'The balloon goes UP in the sky.',        m:'', e:'🎈☁️', img:'assets/kg/pos-up.webp'},
-        {h:'DOWN',   spk:'Down! The leaf falls DOWN.',                       q:'Down. The leaf falls down',                      anchor:'The leaf falls DOWN.',                   m:'', e:'🍃⬇️', img:'assets/kg/pos-down.webp'},
-        {h:'TOP',    spk:'Top! The flag is on TOP of the hill.',             q:'Top. The flag is on top of the hill',            anchor:'The flag is on TOP of the hill.',        m:'', e:'🚩⛰️', img:'assets/kg/pos-top.webp'},
-        {h:'BOTTOM', spk:'Bottom! The anchor is at the BOTTOM of the sea.',  q:'Bottom. The anchor is at the bottom of the sea', anchor:'The anchor is at the BOTTOM of the sea.',m:'', e:'🌊⚓', img:'assets/kg/pos-bottom.webp'}
+        {h:'UP',     spk:'Up! The balloon goes UP in the sky.',              q:'Up. The balloon goes up',                        anchor:'The balloon goes UP in the sky.',        m:'', e:'🎈☁️', img:'assets/kg/pos-up.webp', ta:'Balloon எங்க போகுது? மேல வானத்துக்கு போகுது. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'DOWN',   spk:'Down! The leaf falls DOWN.',                       q:'Down. The leaf falls down',                      anchor:'The leaf falls DOWN.',                   m:'', e:'🍃⬇️', img:'assets/kg/pos-down.webp', ta:'இலை என்ன ஆகுது? கீழ விழுது. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'TOP',    spk:'Top! The flag is on TOP of the hill.',             q:'Top. The flag is on top of the hill',            anchor:'The flag is on TOP of the hill.',        m:'', e:'🚩⛰️', img:'assets/kg/pos-top.webp', ta:'கொடி எங்க இருக்கு? மலை உச்சியில இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'BOTTOM', spk:'Bottom! The anchor is at the BOTTOM of the sea.',  q:'Bottom. The anchor is at the bottom of the sea', anchor:'The anchor is at the BOTTOM of the sea.',m:'', e:'🌊⚓', img:'assets/kg/pos-bottom.webp', ta:'நங்கூரம் எங்க இருக்கு? கடலோட அடியில இருக்கு. அத English-ல எப்படி சொல்லணும்?'}
       ]},
       {id:'u1l4', node:'✋', label:'Left · Right · Front · Back', items:[
-        {h:'LEFT',  spk:'Left! The bird is on the LEFT of the tree.',          q:'Left. The bird is on the left of the tree',          anchor:'The bird is on the LEFT of the tree.',       m:'', e:'🐦🌳', img:'assets/kg/pos-left.webp'},
-        {h:'RIGHT', spk:'Right! The butterfly is on the RIGHT of the flower.', q:'Right. The butterfly is on the right of the flower', anchor:'The butterfly is on the RIGHT of the flower.',m:'', e:'🌸🦋', img:'assets/kg/pos-right.webp'},
-        {h:'FRONT', spk:'Front! The boy stands in FRONT of the bus.',          q:'Front. The boy is in front of the bus',              anchor:'The boy stands in FRONT of the bus.',        m:'', e:'👦🚌', img:'assets/kg/pos-front.webp'},
-        {h:'BACK',  spk:'Back! The bag is on his BACK.',                       q:'Back. The bag is on his back',                       anchor:'The bag is on his BACK.',                    m:'', e:'🎒🚶', img:'assets/kg/pos-back.webp'}
+        {h:'LEFT',  spk:'Left! The bird is on the LEFT of the tree.',          q:'Left. The bird is on the left of the tree',          anchor:'The bird is on the LEFT of the tree.',       m:'', e:'🐦🌳', img:'assets/kg/pos-left.webp', ta:'பறவை எங்க இருக்கு? மரத்தோட இடது பக்கம் இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'RIGHT', spk:'Right! The butterfly is on the RIGHT of the flower.', q:'Right. The butterfly is on the right of the flower', anchor:'The butterfly is on the RIGHT of the flower.',m:'', e:'🌸🦋', img:'assets/kg/pos-right.webp', ta:'பட்டாம்பூச்சி எங்க இருக்கு? பூவோட வலது பக்கம் இருக்கு. அத English-ல எப்படி சொல்லணும்?'},
+        {h:'FRONT', spk:'Front! The boy stands in FRONT of the bus.',          q:'Front. The boy is in front of the bus',              anchor:'The boy stands in FRONT of the bus.',        m:'', e:'👦🚌', img:'assets/kg/pos-front.webp', ta:'பையன் எங்க நிக்கிறான்? Bus-க்கு முன்னாடி நிக்கிறான். அத English-ல எப்படி சொல்லணும்?'},
+        {h:'BACK',  spk:'Back! The bag is on his BACK.',                       q:'Back. The bag is on his back',                       anchor:'The bag is on his BACK.',                    m:'', e:'🎒🚶', img:'assets/kg/pos-back.webp', ta:'பை எங்க இருக்கு? அவனோட முதுகுல இருக்கு. அத English-ல எப்படி சொல்லணும்?'}
       ]}
     ]
   },
@@ -342,10 +344,14 @@ function renderModeBtn(){
 
 /* ════════════════ ENGLISH VOICE ════════════════ */
 var enVoice=null;
+var taVoice=null;
 function pickVoice(){
   var vs=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
   var i;
   enVoice=null;
+  taVoice=null;
+  for(i=0;i<vs.length;i++){ if(/ta[-_]IN/i.test(vs[i].lang)){ taVoice=vs[i]; break; } }
+  if(!taVoice){ for(i=0;i<vs.length;i++){ if(/^ta/i.test(vs[i].lang)){ taVoice=vs[i]; break; } } }
   for(i=0;i<vs.length;i++){ if(/en[-_]IN/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
   for(i=0;i<vs.length;i++){ if(/en[-_]GB/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
   for(i=0;i<vs.length;i++){ if(/^en/i.test(vs[i].lang)){ enVoice=vs[i]; return; } }
@@ -360,6 +366,16 @@ function sayTa(text, cb, slow){
   var u=new SpeechSynthesisUtterance(text);
   if(enVoice) u.voice=enVoice;
   u.rate=slow?0.62:0.78; u.pitch=1.05;
+  if(cb) u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+function sayTamil(text, cb){
+  if(!window.speechSynthesis){ if(cb)cb(); return; }
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang='ta-IN';
+  if(taVoice) u.voice=taVoice;
+  u.rate=0.82; u.pitch=1.05;
   if(cb) u.onend=cb;
   window.speechSynthesis.speak(u);
 }
@@ -495,7 +511,10 @@ function micOrRepeatHtml(){
 
 /* ════════════════ LETTERS & BLEND — learn ════════════════ */
 var sceneTimers=[];
-function clearScene(){ sceneTimers.forEach(function(t){ clearTimeout(t); }); sceneTimers=[]; }
+function clearScene(){
+  sceneTimers.forEach(function(t){ clearTimeout(t); }); sceneTimers=[];
+  if(typeof stopTaAudio==='function') stopTaAudio();
+}
 function revealSentence(sentence, key){
   clearScene();
   var words=sentence.split(' ');
@@ -523,7 +542,8 @@ function showSceneStep(){
       '<div class="scene-frame"><img src="'+it.img+'" alt=""/></div>'+
       '<div class="scene-word">'+it.h+'</div>'+
       '<div class="scene-sentence" id="scene-sent"></div>'+
-      '<button class="hear-btn" onclick="hearScene()">🔊 Hear it again</button><br/>'+
+      '<button class="hear-btn" onclick="hearScene()">🔊 Hear it again</button> '+
+      (it.ta ? '<button class="hear-btn tamil-btn" onclick="explainTamil()">🗣️ தமிழில் விளக்கு</button>' : '')+'<br/>'+
       micOrRepeatHtml()+
     '</div>'+
     '<button class="next-btn" onclick="nextSceneStep()">Next ➜</button>';
@@ -534,6 +554,34 @@ function hearScene(){
   var it=curItems()[L.step];
   revealSentence(it.anchor, it.h);
   sayTa(it.spk||it.h, null, true);
+}
+var taAudio=null;
+function stopTaAudio(){
+  if(taAudio){ try{ taAudio.pause(); }catch(e){} taAudio=null; }
+}
+function explainTamil(){
+  var it=curItems()[L.step];
+  if(!it || !it.ta) return;
+  clearScene();
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  var src=it.img.replace('pos-','audio/ta-').replace('.webp','.mp3');
+  taAudio=new Audio(src);
+  taAudio.onloadedmetadata=function(){
+    var d=taAudio.duration||7;
+    /* reveal the English sentence as the clip reaches its English part */
+    sceneTimers.push(setTimeout(function(){
+      revealSentence(it.anchor, it.h);
+    }, Math.max(400,(d-3.4)*1000)));
+  };
+  taAudio.onerror=function(){
+    /* audio file missing — fall back to free browser Tamil voice */
+    taAudio=null;
+    sayTamil(it.ta, function(){
+      revealSentence(it.anchor, it.h);
+      sayTa(it.spk||it.h, null, true);
+    });
+  };
+  taAudio.play().catch(function(){});
 }
 function nextSceneStep(){ clearScene(); L.step++; showSceneStep(); }
 
